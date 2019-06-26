@@ -1,45 +1,66 @@
 <html>
+
 <head>
-<script src="https://www.gstatic.com/firebasejs/${JSCORE_VERSION}/firebase.js"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.js"   integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="   crossorigin="anonymous"></script> 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-<script type="text/javascript" src="main.js"></script>
-<link rel="stylesheet" href="home.css">
-<script type="text/javascript" src="keys.js"></script>
-<script type="text/javascript" src="main.js"></script>
-<link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet' type='text/css'>
+  <script type="text/javascript" src="main.js"></script>
+  <link rel="stylesheet" href="home.css">
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+  <script type="text/javascript" src="keys.js"></script>
+  <script type="text/javascript" src="main.js"></script>
+  <link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet' type='text/css'>
 </head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-light">
-  <a class="navbar-brand" href="#">
-    <span style="margin-top: 10px;"><img src="https://image.spreadshirtmedia.com/image-server/v1/mp/designs/1017840951,width=178,height=178,version=1550330846/lofi-hip-hop-tumblr-pink-logo.png"></img></span><span id="logo">Sound Good Vibes</span>
-  </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item active">
-        <a class="nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-       <li class="nav-item">
-        <a class="nav-link" href="#">Login</a>
-      </li>
-       <li class="nav-item">
-        <a class="nav-link" href="#">SignUp</a>
-      </li>
-    </ul>
-  </div>
-</nav>
-    <div class="col girl"><img src="./img/music.png"></div>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand" href="#">
+      <span style="margin-top: 10px;"><img
+          src="https://image.spreadshirtmedia.com/image-server/v1/mp/designs/1017840951,width=178,height=178,version=1550330846/lofi-hip-hop-tumblr-pink-logo.png"></img></span><span
+        id="logo">Sound Good Vibes</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" id="loginBtn">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">SignUp</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="" id="firebaseui-auth-container"></div>
+  <div class="col girl"><img src="./img/music.png"></div>
     <div class="col call-to-action"><button class="btn btn-primary">Login</button><button class="btn btn-primary">SignUp</button></div> 
   <div id="triangle-bottomleft"></div>
   </div>
-    <div class="row">
+  <div class="row" style="background: white;">
   </div>
+  <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-app.js"></script>
+
+  <!-- Add Firebase products that you want to use -->
+  <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-firestore.js"></script>
+  <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+  <script src="firebaseLogin.js"></script>
 </body>
+
 </html>
