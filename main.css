@@ -3,7 +3,7 @@
 }
 
 body{
-  background:#92bde7;
+  background:#9370DB;
   color:#485e74;
   line-height:1.6;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -39,7 +39,7 @@ ul{
 }
 
 .company-info{
-  background:#c9e6ff;
+  background:rgb(191,169,220);
 }
 
 .company-info h3, .company-info ul{
@@ -77,7 +77,7 @@ ul{
 }
 
 .contact form button{
-  background:#c9e6ff;
+  background:rgb(191,169,220);
   border:0;
   text-transform: uppercase;
 }
