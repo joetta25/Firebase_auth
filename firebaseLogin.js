@@ -1,3 +1,15 @@
+// Your web app's Firebase configuration
+var firebaseConfig = {
+    apiKey: "AIzaSyD0R3PzhERTdoPZfy4AK54llLqTA1-guUo",
+    authDomain: "fir-authentication-c9b97.firebaseapp.com",
+    databaseURL: "https://fir-authentication-c9b97.firebaseio.com",
+    projectId: "fir-authentication-c9b97",
+    storageBucket: "",
+    messagingSenderId: "644930035438",
+    appId: "1:644930035438:web:6866a6a681d3035e"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
 
 // Initialize the FirebaseUI Widget using Firebase.
 var ui = new firebaseui.auth.AuthUI(firebase.auth());
@@ -7,6 +19,7 @@ ui.start('#firebaseui-auth-container', {
     ],
 
 });
+
 
 var uiConfig = {
     callbacks: {
