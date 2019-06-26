@@ -4,10 +4,12 @@ color: white;
 
 body {
 background: black;
+height: 1000px;
 }
 
 .navbar {
 height: 15vh;
+margin-bottom: 630px;
 }
 
 .navbar img {
@@ -36,6 +38,24 @@ color: white !important;
 }
 
 
+.call-to-action {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    width: 30%;
+    top: 40%;
+    right: 10%;
+}
+.call-to-action .btn {
+    margin: 5%;
+    height: 50%;
+    background: transparent;
+    border: 3px solid rgb(191,169,220);
+    -webkit-box-shadow: 3px 6px 5px 1px rgba(196,172,196,0.2);
+    -moz-box-shadow: 3px 6px 5px 1px rgba(196,172,196,0.2);
+    box-shadow: 3px 6px 5px 1px rgba(196,172,196,0.2);
+}
+
 .background {
 height: 85vh;
 background: rgb(2,0,36);
@@ -55,9 +75,9 @@ margin-top: 10%;
 width: 0;
 height: 0;
 position: absolute;
-bottom: 15vh;
-border-bottom: 30vw solid RGBA(255,255,255,0.8);
-border-right: 70vw solid transparent;
+bottom: 20vh;
+border-bottom: 60vh solid RGBA(255,255,255,1);
+border-right: 110vh solid transparent;
 }
 
 .col-lg-2 img {
@@ -68,8 +88,10 @@ vertical-align: center;
 }
 
 .row {
-width: 80vw;
-margin-left: 15vw;
+width: 100vw;
+height: 20%;
+margin-left: 0;
+background: rgb(191,169,220);
 }
 
 .triangle-bottomleft {
@@ -78,8 +100,45 @@ bottom: 0%;
 right: 0%;
 height: 100%;
 width: 50%;
-background: linear-gradient(rgba(100%, 100%, 100%, 0.8), rgba(100%, 100%, 100%, 0.9),  url("https://images.pexels.com/photos/114907/pexels-photo-114907.jpeg?h=350&auto=compress");
--webkit-clip-path: polygon(100% 0, 0% 100%, 100% 100%)
-clip-path: polygon(100% 0, 0% 100%, 100% 100%))
 
 }
+
+
+.girl {
+    z-index: 999;
+    position: absolute;
+    top: 18%;
+}
+
+.man {
+    z-index: 999;
+    position: absolute;
+    top: 10%;
+    right: 50%;
+}
+
+@media only screen and (max-width: 1500px) {
+    .girl {
+        top: 25%;
+    }
+    .girl img {
+      width: 60%;
+    }
+    #triangle-bottomleft {
+        width: 0;
+        height: 0;
+        position: absolute;
+        bottom: 15vh;
+        border-bottom: 50vh solid RGBA(255,255,255,1);
+        border-right: 100vh solid transparent;
+        }
+  }
+
+  @media only screen and (max-width: 1000px) {
+    .girl {
+        top: 30%;
+    }
+    .girl img {
+      width: 60%;
+    }
+  }
