@@ -220,6 +220,22 @@ h5 {font-size: 0.9em;}
 
   }
 
+  @media only screen and (max-height: 1200px) {
+    .main-content {height: 60vh;}
+
+  }
+
+  @media only screen and (max-height: 900px) {
+    .main-content {height: 75vh;}
+
+  }
+
+  @media only screen and (max-height: 700px) {
+    .main-content img {transform: scale(0.75); margin-top: -10%;}
+    .main-content {height: 80vh;}
+
+  }
+
 body {
     background: black;
     height: 1000px;
