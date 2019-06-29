@@ -1,0 +1,83 @@
+<html>
+<head>
+<!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-app.js"></script>
+
+<!-- Add Firebase products that you want to use -->
+<script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-firestore.js"></script>
+<!-- Add Firebase products that you want to use -->
+
+<!-- Key File -->
+<script type="text/javascript" src="keys.js"></script>
+<!-- Key File -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script   src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"   integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk="   crossorigin="anonymous"></script>
+<link rel="stylesheet" href="animation.css">
+<link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet' type='text/css'>
+<script type="text/javascript" src="animation.js"></script>
+</head>
+<body>
+ <nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="#">
+      <span style="margin-top: 10px;"><img
+          src="https://image.spreadshirtmedia.com/image-server/v1/mp/designs/1017840951,width=178,height=178,version=1550330846/lofi-hip-hop-tumblr-pink-logo.png"></img></span><span
+        id="logo">Sound Good Music</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <ul class="navbar-nav ml-auto">
+    <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Antony Tsygankov
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="#">logout</a>
+            </div>
+        </li>
+        </ul>
+  </div>
+</nav>
+<div class="container-fluid top-section">
+    <div class="row">
+        <div class="col-lg-4 section1">dd</div>
+        <div class="col-lg-4 section2">ee</div>
+        <div class="col-lg-4 section3">ff</div>
+    </div>
+</div>
+<div class="container-fluid bottom-section">
+<div class="row hide-open"></div>
+</div>
+
+
+<div class="modal fade" id="noauth" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="navbar-brand">
+        <img src="https://image.spreadshirtmedia.com/image-server/v1/mp/designs/1017840951,width=178,height=178,version=1550330846/lofi-hip-hop-tumblr-pink-logo.png"></img></span><span id="logo">Sound Good Music</span>
+        <div>
+        <div class="info-message">
+        <h1>You're Not Logged In!</h1>
+        <div class="row">
+        <div class="col-lg-6"><button id="home" class="btn btn-primary">Home</button></div>
+        <div class="col-lg-6"><button id="login" class="btn btn-primary">Login</button></div>
+        </div>
+        <div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+</body>
+
+</html>
