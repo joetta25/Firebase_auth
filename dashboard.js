@@ -62,9 +62,9 @@ $('.search-form').on('submit', function(e) {
                         return artist.name;
                     }).join(', ');
                     return `
-                    <div class="card movie col-3 mx-4 my-4 " style ="background-color: black;" >
+                    <div class="card spotify-card col-3 mx-4 my-4 ">
                         <img class="card-img-top" src="${track.album.images[0].url}" value= "${track.album.external_urls.spotify}"/>
-                        <div class="card-body" style="background>
+                        <div class="card-body">
                         <h5 class="card-title">${artistsString} <span class="badge badge-secondary">${track.album.release_date}</span></h5>
                         <h5 class="card-title">${track.name}</h5>
                         <button class="btn btn-primary" type="button" onclick="favoriteSongs('${track.id}')">add</button>
