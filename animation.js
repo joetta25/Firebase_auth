@@ -3,6 +3,7 @@ $(document).ready(function() {
     //checkAuth();
     jqueryevent();
     jqueryAddRedirect();
+    playSong2(200)
 })
 
 function jqueryevent() {
@@ -41,4 +42,37 @@ function checkAuth() {
         $('#noauth').modal('show');
     }
 }
-  
+
+
+function playSong(song_length) {
+    const start_time = new Date().getTime() / 1000;
+    const end_time = start_time += song_length;
+    let time_now = 0;
+    let last_update = 1;
+    while (time_now > end_time){
+        time_now = new Date().getTime() / 1000;
+        last_update = 1;
+    }
+}
+
+
+function playSong2(song_length, start=0) {
+    start = moment(start, "ss").format("mm:ss")
+    let end = moment(start, "ss").add(song_length, 'seconds').format("mm:ss")
+    alert(end);
+    $('.end-time').text(end);
+    var time = 1;
+
+    var interval = setInterval(function() {
+    if (time <= song_length) {
+        time++;
+        start = moment(start, "mm:ss").add(1, 'seconds').format("mm:ss");
+        let width = (time / song_length) * 100;
+        $('.progress').width(`${width}%`);
+        $('.start-time').text(start);
+    }
+    else { 
+        clearInterval(interval);
+    }
+    }, 1000);
+}

@@ -6,20 +6,31 @@
 <!-- Add Firebase products that you want to use -->
 <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-firestore.js"></script>
-<!-- Add Firebase products that you want to use -->
 
 <!-- Key File -->
 <script type="text/javascript" src="keys.js"></script>
-<!-- Key File -->
 
+<!-- Font Awesome -->
+<link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+
+<!-- BootStrap -->
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- JQuery UI -->
 <script   src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"   integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk="   crossorigin="anonymous"></script>
+
+<!-- ANTONY STYLE/JS -->
 <link rel="stylesheet" href="animation.css">
-<link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet' type='text/css'>
 <script type="text/javascript" src="animation.js"></script>
+
+<!-- Moment.js -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"></script>
+
+<!-- Google Font -->
+<link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet' type='text/css'>
 </head>
 <body>
  <nav class="navbar navbar-expand-lg">
@@ -44,7 +55,21 @@
         </ul>
   </div>
 </nav>
-<div class="music-player row">asdfa</div>
+<div class="music-player row">
+    <div class="col-lg-3">
+        <i class="fa fa-step-backward"></i>
+        <i class="fa fa-play"></i>
+        <i class="fa fa-step-forward"></i>
+        
+    </div>
+    <div class="col-lg-1"><h6 class="start-time" style="text-align: right;"></h6></div>
+    <div class="col-lg-4">
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div></div>
+    <div class="col-lg-1"><h6 class="end-time" style="text-align: left;"></h6></div>
+    <div class="col-lg-3"></div>
+</div>
 <div class="container-fluid top-section">
     <div class="row">
         <div class="col-lg-4 section1">dd</div>
