@@ -1,6 +1,6 @@
 $(document).ready(function() {
     firebase.initializeApp(firebaseConfig);
-    checkAuth();
+    //checkAuth();
     jqueryevent();
     jqueryAddRedirect();
 })
@@ -8,12 +8,12 @@ $(document).ready(function() {
 function jqueryevent() {
     $('.hide-open').click(function() {
         if ($('.bottom-section').hasClass('hidden')) {
-            $('.top-section').height('50vh');
-            $('.bottom-section').height('50vh');
+            $('.top-section').height('40vh');
+            $('.bottom-section').height('40vh');
             $('.bottom-section').removeClass('hidden');
         }
         else {
-            $('.top-section').height('97vh');
+            $('.top-section').height('80vh');
             $('.bottom-section').height('3vh');
             $('.bottom-section').addClass('hidden');
         }

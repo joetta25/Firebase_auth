@@ -2,8 +2,22 @@
     color: white !important;
 }
 
+body {
+    background: black;
+}
+
+.music-player {
+    background: black;
+    height: 20vh;
+    margin: auto;
+    border: 1px solid;
+}
+
 .top-section {
-    height: 50vh;
+    height: 77vh;
+    margin: auto;
+    padding-left: 5%;
+    padding-right: 5%;
 }
 
 .top-section .col-lg-4 {
@@ -23,7 +37,7 @@
 }
 
 .bottom-section {
-    height: 50vh;
+    height: 3vh;
     background: grey;
 }
 
