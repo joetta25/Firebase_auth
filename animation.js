@@ -3,7 +3,8 @@ $(document).ready(function() {
     //checkAuth();
     jqueryevent();
     jqueryAddRedirect();
-    playSong2(200)
+    playSong2(200);
+    SpotifyInit();
 })
 
 function jqueryevent() {
@@ -44,18 +45,6 @@ function checkAuth() {
 }
 
 
-function playSong(song_length) {
-    const start_time = new Date().getTime() / 1000;
-    const end_time = start_time += song_length;
-    let time_now = 0;
-    let last_update = 1;
-    while (time_now > end_time){
-        time_now = new Date().getTime() / 1000;
-        last_update = 1;
-    }
-}
-
-
 function playSong2(song_length, start=0) {
     start = moment(start, "ss").format("mm:ss")
     let end = moment(start, "ss").add(song_length, 'seconds').format("mm:ss")
@@ -75,4 +64,43 @@ function playSong2(song_length, start=0) {
         clearInterval(interval);
     }
     }, 1000);
+};
+
+function SpotifyInit() {
+    window.onSpotifyWebPlaybackSDKReady = () => {
+        const token = 'BQBsQORKvHDTmIZXHrrqVzv8OawBIoJrRAIlwlhXT48-I-5MRtauI6BLunKX2E0chlY3vBM50RiQBmHvcNsMXQoh9cxn-gGWbgxJaqrRmTu88YKZ_4A-ZNTXuedRdDcusCkWOwda7A55YP_PsuQShNPhq7GhhdwVS3krXI4UWY0v2lCEcpqgNZ6s';
+        const player = new Spotify.Player({
+          name: 'Web Playback SDK Quick Start Player',
+          getOAuthToken: cb => { cb(token); }
+        });
+      
+    // Error handling
+    player.addListener('initialization_error', ({ message }) => { console.error(message); });
+    player.addListener('authentication_error', ({ message }) => { console.error(message); });
+    player.addListener('account_error', ({ message }) => { console.error(message); });
+    player.addListener('playback_error', ({ message }) => { console.error(message); });
+      
+    // Playback status updates
+    player.addListener('player_state_changed', state => { console.log(state); });
+      
+    // Ready
+    player.addListener('ready', ({ device_id }) => {
+        console.log('Ready with Device ID', device_id);
+    });
+      
+    // Not Ready
+    player.addListener('not_ready', ({ device_id }) => {
+        console.log('Device ID has gone offline', device_id);
+    });
+      
+    // Connect to the player!
+    player.connect();
+    };
+
+
 }
+
+
+
+
+
