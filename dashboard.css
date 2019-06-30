@@ -1,44 +1,25 @@
-#register {
-  text-align: center;
-}
-
-#alert {
-  text-align: center;
-  background-color: lightgreen;
-  color: black;
-  padding: 10px;
-  margin-bottom: 5px;
-  display: none;
-}
-
-#marginbottom {
-  margin-bottom: 200px;
-}
-
-.company-info {
-  background: linear-gradient(
-    11deg,
-    rgba(255, 87, 160, 0.6797093837535014) 0%,
-    rgba(0, 0, 0, 0.835171568627451) 56%
-  ) !important;
-}
-
-.contact form button {
-  background: linear-gradient(
-    11deg,
-    rgba(255, 87, 160, 0.6797093837535014) 0%,
-    rgba(0, 0, 0, 0.835171568627451) 56%
-  ) !important;
-}
-
-.navbar * {
+* {
   color: white;
 }
+.section-1 {
+  border: 1px solid coral;
+  line-height: 1.65;
+  padding: 20px 50px;
+}
+
+.section-1 .col-lg-4 {
+  border: 1px solid cornflowerblue;
+}
+
+.spotify-card {
+  background-color: #000;
+  color: #fff;
+}
+
 .navbar {
   height: 10vh;
   border-bottom: 1px solid white;
 }
-
 .navbar-brand img {
   margin-bottom: 40px;
   width: 120px !important;

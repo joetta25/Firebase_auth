@@ -37,7 +37,7 @@
         <a class="nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
       </li>
        <li class="nav-item">
-        <a class="nav-link" href="#">Login</a>
+        <a class="nav-link" href="logIn.html">Login</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="signup.html">SignUp</a>
@@ -60,7 +60,7 @@
             <br>
             </div>
             <div class="buttons">
-            <button class="btn btn-primary">Login</button>
+            <button class="btn btn-primary" onclick="logInFunction()">Login</button>
             <button class="btn btn-primary">About Us</button>
             </div>
     </div> 
@@ -114,6 +114,13 @@
   <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-firestore.js"></script>
   <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
   <script src="firebaseLogin.js"></script>
+  
+  <script>
+    // this function will redirect user to logIn/ it's onclick=LogInFunction() found in the body;
+    function logInFunction(){
+      window.location = '/logIn.html';
+    }
+  </script>
 </body>
 
 </html>
