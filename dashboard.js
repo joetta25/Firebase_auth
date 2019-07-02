@@ -17,7 +17,7 @@ firebase.auth().onAuthStateChanged(function(user) {
     var providerData = user.providerData;
   } else {
     console.log("Not logged in");
-    window.location = "/home.html";
+    window.location = "home.html";
   }
 });
 

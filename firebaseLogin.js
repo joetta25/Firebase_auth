@@ -78,7 +78,7 @@ firebase.auth().onAuthStateChanged(function(user) {
     console.log(user);
 
     // redirect user to this location
-    location = `./dashboard.html`;
+    window.location = "dashboard.html";
 
     // User is signed in.
     var displayName = user.displayName;

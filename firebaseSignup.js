@@ -28,7 +28,7 @@ submitForm.addEventListener("submit", e => {
       console.log(errorCode);
     })
     .then(function() {
-      document.location.href = "./dashboard.html";
+      document.location.href = "dashboard.html";
     });
 
   document.getElementById("alert").style.display = "block";
