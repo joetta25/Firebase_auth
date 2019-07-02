@@ -31,6 +31,45 @@
   ) !important;
 }
 
+.navbar * {
+  color: white;
+}
+.navbar {
+  height: 10vh;
+  border-bottom: 1px solid white;
+}
+
+.navbar-brand img {
+  margin-bottom: 40px;
+  width: 120px !important;
+  height: 120px;
+}
+
+.navbar img {
+  padding-top: 20px;
+  width: 200px;
+  margin-left: 20%;
+}
+
+.navbar-nav {
+  margin-right: 15%;
+}
+
+.navbar-nav li {
+  color: white !important;
+  margin-right: 10%;
+  font-size: 0.9vw;
+  letter-spacing: 3px;
+}
+
+.navbar-nav a {
+  color: grey !important;
+}
+
+.navbar-nav a.active {
+  color: white !important;
+}
+
 body {
   background: black;
   height: 1000px;

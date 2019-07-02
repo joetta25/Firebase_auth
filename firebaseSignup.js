@@ -9,6 +9,11 @@ submitForm.addEventListener("submit", e => {
   let email = document.getElementById("email").value;
   let password = document.getElementById("pass").value;
   let phoneNumber = document.getElementById("phone").value;
+
+  // let logInBtn = document.getElementById("logIn");
+  // let SignupBtn = document.getElementById("signUp");
+  // let logOutBtn = document.getElementById("logOut");
+
   console.log(email, password);
 
   firebase
@@ -21,6 +26,9 @@ submitForm.addEventListener("submit", e => {
       // ...
       document.getElementById("error").innerHTML = errorCode;
       console.log(errorCode);
+    })
+    .then(function() {
+      document.location.href = "dashboard.html";
     });
 
   document.getElementById("alert").style.display = "block";
