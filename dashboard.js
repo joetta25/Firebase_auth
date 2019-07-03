@@ -101,14 +101,14 @@ $('.next').click((e) => {
     .then(renderSpotifyResults)
 });
 
-$('.previous').click((e)=> {
-    e.preventDefault();
+$('.previous').click((e)=> { // creating a event listener 
+    e.preventDefault(); /// stops the page from refreshing 
     $.ajax(prev_url, {
         headers: {
             'Authorization': `Bearer ${token}` // this is where we use the access_token
         }
     })
-    .then(renderSpotifyResults)
+    .then(renderSpotifyResults) // this will call the rest of the data once the next request is complete 
 })
 
 // Youtube

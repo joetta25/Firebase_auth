@@ -1,13 +1,19 @@
+body {
+	background: linear-gradient(11deg, rgba(255,87,160,0.6797093837535014) 0%, rgba(0,0,0,0.835171568627451) 56%)
+}
+	
 
 .section-1 {
- border:1px solid coral;
+ 	border:1px solid black;
 	line-height: 1.65;
-	padding: 20px 50px;
+	height: 100vh;
+	
 	
 }
 
 .section-1 .col-lg-4{
 	border: 1px solid cornflowerblue;
+	height: 100vh;
 }
 
 
@@ -34,5 +40,12 @@ a {
   }
   
   .next {
-	background-color: rgb(0, 0, 0);
+	background-color:blue;
 	color: white;
+  }
+
+	.navigation{
+	 border:1px solid orange;
+	 padding-left: 30%;
+	}
+	
