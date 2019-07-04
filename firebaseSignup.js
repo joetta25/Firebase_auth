@@ -3,18 +3,15 @@ firebase.initializeApp(firebaseConfig);
 
 let submitForm = document.getElementById("signUpForm");
 
+// Reference msessages collection
+var messagesRef = firebase.database().ref("user");
+
 submitForm.addEventListener("submit", e => {
   e.preventDefault();
   let name = document.getElementById("name").value;
   let email = document.getElementById("email").value;
   let password = document.getElementById("pass").value;
   let phoneNumber = document.getElementById("phone").value;
-
-  // let logInBtn = document.getElementById("logIn");
-  // let SignupBtn = document.getElementById("signUp");
-  // let logOutBtn = document.getElementById("logOut");
-
-  console.log(email, password);
 
   firebase
     .auth()
@@ -31,11 +28,30 @@ submitForm.addEventListener("submit", e => {
       document.location.href = "dashboard.html";
     });
 
+  //call the function when the form gets submitted
+  //Save message
+
+  saveMessage(name, email, password, phoneNumber);
+
+  //the alert msg will be shown and hide in 2secs after you click submit
   document.getElementById("alert").style.display = "block";
 
   setTimeout(() => {
     document.getElementById("alert").style.display = "none";
   }, 2000);
 
+  //will reset the submit form
   document.getElementById("signUpForm").reset();
 });
+
+// save the msg to firebase
+//sending an object of data to firebase to our msg collection
+function saveMessage(name, email, password, phoneNumber) {
+  var newMessageRef = messagesRef.push();
+  newMessageRef.set({
+    name: name,
+    email: email,
+    password: password,
+    phoneNumber: phoneNumber
+  });
+}
