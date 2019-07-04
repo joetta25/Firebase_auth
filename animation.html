@@ -2,8 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<!--Spotify SDK -->
-<script src="https://sdk.scdn.co/spotify-player.js"></script>
+
 
 <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-app.js"></script>
@@ -13,10 +12,10 @@
 <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-firestore.js"></script>
 
 <!-- Key File -->
-<script type="text/javascript" src="keys.js"></script>
+<script type="text/javascript" src="../keys.js"></script>
 
 <!-- Font Awesome -->
-<link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="../font-awesome/css/font-awesome.min.css">
 
 <!-- BootStrap -->
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
@@ -28,8 +27,8 @@
 <script   src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"   integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk="   crossorigin="anonymous"></script>
 
 <!-- ANTONY STYLE/JS -->
-<link rel="stylesheet" href="animation.css">
-<script type="text/javascript" src="animation.js"></script>
+<link rel="stylesheet" href="../animation.css" type="text/css" >
+
 
 <!-- Moment.js -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"></script>
@@ -61,6 +60,23 @@
         </ul>
   </div>
 </nav>
+<div class="row">
+            <div class="col-lg-4" style="background:gray;">Spotify Playlist
+                      <form class="search-form">
+                      <input class="searchname" id="searchname" type="textbox" name="search" placeholder="Search artist or song name">
+                      <input class = "search btn btn-primary" type="submit" name="search" value="Search">
+                      </form>
+                  
+                  <div class="result-show">
+                    </div>
+                    <div class="container-1">
+                        <button class="login btn btn-primary">Login to Spotify</button>
+                        
+                    </div>
+                    <div class= "music-container-fluid">
+                        
+                    </div>
+                </div>
 <div class="music-player row">
     <div class="col-lg-3">
         <i class="fa fa-step-backward"></i>
@@ -78,9 +94,68 @@
 </div>
 <div class="container-fluid top-section">
     <div class="row">
-        <div class="col-lg-4 section1">dd</div>
+        <div class="col-lg-4 section1 spotify-container">dd</div>
         <div class="col-lg-4 section2">ee</div>
-        <div class="col-lg-4 section3">ff</div>
+        <div class="col-lg-4 section3">
+<table class="table">
+  <thead>
+    <tr>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="album">
+      <i class="fa fa-play-circle fa-3x hidden" aria-hidden="true"></i>
+        <div class=album-holder><img src="https://i.scdn.co/image/00f8150fd37e09dadec28914a481cedf6247f1d3"></div>
+        </td>
+      <td>
+      <p class="artist-name">Drake</p>
+      <h5 class="song-name">Song by Drake</h5>
+      </td>
+      <td>
+      <div class="time-holder">
+      <h5 class="song-length">3:35</h5>
+      </div>
+      </td>
+    </tr>
+    <tr>
+      <td class="album">
+        <i class="fa fa-play-circle fa-3x hidden" aria-hidden="true"></i>
+        <div class=album-holder><img src="https://i.scdn.co/image/00f8150fd37e09dadec28914a481cedf6247f1d3"></div>
+        </td>
+      <td>
+      <p class="artist-name">Drake</p>
+      <h5 class="song-name">Song by Drake</h5>
+      </td>
+      <td>
+      <div class="time-holder">
+      <h5 class="song-length">3:35</h5>
+      </div>
+      </td>
+      
+    </tr>
+    <tr>
+      <td class="album">
+        <i class="fa fa-play-circle fa-3x hidden" aria-hidden="true"></i>
+        <div class=album-holder><img src="https://i.scdn.co/image/00f8150fd37e09dadec28914a481cedf6247f1d3"></div>
+        </td>
+      <td>
+      <p class="artist-name">Drake</p>
+      <h5 class="song-name">Song by Drake</h5>
+      </td>
+      <td>
+      <div class="time-holder">
+      <h5 class="song-length">3:35</h5>
+      </div>
+      </td>
+      
+    </tr>
+  </tbody>
+</table>
+        
+        
+        </div>
+        <button class="play-spotify">click me bro</button> 
     </div>
 </div>
 <div class="container-fluid bottom-section">
@@ -107,7 +182,51 @@
   </div>
 </div>
 
+<script type="text/javascript" src="../animation.js"></script>
+<!--Spotify SDK -->
+<script src="https://sdk.scdn.co/spotify-player.js"></script>
+<script type="text/javascript">
+    var my_device = '';
 
+    window.onSpotifyWebPlaybackSDKReady = () => {
+        var token = window.localStorage.getItem('token');
+        const player = new Spotify.Player({
+          name: 'Web Playback SDK Quick Start Player',
+          getOAuthToken: cb => { cb(token); }
+        });
+      
+    // Error handling
+    player.addListener('initialization_error', ({ message }) => { console.error(message); });
+    player.addListener('authentication_error', ({ message }) => { console.error(message); });
+    player.addListener('account_error', ({ message }) => { console.error(message); });
+    player.addListener('playback_error', ({ message }) => { console.error(message); });
+      
+    // Playback status updates
+    player.addListener('player_state_changed', state => { console.log(state); });
+      
+    // Ready
+    player.addListener('ready', ({ device_id }) => {
+        my_device = device_id;
+        console.log('Ready with Device ID', device_id);
+    });
+      
+    // Not Ready
+    player.addListener('not_ready', ({ device_id }) => {
+        console.log('Device ID has gone offline', device_id);
+    });
+      
+    // Connect to the player!
+    player.connect().then(success => {
+        if (success) {
+    $('.play-spotify').click(function(){PressPlay(my_device, token, player)});
+    console.log('WINNNER!!! The Web Playback SDK successfully connected to Spotify!');
+    } else {console.log("fail")}
+    })
+
+
+
+    }
+</script>
 
 
 </body>
