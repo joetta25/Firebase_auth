@@ -2,15 +2,22 @@ var token = window.localStorage.getItem('token');
 
 $(document).ready(function() {
     firebase.initializeApp(firebaseConfig);
-    //checkAuth();
+    checkAuth();
     addCurrentSongEvents();
     jqueryevent();
     jqueryAddRedirect();
-    playSong2(200);
+    playSong(200);
     setupSpotify();
+    setupSpotifyNav();
+    getSpotifyUserProfile()
+    SpotifyGetLikes();
+    $('.log').click(function(){removeUserToken()})
 });
 
+
+
 function addCurrentSongEvents(){
+    //adds icons to indicate if a song is playing or paused etc...
     $('tr').click(function(){
         let play_icon = $(this).find('i');
         $('tr').removeClass('active');
@@ -21,6 +28,7 @@ function addCurrentSongEvents(){
 };
 
 function PressPlay(my_device, token, player){
+    ///work in progress function to play a track
     alert(1)
     $.ajax({
         url: "https://api.spotify.com/v1/me/player/play?device_id=" + my_device,
@@ -56,6 +64,7 @@ function PressPlay(my_device, token, player){
 };
 
 function jqueryevent() {
+    //this function is currently useless will be used when animation is implemented
     $('.hide-open').click(function() {
         if ($('.bottom-section').hasClass('hidden')) {
             $('.top-section').height('40vh');
@@ -71,6 +80,8 @@ function jqueryevent() {
 };
 
 function jqueryAddRedirect() {
+    //ignore this function currently useless. a modal will popup whenever a user 
+    //is not autenticated they can go home or to the login form
     $('.modal .btn').click(function() {
         if($(this).attr('id') =='home') {
             alert(1)
@@ -81,19 +92,46 @@ function jqueryAddRedirect() {
         }
     })
 }
-
+var firebase_user = null;
+var user_json = null;
 
 function checkAuth() {
-    var user = firebase.auth().currentUser;
-    if (user) {
-        alert(1);
-    } else {
-        $('#noauth').modal('show');
+    // check if a user is authenticated if so get the data for the user.
+    // the data will generate the stored playlist and be used to retrieve the 
+    //spotify token.. functions need to be added after to confirm a spotify token is
+    //valid.
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            firebase_user = user;
+            getFirebaseUser()
+            AddSong()
+          //$('#noauth').modal('show');
+      }
+     else {
+        alert('creating user');
+        const email ='antony.tsygankov@gmail.com';
+        const pswd ='football1924';
+        const promise = firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(function(){signInWithEmailAndPassword(email, pswd)})
+        promise.catch(function(error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          console.log(errorCode);
+          console.log(errorMessage);
+          // ...
+        });
+        firebase_user = firebase.auth().currentUser;
     }
-}
+
+});
+};
 
 
-function playSong2(song_length, start=0) {
+function playSong(song_length, start=0) {
+    //function that makes the fake player work
+    // it takes the length of the song in seconds, and once a second will call
+    // a function to update width of the red bar inside progress bar
+    // moment is library for parsing timestamps...
     start = moment(start, "ss").format("mm:ss")
     let end = moment(start, "ss").add(song_length, 'seconds').format("mm:ss")
     $('.end-time').text(end);
@@ -114,14 +152,16 @@ function playSong2(song_length, start=0) {
 };
 
 function setupSpotify(){
-    // Set up app config
+    // Setup login to spotify '.login is the button it redirects to index.html where the 
+    //token is scraped from the url and sent to firebase.
+    //if no token exists a button is created to reauthenticate in case the user is experiencing issues.
+    // as well an event listener is created to search spotify
     var client_id = '42c128e85c9c4eddad1930a129937c94';
     var response_type = 'token';
     var redirect_uri = 'http://127.0.0.1:8899/index.html';
     var scope = [
-        'user-read-playback-state', 'streaming', 'user-read-private', 'user-read-currently-playing', 'user-modify-playback-state', "user-read-birthdate", "user-read-email",].join(' ');
-    //alert(scope);
-        // add event listener for login
+        'user-read-playback-state', 'streaming', 'user-read-private', 'user-read-currently-playing', 'user-modify-playback-state', 'user-read-birthdate', 'user-read-email', 'user-library-read',].join(' ');
+
     $('.login').on('click', function(e) {
         var url = `https://accounts.spotify.com/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&scope=${scope}&response_type=${response_type}`;
         // send the user to the spotify login page
@@ -129,22 +169,29 @@ function setupSpotify(){
         window.location = url;
     })
 
-// get the token from localStorage (if it exitst)
-//var token = window.localStorage.getItem('token');
-
 // if the token is set, then we are probably logged in
     if (token == null) {
         // so change the login button text
         $('.login').text('Refresh Spotify Login');
     } else {
-        $('.login').text('token recieved');}
+        $('.login').text('Re-Authenticate');}
 
 
-    $('.search-form').on('submit', function(e) {
-        e.preventDefault();
+    $('.search-form').on('submit', function(e) {searchSpotify(e)});
+    }
+
+
+function searchSpotify(e){
+    //whenever the searchform is submitted the value is returned from user input
+    //then an ajax request is sent and an object of matching records are returned
+    //I added parameters to prevent too long of song names from fully appearing.
+    // as well the song cuts off at three featured artists
+    // ex Song Name  "Some song name" Drake Feat(Jay-z, Kanye West, Tyler...)
+    e.preventDefault();
         // get the search value from the search field
         var value = $('#searchname').val();
         // if the value is not empty
+        $('.spotify-container').html();
         if (value != '') {
             // get the search request from spotify
             $.ajax(`https://api.spotify.com/v1/search?q=${value}&type=track`, {
@@ -154,35 +201,268 @@ function setupSpotify(){
             })
         .then((data) => { // when the search request is finished // log the data to the console//console.log(data);
             if (data.tracks.items.length > 0) {
+                let song_count = 0;
                 var songsHTML = data.tracks.items.map(track => {
-                    console.log(track);
-                    var artistsString = track.artists.map(artist => {
-                        return artist.name;
-                    }).join(', ');
+                    song_count ++;
+                    let artist_count = 0;
+                    let main_artist = '';
+                    var featured_artists = track.artists.map(artist => {
+                        artist_count ++;
+                        if (artist_count == 1){
+                            main_artist = artist.name;
+                    }   
+                    else if (artist_count==2) {
+                        return artist.name
+                    } 
+                    else if (artist_count==3) {
+                        return `, ${artist.name.substring(0,6)}...`
+                    };
+
+                    }).join('');
+                    let artistsString = `${main_artist}`;
+                    if (artist_count > 1){ 
+                        artistsString = `${main_artist} feat(${featured_artists})`
+                    }
                     return `
-                    <div class="card spotify-card col-3 mx-4 my-4 ">
-                        <img class="card-img-top" src="${track.album.images[0].url}" value= "${track.album.external_urls.spotify}"/>
-                        <div class="card-body">
-                        <h5 class="card-title">${artistsString} <span class="badge badge-secondary">${track.album.release_date}</span></h5>
-                        <h5 class="card-title">${track.name}</h5>
-                        <button class="btn btn-primary play-song" type="button" onclick="favoriteSongs('${track.id}')">add</button>
+                    <tr "value="${track.uri}" id="${song_count}">
+                        <td class="album" value="${track.duration_ms}">
+                            <div class=album-holder><img src="${track.album.images[0].url}"></div>
+                            </td>
+                        <td>
+                        <p class="artist-name">${artistsString}</p>
+                        <h5 class="song-name">${track.name}</h5>
+                        </td>
+                        <td>
+                        <div class="time-holder">
+                        <h5 class="song-length"><button class="btn btn-primary play-song" type="button" onclick="favoriteSongs('${track.id}')">add</button></h5>
                         </div>
-                    </div>
+                        </td>
+                    </tr>
                     `
-                })
-                return songsHTML.join('');
+                }).join('')
+                return `<table class="table" id="spotify-table">
+                        <thead>
+                        <tr>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        ${songsHTML}
+                        </tbody>
+                        </table>`
+
             } else {
                 return '<div>No results</div>'
             }
         })
         .then((html) => {
-            console.log(html)
             document.getElementsByClassName('spotify-container')[0].innerHTML = html;
+            $('#spotify-table > tbody').wrap('<div class="scrollable"></div>')
         }).then(
             $(document).on('click', '.play-song', function(){alert(999);})
         )
 
     }
-    })
+};
 
+function setupSpotifyNav() {
+    //every column should have a couple of sections for example your likes, search,
+    //and account management. Therefore this function is used to add event listeners,
+    // as well added an event listener for logging out.
+    $('.spot-item').hide();
+    $('#account-tab').show();
+    $('.spotify-nav .nav-item').click(function(){
+        $('.section1 .nav-item').removeClass('active');
+        $(this).addClass('active');
+        changeSpotifyTab(this.id);
+    })
+    $('.logout').click(function(){SpotifyLogout()})
+};
+
+
+function changeSpotifyTab(id) {
+    $('.spot-item').hide();
+    $(`#${id}-tab`).show();
+    //alert(id);
+}
+
+function getSpotifyUserProfile(){
+    $.ajax(`https://api.spotify.com/v1/me`, {
+        headers: {
+            'Authorization': `Bearer ${token}` // this is where we use the access_token
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            $('.spot-welcome').text(`Login and Start Listening!`);
+            $('.login').text('Login to Spotify');
+          },
+    }).then(profile => {
+        //console.log(profile)
+        $('.spot-welcome').text(`Welcome ${profile.display_name}!`);
+    });
+};
+
+
+function SpotifyLogout() {
+    // Spotify does not have a logout api call therefore we can open a temporary
+    //window to logout of the spotify website SetTimeout() makes it disappear in 5 seconds.
+    // Unfortunatley the user can still use the token to get more tracks, therefore a
+    //database call is made to remove the user stored token and mark it as valid==False.
+
+    AuthenticationClient.clearCookies(getApplication());
+    removeUserToken();
+    const url = 'https://www.spotify.com/logout/'                                                                                                                                                                                                                                                                               
+    const spotifyLogoutWindow = window.open(url, 'Spotify Logout', 'width=700,height=500,top=40,left=40')                                                                                                
+    setTimeout(() => spotifyLogoutWindow.close(), 3000)
+}
+
+
+function SpotifyGetLikes() {
+    //ajax request to get all user spotify likes whenever a user is logged in.
+    $.ajax(`    https://api.spotify.com/v1/me/tracks?&limit=50`, {
+        headers: {
+            'Authorization': `Bearer ${token}` // this is where we use the access_token
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            console.log(xhr);
+            console.log(thrownError);
+            console.log(ajaxOptions);
+          },
+    }).then((data) => { // when the search request is finished // log the data to the console//console.log(data);
+        //console.log(data);
+        if (data.items.length > 0) {
+            let song_count = 0;
+            var songsHTML = data.items.map(track => {
+                let artist_count = 0;
+                let main_artist = '';
+                var featured_artists = track.track.artists.forEach(artist => {
+                    artist_count ++;
+                    if (artist_count == 1){
+                        main_artist = artist.name;
+                }   
+                else if (artist_count==2) {
+                    return artist.name
+                }
+                else if (artist_count==3) {
+                    return `, ${artist.name.substring(0,6)}...`
+                };
+                });
+                let artistsString = `${main_artist}`;
+                if (artist_count > 1){ 
+                    featured_artists.join('');
+                    artistsString = `${main_artist} feat(${featured_artists})`
+                }
+                song_count ++;
+                if(track.track.name.length > 40){
+                    track.track.name = track.track.name.substring(0,25);
+                }
+                return `<tr "value="${track.track.uri}" id="${song_count}">
+                            <td class="album" value="${track.track.duration_ms}">
+                                <div class=album-holder><img src="${track.track.album.images[0].url}"></div>
+                                </td>
+                            <td>
+                            <p class="artist-name">${artistsString}</p>
+                            <h5 class="song-name">${track.track.name}</h5>
+                            </td>
+                            <td>
+                            <div class="time-holder">
+                            <h5 class="song-length"><button class="btn btn-primary play-song" type="button" onclick="favoriteSongs('${track.id}')">add</button></h5>
+                            </div>
+                            </td>
+                        </tr>`}).join('')
+            //console.log(songsHTML)
+            return `<table class="table" id="spotify-likes">
+                    <thead>
+                    <tr>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    ${songsHTML}
+                    </tbody>
+                    </table>`
+
+        } else {
+            return '<div>No results</div>'
+        }
+    })
+    .then((html) => {
+        //I used a table to display user's songs therefore this section wraps 
+        //the table body in a div and makes it scrollable.
+        //I understand that the idea was to have buttons instead of scrolling,
+        //I have functions to accomplish this as well we can change it next time we 
+        //all meet.
+        document.getElementsByClassName('spotify-likes')[0].innerHTML = html;
+        $('#spotify-likes > tbody').wrap('<div class="scrollable"></div>')
+    }).then(
+        $(document).on('click', '.play-song', function(){alert(999);})
+    )
+};
+
+
+
+function CreateBoofDBUser() {
+    //I got tired of creating users so this will create a fake user for testing
+    //currently it creates a new section to not mess with the signup form
+    //by removing the 's' at the end of users it will plop the data in the same json array
+    firebase.database().ref('users/' + firebase_user.uid).set({
+        username: 'antony',
+        email: 'antony.tsygankov@gmail.com',
+      });
+}
+
+
+function getFirebaseUser(){
+    // once a user is proven to be logged in he is assigned to firbase_user
+    // unfortunatley I was unable to get data from the json array with that call.
+    //therefore their userid is used to get the full json object.
+    //this object is called user_json.
+
+    const URL = `https://signupform-96aeb.firebaseio.com/users/${firebase_user.uid}.json`;
+    $.ajax(URL).then(result => {
+        console.log('printing user'); 
+        console.log(result)
+        user_json = result;});
+}
+
+function AddSong(){
+    // currently a mock function to demonstrate how songs will be added.
+    //param is everything we need to display and play the song...
+    //ajax is used to post it into the database under a users songs.
+    var param = {
+        'Artist' : 'Flume', 
+        'Song' : 'fule_song',
+        'song_cover' : 'https://i.scdn.co/image/0505ee91b3c65c5b0b2f57c0b94e69764759c4f3',
+        'song_uri' : 'spotify:track:2YF4eWmwwFA8fkx2IE0djt',
+        'duration' : 33567,
+        }
+    $.ajax({
+        url: `https://signupform-96aeb.firebaseio.com/users/${firebase_user.uid}/songs.json`,
+        type: "POST",
+        data: JSON.stringify(param),
+        success: function () {
+        alert("success");
+        },
+        error: function(error) {
+        alert("error: "+error);
+        }
+    });
+
+}
+
+function removeUserToken() {
+    //function to delete a token at the users request...
+    //if it is lost no one can use it and user must reauthenticate.
+    //'PATCH' is used as the ajax parameter which means to update
+    let key_id = Object.keys(user_json.spotify_token)[0];
+    alert(`https://signupform-96aeb.firebaseio.com/users/${firebase_user.uid}/spotify_token/${key_id}.json`)
+    let patch = {'valid' : false, 'token' : ''}
+    $.ajax({
+        url: `https://signupform-96aeb.firebaseio.com/users/${firebase_user.uid}/spotify_token/${key_id}.json`,
+        type: "PATCH",
+        data: JSON.stringify(patch),
+        success: function () {
+        alert("success");
+        },
+        error: function(error) {
+        alert("error: "+error);
+        }
+    });
 };
