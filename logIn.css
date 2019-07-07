@@ -1,3 +1,6 @@
+nav * {
+  color: white;
+}
 .navbar {
   height: 10vh;
   border-bottom: 1px solid white;
@@ -85,6 +88,14 @@ h2 {
   -webkit-box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
   box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
   text-align: center;
+  margin-bottom: 150px;
+}
+
+#alert {
+  display: none;
+  text-align: center;
+  color: red;
+  padding: 5px;
 }
 
 #formFooter {
