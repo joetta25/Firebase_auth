@@ -12,7 +12,7 @@
       integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
       crossorigin="anonymous"
     />
-    <script src="keys.js"></script>
+    <!--<script src="keys.js"></script>-->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css"
@@ -74,16 +74,17 @@
         </div>
         <div class="contact">
           <h3 id="register">Register</h3>
-          <div id="alert">Account Created Sucessfully!</div>
-          <div class="alert">Your message has been sent</div>
+          <!--change the msg-->
+          <div id="alert">Account Created Sucessfully!</div> 
+          
           <form id="signUpForm">
             <p>
               <label>Name</label>
-              <input type="name" name="name" id="name" required />
+              <input type="name" name="name" id="name"  required/>
             </p>
             <p>
               <label>Phone Number</label>
-              <input type="tel" name="phone" id="phone" required />
+              <input type="tel" name="phone" id="phone" />
             </p>
             <p>
               <label>Email Address</label>
@@ -108,12 +109,18 @@
       </div>
     </div>
     <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+   
     <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-app.js"></script>
 
     <!-- Add Firebase products that you want to use -->
+   
+
+
     <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
     <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+    <script src="keys.js"></script>
     <script src="firebaseSignup.js"></script>
 
     <script src="main.js"></script>
