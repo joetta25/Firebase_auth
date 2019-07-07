@@ -25,7 +25,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 // Set up app config
 var client_id = "57a5ae8651d746c3b9b1fcb24561af24";
 var response_type = "token";
-var redirect_uri = "http://127.0.0.1:5500/dashboard.html";
+var redirect_uri = "http://127.0.0.1:5501/dashboard.html";
 var scope = [""].join(" ");
 
 // get auth code from url hash
