@@ -28,6 +28,7 @@ var response_type = "token";
 var redirect_uri = "http://127.0.0.1:5501/dashboard.html";
 var scope = [""].join(" ");
 
+
 // get auth code from url hash
 var hash = window.location.hash.substr(1).split("&");
 var hashMap = [];
@@ -64,6 +65,7 @@ if (token !== null) {
 }
 
 // when the form is submitted
+
 $(".search-form").on("submit", function(e) {
   e.preventDefault();
   // get the search value from the search field
@@ -123,6 +125,7 @@ const ytCLIENT_ID = "254484771306-7r6u8p6efbpqcjru9diqqnq4naoval1o.apps.googleus
 const ytDISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest'];
 const ytSCOPES = 'https://www.googleapis.com/auth/youtube.readonly';
 
+
 const authorizeButton = document.getElementById('authorize-button');
 const signoutButton = document.getElementById('signout-button');
 const content = document.getElementById('content');
@@ -176,6 +179,9 @@ function updateSigninStatus(isSignedIn) {
     }
 }
 
+
+
+=======
 // Login and Logout
 function handleAuthClick() {
     gapi.auth2.getAuthInstance().signIn();

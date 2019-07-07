@@ -1,17 +1,6 @@
-* {
-  color: white;
-}
-.section-1 {
-  border: 1px solid coral;
-  line-height: 1.65;
-  padding: 20px 50px;
-}
 
-.section-1 .col-lg-4 {
-  border: 1px solid cornflowerblue;
-}
 
-.spotify-card {
+	}
   background-color: #000;
   color: #fff;
 }
