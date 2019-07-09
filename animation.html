@@ -81,7 +81,6 @@
     <div class="col-lg-3"></div>
 </div>
 <div class="container-fluid top-section">
-<button class="btn btn-primary log">push this button</button>
     <div class="row">
         <div class="col-lg-4 section1">
             <div>
@@ -178,61 +177,12 @@
         
         </div>
         <div class="col-lg-4 section3">
-<table class="table">
-  <thead>
-    <tr>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td class="album">
-      <i class="fa fa-play-circle fa-3x hidden" aria-hidden="true"></i>
-        <div class=album-holder><img src="https://i.scdn.co/image/00f8150fd37e09dadec28914a481cedf6247f1d3"></div>
-        </td>
-      <td>
-      <p class="artist-name">Drake</p>
-      <h5 class="song-name">Song by Drake</h5>
-      </td>
-      <td>
-      <div class="time-holder">
-      <h5 class="song-length">3:35</h5>
-      </div>
-      </td>
-    </tr>
-    <tr>
-      <td class="album">
-        <i class="fa fa-play-circle fa-3x hidden" aria-hidden="true"></i>
-        <div class=album-holder><img src="https://i.scdn.co/image/00f8150fd37e09dadec28914a481cedf6247f1d3"></div>
-        </td>
-      <td>
-      <p class="artist-name">Drake</p>
-      <h5 class="song-name">Song by Drake</h5>
-      </td>
-      <td>
-      <div class="time-holder">
-      <h5 class="song-length">3:35</h5>
-      </div>
-      </td>
-      
-    </tr>
-    <tr>
-      <td class="album">
-        <i class="fa fa-play-circle fa-3x hidden" aria-hidden="true"></i>
-        <div class=album-holder><img src="https://i.scdn.co/image/00f8150fd37e09dadec28914a481cedf6247f1d3"></div>
-        </td>
-      <td>
-      <p class="artist-name">Drake</p>
-      <h5 class="song-name">Song by Drake</h5>
-      </td>
-      <td>
-      <div class="time-holder">
-      <h5 class="song-length">3:35</h5>
-      </div>
-      </td>
-      
-    </tr>
-  </tbody>
-</table>
+        <div class="logo-top"><img class="sound-good" src="https://image.spreadshirtmedia.com/image-server/v1/mp/designs/1017840951,width=178,height=178,version=1550330846/lofi-hip-hop-tumblr-pink-logo.png"></span><span id="logo">Sound Good</span></div>
+            <nav class="nav nav-pills nav-fill youtube-nav">
+                <a class="nav-item nav-link active" id="likes" href="#">Likes</a>
+            </nav>
+            <div class="sound-good-container"></div>
+        </div>
         
         
         </div>
@@ -268,9 +218,8 @@
 <script src="https://sdk.scdn.co/spotify-player.js"></script>
 <script type="text/javascript">
     var my_device = '';
-
     window.onSpotifyWebPlaybackSDKReady = () => {
-        var token = window.localStorage.getItem('token');
+         alert(token)
         const player = new Spotify.Player({
           name: 'Web Playback SDK Quick Start Player',
           getOAuthToken: cb => { cb(token); }
@@ -299,7 +248,7 @@
     // Connect to the player!
     player.connect().then(success => {
         if (success) {
-    $('.play-spotify').click(function(){PressPlay(my_device, token, player)});
+            $('.play-spotify').click(function(){PressPlay(my_device, token, player)});
     console.log('WINNNER!!! The Web Playback SDK successfully connected to Spotify!');
     } else {console.log("fail")}
     })
