@@ -69,7 +69,9 @@ if (token !== null) {
 
 
 // when the form is submitted
-$('.search-form').on('submit', function(e) {
+
+$(".search-form").on("submit", function(e) {
+
   e.preventDefault();
   // get the search value from the search field
   var value = $('#searchname').val();
@@ -125,7 +127,7 @@ $('.next').click((e) => {
 // Use localhost port 8888
 // const ytApiKey = "AIzaSyDHaIMUkv2DdX8RqP0rmf8QIhcCg_5KU08"; API is over quota limit
 const ytApiKey = "AIzaSyCw7Gw6BDPrcRiqjfTMfDckh_11BKWl7HM"
-const ytCLIENT_ID = "254484771306-7r6u8p6efbpqcjru9diqqnq4naoval1o.apps.googleusercontent.com";
+const ytCLIENT_ID = "976539214773-2gpmtmkm9phb43cir7mdgfjfl4cus9vr.apps.googleusercontent.com";
 const ytDISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest'];
 const ytSCOPES = 'https://www.googleapis.com/auth/youtube.readonly';
 
@@ -142,30 +144,28 @@ const searchTerm = document.querySelector('search-input');
 // Form submit 
 searchForm.addEventListener('submit', e => {
     e.preventDefault();
-
-    let search = searchInput.value;
     makeRequest();
 });
 
 // Load auth2 library
 function handleClientLoad() {
-gapi.load('client:auth2', initClient);
+  gapi.load('client:auth2', initClient);
 }
 
 // Init API client
 function initClient() {
-gapi.client
-    .init({
-    discoveryDocs: ytDISCOVERY_DOCS,
-    clientId: ytCLIENT_ID,
-    scope: ytSCOPES
-    })
-    .then(() => {
-    gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
-    updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-    authorizeButton.onclick = handleAuthClick;
-    signoutButton.onclick = handleSignoutClick;
-    });
+  gapi.client
+      .init({
+        discoveryDocs: ytDISCOVERY_DOCS,
+        clientId: ytCLIENT_ID,
+        scope: ytSCOPES
+      })
+      .then(() => {
+        gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+        updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+        authorizeButton.onclick = handleAuthClick;
+        signoutButton.onclick = handleSignoutClick;
+      });
 }
 
 // Hide and unhide elements based on login state
@@ -192,7 +192,7 @@ function handleSignoutClick() {
     gapi.auth2.getAuthInstance().signOut();
 }
 
-function searchList(){
+function searchList() {
     gapi.client.setApiKey(ytApiKey); 
     gapi.client.load('youtube', 'v3', function() {
         makeRequest();
@@ -215,7 +215,7 @@ function makeRequest(token) {
             $('#video-container').empty()
             var srchItems = response.result.items; 
             
-            // Global variables
+            // Global variables for pagination
             window.nextPageToken = response.nextPageToken;
             window.prevPageToken = response.prevPageToken;
             
