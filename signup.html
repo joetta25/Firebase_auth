@@ -17,54 +17,70 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css"
     />
-    <link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-    crossorigin="anonymous"></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Monoton"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
     <link rel="stylesheet" href="main.css" />
     <link rel="stylesheet" href="signUP.css" />
-    <link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet' type='text/css'>
+    <link
+      href="https://fonts.googleapis.com/css?family=Monoton"
+      rel="stylesheet"
+      type="text/css"
+    />
   </head>
 
   <body>
+    <nav class="navbar navbar-expand-md navbar-dark  fixed-top">
+      <button
+        class="navbar-toggler"
+        data-toggle="collapse"
+        data-target="#collapse_target"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-      <nav class="navbar navbar-expand-lg navbar-light">
-          <a class="navbar-brand" href="#">
-            <span style="margin-top: 10px;"><img
-                src="https://image.spreadshirtmedia.com/image-server/v1/mp/designs/1017840951,width=178,height=178,version=1550330846/lofi-hip-hop-tumblr-pink-logo.png"></img></span><span
-              id="logo">Sound Good Music</span>
-          </a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-              <a class="nav-link active" href="home.html">Home <span class="sr-only">(current)</span></a>
-            </li>
-             <li class="nav-item">
-              <a class="nav-link" href="logIn.html" id="logIn">Login</a>
-            </li>
-             <li class="nav-item">
-              <a class="nav-link" href="#" id="signUp" style="display: none">SignUp</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"  id="logOut" style="display: none ">LogOut</a>
-              </li>
-          </ul>
+      <div class="collapse navbar-collapse" id="collapse_target">
+        <div class="container" style="margin-left: 30px">
+          <div class="row">
+            <div class="col-6" style="padding-left: 0px">
+              <a class="navbar-brand"
+                ><img
+                  src="https://image.spreadshirtmedia.com/image-server/v1/mp/designs/1017840951,width=178,height=178,version=1550330846/lofi-hip-hop-tumblr-pink-logo.png"
+              /></a>
+              <span class="navbar-text">sound Good Music</span>
+            </div>
+
+            <div class="col-6 align-self-center">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="logIn.html">HOME</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="logIn.html">LOG IN</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">ABOUT US</a>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
-      </nav>
-     
-
-
-
-
-
-
-
+      </div>
+    </nav>
+    <!--navbar-->
 
     <div class="container">
       <div id="marginbottom"></div>
@@ -75,12 +91,12 @@
         <div class="contact">
           <h3 id="register">Register</h3>
           <!--change the msg-->
-          <div id="alert">Account Created Sucessfully!</div> 
-          
+          <div id="alert">Account Created Sucessfully!</div>
+
           <form id="signUpForm">
             <p>
               <label>Name</label>
-              <input type="name" name="name" id="name"  required/>
+              <input type="name" name="name" id="name" required />
             </p>
             <p>
               <label>Phone Number</label>
@@ -109,12 +125,10 @@
       </div>
     </div>
     <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
-   
+
     <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-app.js"></script>
 
     <!-- Add Firebase products that you want to use -->
-   
-
 
     <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-firestore.js"></script>
