@@ -179,7 +179,6 @@ function updateSigninStatus(isSignedIn) {
 
 
 
-=======
 // Login and Logout
 function handleAuthClick() {
     gapi.auth2.getAuthInstance().signIn();
