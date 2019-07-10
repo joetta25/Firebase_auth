@@ -1,39 +1,139 @@
 <!DOCTYPE html>
 <html>
-<head>  
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="dashboard.css">
-</head>
-<body>
-  
-        <div class="container-fluid section-1">
-          <div class="row">
-            <div class="col-lg-4 joetta" style="background: black; color: white;">
-                      <form class="search-form">
-                      <input class="searchname" id="searchname" type="textbox" name="search" placeholder="Search artist or song name">
-                      <input class = "search btn btn-primary" type="submit" name="search" value="Search">
-                      </form>
-                  
-                  <div class="result-show">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="dashboard.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+    <script type="text/javascript" src="keys.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet' type='text/css'>
+
+  </head>
+
+
+
+
+
+
+
+  <body>
+    <!-- NavBar added by Juan/ still needs a few modifications-->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#">
+          <span style="margin-top: 10px;"><img
+              src="https://image.spreadshirtmedia.com/image-server/v1/mp/designs/1017840951,width=178,height=178,version=1550330846/lofi-hip-hop-tumblr-pink-logo.png"></img></span><span
+            id="logo">Sound Good Music</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link active" href="home.html">Home <span class="sr-only">(current)</span></a>
+          </li>
+           
+          <li class="nav-item">
+              <a type='button' class="nav-link"  id="logOutBtn">LogOut</a>
+            </li>
+        </ul>
+      </div>
+    </nav>
+
+
+
+
+
+
+
+
+    <div class="container-fluid section-1">
+      <div class="row">
+        <div class="col-lg-4" style="background:gray;">
+          Spotify Playlist
+          <form class="search-form">
+            <input
+              class="searchname"
+              id="searchname"
+              type="textbox"
+              name="search"
+              placeholder="Search artist or song name"
+            />
+            <input
+              class="search btn btn-primary"
+              type="submit"
+              name="search"
+              value="Search"
+            />
+          </form>
+
+          <div class="result-show"></div>
+          <div class="container-1">
+            <button class="login btn btn-primary">Login to Spotify</button>
+          </div>
+          <div class="music-container-fluid"></div>
+        </div>
+        <div class="col-lg-4">Youtube Playlist
+            <div class="container">
+                <button class="btn red" id="authorize-button">Log In</button>
+                <button class="btn red" id="signout-button">Log Out</button>
+                
+                <div id="content">
+                    <div class="row">
+                        <div class="col s6">
+                            <form id="search-form">
+                                <div class="input-field col s6">
+                                    <input type="text" id="search-input" placeholder="Enter artist or song">
+                                    <input type="submit" value="Search" class="btn grey">
+                                </div>
+                            </form>
+                        </div>
+                        <div id="search-data" class="col s6"></div>
                     </div>
-                    <div class="container-1">
-                        <button class="login btn btn-primary mb-4">Login to Spotify</button>
-                        
-                    </div>
-                    <div class= "music-container-fluid">
-                      
+                    <div class="row" id="video-container"></div>
+                    <div class="row" id="video-buttons-container">
+                        <div class="col-12">
+                            <button id="prev" class="hide">Previous</button>
+                            <button id="next" class="hide">Next</button>
+                        </div>
                     </div>
                           <div class="navigation">
                            <a href="#" class="previous">&laquo; Previous</a>
                             <a href="#" class="next">Next &raquo;</a>
                           </div>
                 </div>
-                <div class="col-lg-4 micheal"> Youtube Playlist</div>
-                <div class="col-lg-4 anthony"> Favorite Songs</div>
+
+
             </div>
+        </div>
+        <div class="col-lg-4">Favorite Songs</div>
       </div>
-              
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="dashboard.js"></script>
-</body>
+    </div>
+
+
+    <!--Fisebase script/ must be in this order-->
+    <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-firestore.js"></script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="dashboard.js"></script>
+  </body>
 </html>

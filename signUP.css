@@ -1,7 +1,39 @@
-* {
-  color: white;
+#register {
+  text-align: center;
 }
 
+#alert {
+  text-align: center;
+  background-color: lightgreen;
+  color: black;
+  padding: 10px;
+  margin-bottom: 5px;
+  display: none;
+}
+
+#marginbottom {
+  margin-bottom: 200px;
+}
+
+.company-info {
+  background: linear-gradient(
+    11deg,
+    rgba(255, 87, 160, 0.6797093837535014) 0%,
+    rgba(0, 0, 0, 0.835171568627451) 56%
+  ) !important;
+}
+
+.contact form button {
+  background: linear-gradient(
+    11deg,
+    rgba(255, 87, 160, 0.6797093837535014) 0%,
+    rgba(0, 0, 0, 0.835171568627451) 56%
+  ) !important;
+}
+
+.navbar * {
+  color: white;
+}
 .navbar {
   height: 10vh;
   border-bottom: 1px solid white;
@@ -36,225 +68,6 @@
 
 .navbar-nav a.active {
   color: white !important;
-}
-
-.call-to-action {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
-.call-to-action .btn {
-  margin: 5%;
-  height: 50%;
-  background: transparent;
-  border: 3px solid rgb(113, 32, 67);
-}
-
-.call-to-action .btn:hover,
-.card .btn:hover {
-  background: rgba(113, 32, 67, 1);
-  transform: scale(1.04);
-  border: 3px solid rgb(113, 32, 67);
-  box-shadow: 5px 5px 8px 1px #000000;
-}
-
-.call-to-action .btn:active,
-.btn-success:focus,
-.card .btn:active {
-  background: linear-gradient(
-    11deg,
-    rgba(255, 87, 160, 0.6797093837535014) 0%,
-    rgba(0, 0, 0, 0.835171568627451) 56%
-  ) !important;
-  transform: scale(1.1);
-  border: 3px solid rgb(113, 32, 67) !important;
-  box-shadow: 5px 5px 8px 1px #000000 !important;
-}
-
-.navbar-brand #logo {
-  color: white;
-  font-size: 1.8vw;
-  letter-spacing: 4px;
-  font-family: "Monoton", cursive;
-  height: 300px;
-  margin-top: 10%;
-}
-
-.icon-section {
-  width: 100vw;
-  height: 10vh;
-  margin-left: 0;
-  background: RGBA(255, 255, 255, 0.1);
-  border-bottom: 1px solid RGBA(255, 255, 255, 1);
-}
-
-.bottom-section {
-  padding-top: 5%;
-  width: 100vw;
-  height: 10vh;
-  margin-left: 0;
-  background: RGBA(0, 0, 0, 0.4);
-}
-
-.bottom-section .card {
-  background: #000000;
-  padding: 5%;
-  border-radius: 15px;
-  box-shadow: 1px 1px 8px 1px RGBA(255, 255, 255, 0.1);
-}
-
-.card img {
-  border-radius: 15px;
-}
-
-.card .btn {
-  margin-left: 20%;
-  width: 60%;
-  background: transparent;
-  border-radius: 50px;
-  border: 3px solid rgb(113, 32, 67);
-}
-
-.col-lg-3 {
-  padding-left: 10%;
-}
-
-.girl {
-  z-index: 999;
-  position: absolute;
-  top: 18%;
-  width: 100%;
-}
-
-.left-img img {
-  padding-left: 0%;
-  margin-left: 4vw;
-}
-
-.right-img img {
-  padding-right: 20%;
-  margin-left: -7vw;
-}
-
-.main-content {
-  height: 45vh;
-  width: 100%;
-  background: #232526; /* fallback for old browsers */
-  border-bottom: 1px solid white;
-  background: linear-gradient(
-    11deg,
-    rgba(255, 87, 160, 0.6797093837535014) 0%,
-    rgba(0, 0, 0, 0.835171568627451) 56%
-  );
-}
-
-.call-to-action .title {
-  width: 100%;
-  color: black !important;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 0.5;
-  padding: 10%;
-  padding-top: 10%;
-  padding-bottom: 0;
-}
-
-.title h1,
-h5,
-p {
-  padding: 1%;
-  margin: 0;
-  letter-spacing: 2px;
-  font-weight: 100;
-  color: white !important;
-  text-align: center !important;
-}
-
-h1 {
-  font-size: 1.8em;
-}
-
-h5 {
-  font-size: 0.9em;
-}
-
-.call-to-action .buttons {
-  display: flex;
-  flex-direction: column;
-  width: 60%;
-  margin: auto;
-  flex-grow: 1;
-  padding-bottom: 10%;
-}
-
-@media only screen and (max-width: 1100px) {
-  .hidden {
-    display: none;
-  }
-  .call-to-action {
-    margin: auto;
-    padding-top: 3%;
-    margin-top: -10%;
-    width: 100vw;
-  }
-
-  h1 {
-    font-size: 2.2em;
-    color: red;
-  }
-
-  h5 {
-    font-size: 2vw;
-    padding-top: 5%;
-  }
-
-  .bottom-section {
-    padding-left: 15%;
-    padding-right: 15%;
-  }
-  .card .btn {
-    width: 100%;
-    margin: 0;
-  }
-  .card {
-    margin-bottom: 2%;
-    width: 70vw;
-  }
-
-  .navbar-brand {
-    margin-left: 18%;
-    vertical-align: center;
-    justify-content: center;
-  }
-}
-
-@media only screen and (max-width: 700px) {
-  .navbar-brand {
-    margin-left: 5%;
-  }
-}
-
-@media only screen and (max-height: 1200px) {
-  .main-content {
-    height: 60vh;
-  }
-}
-
-@media only screen and (max-height: 900px) {
-  .main-content {
-    height: 75vh;
-  }
-}
-
-@media only screen and (max-height: 700px) {
-  .main-content img {
-    transform: scale(0.75);
-    margin-top: -10%;
-  }
-  .main-content {
-    height: 80vh;
-  }
 }
 
 body {
