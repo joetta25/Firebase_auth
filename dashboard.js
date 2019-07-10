@@ -31,6 +31,7 @@ var response_type = "token";
 var redirect_uri = "http://127.0.0.1:5501/dashboard.html";
 var scope = [""].join(" ");
 
+
 // get auth code from url hash
 var hash = window.location.hash.substr(1).split("&");
 var hashMap = [];
@@ -67,7 +68,12 @@ if (token !== null) {
 }
 
 // when the form is submitted
+<<<<<<< HEAD
 $('.search-form').on('submit', function(e) {
+=======
+
+$(".search-form").on("submit", function(e) {
+>>>>>>> d7ecdea818681b109552c80642476e82e6a2e174
   e.preventDefault();
   // get the search value from the search field
   var value = $('#searchname').val();
@@ -110,6 +116,7 @@ function renderSpotifyResults(data) { // when the search request is finished // 
     document.getElementsByClassName('music-container-fluid')[0].innerHTML = html;
 }
 
+<<<<<<< HEAD
 $('.next').click((e) => {
     e.preventDefault();
     $.ajax(next_url, {
@@ -129,6 +136,52 @@ $('.next').click((e) => {
 // const ytCLIENT_ID = "254484771306-7r6u8p6efbpqcjru9diqqnq4naoval1o.apps.googleusercontent.com";
 // const ytDISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest'];
 // const ytSCOPES = 'https://www.googleapis.com/auth/youtube.readonly';
+=======
+// Youtube
+// Use localhost port 8888
+// const ytApiKey = "AIzaSyDHaIMUkv2DdX8RqP0rmf8QIhcCg_5KU08"; API is over quota limit
+const ytApiKey = "AIzaSyCw7Gw6BDPrcRiqjfTMfDckh_11BKWl7HM"
+const ytCLIENT_ID = "976539214773-2gpmtmkm9phb43cir7mdgfjfl4cus9vr.apps.googleusercontent.com";
+const ytDISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest'];
+const ytSCOPES = 'https://www.googleapis.com/auth/youtube.readonly';
+
+
+const authorizeButton = document.getElementById('authorize-button');
+const signoutButton = document.getElementById('signout-button');
+const content = document.getElementById('content');
+const searchForm = document.getElementById('search-form');
+const searchInput = document.getElementById('search-input');
+const videoContainer = document.getElementById('video-container');
+const searchTerm = document.querySelector('search-input');
+
+
+// Form submit 
+searchForm.addEventListener('submit', e => {
+    e.preventDefault();
+    makeRequest();
+});
+
+// Load auth2 library
+function handleClientLoad() {
+  gapi.load('client:auth2', initClient);
+}
+
+// Init API client
+function initClient() {
+  gapi.client
+      .init({
+        discoveryDocs: ytDISCOVERY_DOCS,
+        clientId: ytCLIENT_ID,
+        scope: ytSCOPES
+      })
+      .then(() => {
+        gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+        updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+        authorizeButton.onclick = handleAuthClick;
+        signoutButton.onclick = handleSignoutClick;
+      });
+}
+>>>>>>> d7ecdea818681b109552c80642476e82e6a2e174
 
 // const authorizeButton = document.getElementById('authorize-button');
 // const signoutButton = document.getElementById('signout-button');
@@ -138,6 +191,7 @@ $('.next').click((e) => {
 // const videoContainer = document.getElementById('video-container');
 // const searchTerm = document.querySelector('search-input');
 
+<<<<<<< HEAD
 
 // // Form submit 
 // searchForm.addEventListener('submit', e => {
@@ -167,6 +221,25 @@ $('.next').click((e) => {
 //     signoutButton.onclick = handleSignoutClick;
 //     });
 // }
+=======
+
+
+=======
+// Login and Logout
+function handleAuthClick() {
+    gapi.auth2.getAuthInstance().signIn();
+}
+function handleSignoutClick() {
+    gapi.auth2.getAuthInstance().signOut();
+}
+
+function searchList() {
+    gapi.client.setApiKey(ytApiKey); 
+    gapi.client.load('youtube', 'v3', function() {
+        makeRequest();
+    });
+}
+>>>>>>> d7ecdea818681b109552c80642476e82e6a2e174
 
 // // Hide and unhide elements based on login state
 // function updateSigninStatus(isSignedIn) {
@@ -214,9 +287,15 @@ $('.next').click((e) => {
 //             $('#video-container').empty()
 //             var srchItems = response.result.items; 
             
+<<<<<<< HEAD
 //             // Global variables
 //             window.nextPageToken = response.nextPageToken;
 //             window.prevPageToken = response.prevPageToken;
+=======
+            // Global variables for pagination
+            window.nextPageToken = response.nextPageToken;
+            window.prevPageToken = response.prevPageToken;
+>>>>>>> d7ecdea818681b109552c80642476e82e6a2e174
             
 //             var $videoContainer = $('#video-container')
             
