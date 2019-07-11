@@ -32,7 +32,7 @@ submitForm.addEventListener("submit", e => {
     });
 
   //call the function when the form gets submitted
-  //Save message
+  //Save message, the user's data will be saved in firebase database
 
   saveMessage(name, email, password, phoneNumber);
 

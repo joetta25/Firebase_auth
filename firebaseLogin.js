@@ -1,15 +1,18 @@
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+//Get Elements 
 var emailText = document.getElementById("email");
 var passwordText = document.getElementById("password");
 var loginForm = document.getElementById("mainForm");
 
-// comment
+// 
 if (loginForm) {
+  // We add an eventlistener to the logInForm and listen for a submit event
   loginForm.addEventListener("submit", e => {
     e.preventDefault();
-
+    
+    // this will get the values of email and passowrd 
     const email = emailText.value;
     const password = passwordText.value;
 
@@ -18,11 +21,7 @@ if (loginForm) {
       .auth()
       .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
       .then(function() {
-        // Existing and future Auth states are now persisted in the current
-        // session only. Closing the window would clear any existing state even
-        // if a user forgets to sign out.
-        // ...
-        // New sign-in will be persisted with session persistence.
+       
         return firebase.auth().signInWithEmailAndPassword(email, password);
       });
 
@@ -30,6 +29,10 @@ if (loginForm) {
       // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
+      
+      // if the user entered the wrong email or password this msg will displayed in the form 
+      // user enter the wrong email or password 
+      //
       document.getElementById("alert").style.display = "block";
 
       // ...
@@ -37,7 +40,10 @@ if (loginForm) {
   });
 }
 
+
+// this method will monitor authentication state
 firebase.auth().onAuthStateChanged(function(user) {
+  // if the user is signed in, it will... 
   if (user) {
     console.log(user);
 
