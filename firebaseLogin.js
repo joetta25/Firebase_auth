@@ -12,6 +12,7 @@ if (loginForm) {
     const email = emailText.value;
     const password = passwordText.value;
 
+    // this function will signIn an existing user and return a promise where you can resolve that user
     const promise = firebase
       .auth()
       .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
@@ -23,7 +24,6 @@ if (loginForm) {
         // New sign-in will be persisted with session persistence.
         return firebase.auth().signInWithEmailAndPassword(email, password);
       });
-    // firebase.auth().signInWithEmailAndPassword(email, password);
 
     promise.catch(function(error) {
       // Handle Errors here.

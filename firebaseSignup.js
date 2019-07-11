@@ -8,11 +8,14 @@ var messagesRef = firebase.database().ref("user");
 
 submitForm.addEventListener("submit", e => {
   e.preventDefault();
+
+  // Get elements
   let name = document.getElementById("name").value;
   let email = document.getElementById("email").value;
   let password = document.getElementById("pass").value;
   let phoneNumber = document.getElementById("phone").value;
 
+  // this function will create an user using email and password and it will also log them in, which will return a promise which allows you to resolve the user's data
   firebase
     .auth()
     .createUserWithEmailAndPassword(email, password)
