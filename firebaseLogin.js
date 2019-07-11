@@ -5,6 +5,7 @@ var emailText = document.getElementById("email");
 var passwordText = document.getElementById("password");
 var loginForm = document.getElementById("mainForm");
 
+// comment
 if (loginForm) {
   loginForm.addEventListener("submit", e => {
     e.preventDefault();
