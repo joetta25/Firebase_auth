@@ -1,6 +1,8 @@
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+
+//Get Element so we can add an eventlistener
 let submitForm = document.getElementById("signUpForm");
 
 // Reference msessages collection
@@ -31,7 +33,7 @@ submitForm.addEventListener("submit", e => {
       document.location.href = "dashboard.html";
     });
 
-  //call the function when the form gets submitted
+  //function will be call when the form gets submitted
   //Save message, the user's data will be saved in firebase database
 
   saveMessage(name, email, password, phoneNumber);
@@ -48,7 +50,7 @@ submitForm.addEventListener("submit", e => {
 });
 
 // save the msg to firebase
-//sending an object of data to firebase to our msg collection
+//send an object of data to firebase database
 function saveMessage(name, email, password, phoneNumber) {
   var newMessageRef = messagesRef.push();
   newMessageRef.set({

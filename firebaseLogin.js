@@ -41,6 +41,8 @@ if (loginForm) {
 }
 
 
+
+
 // this method will monitor authentication state
 firebase.auth().onAuthStateChanged(function(user) {
   // if the user is signed in, it will... 
