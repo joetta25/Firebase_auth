@@ -23,7 +23,6 @@ if (loginForm) {
         // New sign-in will be persisted with session persistence.
         return firebase.auth().signInWithEmailAndPassword(email, password);
       });
-    // firebase.auth().signInWithEmailAndPassword(email, password);
 
     promise.catch(function(error) {
       // Handle Errors here.
