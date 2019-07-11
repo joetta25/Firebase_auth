@@ -75,6 +75,7 @@ body {
 }
 form {
   text-align: center;
+  margin: 1em;
 }
 .container-1 {
   text-align: center;
@@ -84,4 +85,16 @@ form {
   font-size: 20px;
 }
 
+form #searchname{
+  margin: 1em;
+}
+
+.navigation{
+  margin: 1em;
+  text-align: center;
+}
+
+.previous{
+  margin-right: 1em;
+}
 /* ------------------------------------------------ */
