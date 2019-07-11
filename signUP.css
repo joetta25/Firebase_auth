@@ -45,6 +45,15 @@
   height: 120px;
 }
 
+.navbar-brand #logo {
+  color: white;
+  font-size: 1.8vw;
+  letter-spacing: 4px;
+  font-family: "Monoton", cursive;
+  height: 300px;
+  margin-top: 10%;
+}
+
 .navbar img {
   padding-top: 20px;
   width: 200px;
