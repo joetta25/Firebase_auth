@@ -110,11 +110,13 @@
                                 <div class="input-field col s6">
                                     <input type="text" id="search-input" placeholder="Enter artist or song">
                                     <input type="submit" value="Search" class="btn grey">
-                                </div>
+                                    <button id="get-liked-videos" onclick="getLikedVideos()" class="btn blue">Liked Videos</button>
+                                  </div>
                             </form>
                         </div>
                         <div id="search-data" class="col s6"></div>
                     </div>
+                    <div id="player"></div>
                     <div class="row" id="video-container"></div>
                     <div class="row" id="video-buttons-container">
                         <div class="col-12">
