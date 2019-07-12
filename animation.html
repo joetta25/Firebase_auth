@@ -32,6 +32,7 @@
 
 <!-- Moment.js -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment-duration-format/2.3.2/moment-duration-format.js"></script>
 
 <!-- Google Font -->
 <link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet' type='text/css'>
@@ -93,8 +94,9 @@
             <br>
             <div class="search-bar spot-item" id="search-tab">
             <form class="search-form" >
-                <input class="searchname" id="searchname" type="textbox" name="search" placeholder="Search artist or song name">
-                <input class = "search btn btn-primary" type="submit" name="search" value="Search">
+                <div class="search-hold"><input class="searchname" id="searchname" type="textbox" name="search" placeholder="Search Artist or Song Name">
+                <span><div style="margin-left: 10px;"><i class="fa fa-search fa-4x" type="submit" name="search" style="color:rgb(113, 32, 67);"></i></span></div>
+                </div>
                 </form>
                 <div class="spotify-container"></div>
             </div>
@@ -177,7 +179,7 @@
         
         </div>
         <div class="col-lg-4 section3">
-        <div class="logo-top"><img class="sound-good" src="https://image.spreadshirtmedia.com/image-server/v1/mp/designs/1017840951,width=178,height=178,version=1550330846/lofi-hip-hop-tumblr-pink-logo.png"></span><span id="logo">Sound Good</span></div>
+        <div class="logo-top"><span id="logo">Sound Good</span></div>
             <nav class="nav nav-pills nav-fill youtube-nav">
                 <a class="nav-item nav-link active" id="likes" href="#">Likes</a>
             </nav>
@@ -185,12 +187,9 @@
         </div>
         
         
-        </div>
-        <button class="play-spotify">click me bro</button> 
+        </div> 
     </div>
 </div>
-<div class="container-fluid bottom-section">
-<div class="row hide-open"></div>
 </div>
 
 
@@ -213,13 +212,12 @@
   </div>
 </div>
 
-<script type="text/javascript" src="../animation.js"></script>
+<script type="text/javascript" src="../animation2.js"></script>
 <!--Spotify SDK -->
 <script src="https://sdk.scdn.co/spotify-player.js"></script>
 <script type="text/javascript">
     var my_device = '';
     window.onSpotifyWebPlaybackSDKReady = () => {
-         alert(token)
         const player = new Spotify.Player({
           name: 'Web Playback SDK Quick Start Player',
           getOAuthToken: cb => { cb(token); }
@@ -248,7 +246,17 @@
     // Connect to the player!
     player.connect().then(success => {
         if (success) {
-            $('.play-spotify').click(function(){PressPlay(my_device, token, player)});
+            $(document).on('click', '#soundgood-likes tr', function(){
+                let track_id = $(this).closest('tr')[0].id;
+                let track_uri = $(`#${track_id}`).attr('value')
+                let track_length = $(`#${track_id} .time-holder`).attr('value');
+                let ttt = $(`#${track_id} .time-holder`).text();
+                console.log(track_uri);
+                console.log(ttt);
+                console.log(track_length);
+                PressPlay(my_device, token, player, track_uri, track_length)
+
+            })
     console.log('WINNNER!!! The Web Playback SDK successfully connected to Spotify!');
     } else {console.log("fail")}
     })

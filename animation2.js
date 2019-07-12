@@ -1,26 +1,30 @@
 $(document).ready(function() {
-    //Firebase INIT
-    firebase.initializeApp(firebaseConfig);
-    checkAuth();
-    //END Firebase INIT
 
+    //Firebase INIT
+    //FireBasePromises()
     //Jquery INIT
+    $('.start-time').text('00:00');
+    $('.end-time').text('00:00');
     addCurrentSongEvents();
     setupSpotifyNav();
     jqueryevent();
     jqueryAddRedirect();
-    playSong(200);
     //END Jquery INIT
     $(document).on('click', '.play-song', function(){
         let track_id = $(this).closest('tr')[0].id;
-        let track = $(`#${track_id}`).html()
+        let track = $(`#${track_id}`).html();
         let track_uri = $(`#${track_id}`).attr('value')
-        let duration = $(track).attr('value')
+        console.log(track)
+        console.log(track_id)
+        console.log(track_uri)
+        let length_sec = $(track).attr('value') / 1000
+        let duration = moment.duration(length_sec, "seconds").format("mm:ss");
         let artist = $(`#${track_id} .artist-name`).text()
         let song_cover = $(`#${track_id} img`).attr('src'); 
         let song_name = $(`#${track_id} .song-name`).text()
-        AddSong(artist, song_name, song_cover, track_uri, duration)
-        let songhtml = `<tr "value="${track_uri}" id="${track_id}">
+        alert(length_sec)
+        AddSong(artist, song_name, song_cover, track_uri, length_sec)
+        let songhtml = `<tr value="${track_uri}" id="${track_id}">
                 <td class="album" value="${duration}">
                     <i class="fa fa-play-circle fa-3x hidden" aria-hidden="true"></i>
                     <div class=album-holder><img src="${song_cover}"></div>
@@ -30,26 +34,55 @@ $(document).ready(function() {
                     <h5 class="song-name">${song_name}</h5>
                 </td>
                 <td>
-                    <div class="time-holder">
+                    <div class="time-holder" value="${length_sec}">
                     ${duration}
                     </div>
                 </td>
         </tr>`
         $('#soundgood-likes tbody').append(songhtml);
-        alert(songhtml)
+        //alert(songhtml)
     })
 
 });
 
 
 //Global Variables
-var firebase_user = undefined; 
-var user_json = undefined;
+var firebase_user = null; 
+var user_json = null;
 var token = undefined;
+var interval = undefined;
 //END Global Variables
 
 
-
+function FireBasePromises(){
+    return new Promise((resolve, reject) => {
+        firebase.initializeApp(firebaseConfig);
+        resolve();
+    })
+}
+FireBasePromises()
+.then(() => {return checkAuth()})
+.then((user) => {
+    console.log(user)
+    return getFirebaseUserProfile(user)
+})
+.then(() =>{
+    console.log("getting user info")
+    console.log(user_json)
+    console.log(firebase_user)
+    console.log("done getting info");
+    StoreAPIToken();
+    verifySpotifyToken();
+    return RenderAccountLikes(user_json)
+})
+.then( function(){
+    if(token !==null){
+        //alert("token" + token);
+        getSpotifyUserProfile();
+        SpotifyGetLikes();
+    }
+})
+.then(function(){setupSpotify()});
 /*
 ---------------------------------------------------------
 
@@ -64,69 +97,73 @@ function checkAuth() {
     // the data will generate the stored playlist and be used to retrieve the 
     //spotify token.. functions need to be added after to confirm a spotify token is
     //valid.
-    firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-            firebase_user = user;
-            getFirebaseUserProfile();
-            StoreAPIToken();
-            //AddSong()
-          //$('#noauth').modal('show');
-        }
-        else {
-            alert('creating user');
-            const email ='antony.tsygankov@gmail.com';
-            const pswd ='football1924';
-            const promise = firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(function(){firebase.auth().signInWithEmailAndPassword(email, pswd)})
-            promise.catch(function(error) {
-            // Handle Errors here.
-            console.log(error.code + error.message);
-            });
-            firebase_user = firebase.auth().currentUser;
-            getFirebaseUserProfile()
-            StoreAPIToken();
-        }
+    return new Promise((resolve, reject) => {
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                firebase_user = user;
+            }
+            else {
+                alert('creating user');
+                const email ='antony.tsygankov@gmail.com';
+                const pswd ='football1924';
+                return firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(function(){
+                    firebase.auth().signInWithEmailAndPassword(email, pswd)
+                }).then(() => {
+                    firebase_user = firebase.auth().currentUser;
+                }).catch(function(error) {
+                    console.log(error.code + error.message);
+                });
+            }
+            
+        });
+        userTimeoutCounter = 0;
+        const userTimer = setInterval(() => {
+            if (firebase_user) {
+                clearInterval(userTimer);
+                resolve(firebase_user);
+            }
+            if (userTimeoutCounter > 100) {
+                reject();
+            }
+            userTimeoutCounter++
+        }, 100);
     });
 };
 
 
-function getFirebaseUserProfile(){
+function getFirebaseUserProfile(user){
     // once a user is proven to be logged in he is assigned to firbase_user
     // unfortunatley I was unable to get data from the json array with that call.
     //therefore their userid is used to get the full json object.
     //this object is called user_json.
-    const URL = `https://signupform-96aeb.firebaseio.com/users/${firebase_user.uid}.json`;
-    $.ajax(URL).then(result => {
-        user_json = result;
-        console.log('logging user profile')
-        console.log(result)
-        RenderAccountLikes(user_json)})
-        .then(function () {
-            verifySpotifyToken()
-        }).then(function(){
-            setupSpotify();
-        });
-    }
+    const URL = `https://signupform-96aeb.firebaseio.com/user/${user.uid}.json`;
+    console.log(user.uid)
+    return $.ajax(URL).then(result => {
+        return user_json = result;
+    });
+}
 
 
 function verifySpotifyToken() {
+    console.log("verifying spotify token")
     if (user_json.spotify_token){
         let token_unique = Object.keys(user_json.spotify_token)[0];
         let token_dict = user_json.spotify_token[Object.keys(user_json.spotify_token)[0]]
         let token_age = new Date().getTime() / 1000 - token_dict.created
-        if (token_age < 3600) {
+        if (token_age < 3600 & token_dict.valid) {
             token = token_dict.token;
-            getSpotifyUserProfile()
-            SpotifyGetLikes();
+            return token
         }
         else {
-            alert('failure');
+            console.log('token has expired authentication required');
             $.ajax({
-                url: `https://signupform-96aeb.firebaseio.com/users/${firebase_user.uid}/spotify_token/${token_unique}.json`,
+                url: `https://signupform-96aeb.firebaseio.com/user/${firebase_user.uid}/spotify_token/${token_unique}.json`,
                 type: "DELETE",
                 success: function () {
                     alert("old token deleted!!");
                 },
             })
+            return null
         }
     }
 }
@@ -135,9 +172,13 @@ function CreateBoofDBUser() {
     //I got tired of creating users so this will create a fake user for testing
     //currently it creates a new section to not mess with the signup form
     //by removing the 's' at the end of users it will plop the data in the same json array
-    firebase.database().ref('users/' + firebase_user.uid).set({
+    
+    let username = "A3JmyocW0XY9KSYY27AVwyi5e2B3"
+    firebase.database().ref('user/' + username).set({
         username: 'antony',
         email: 'antony.tsygankov@gmail.com',
+        password: 'apples123',
+        phonenumber: '12345678'
       });
 }
 
@@ -154,7 +195,7 @@ function AddSong(artist, song_name, song_cover, song_uri, duration){
         'duration' : duration,
         }
     $.ajax({
-        url: `https://signupform-96aeb.firebaseio.com/users/${firebase_user.uid}/songs.json`,
+        url: `https://signupform-96aeb.firebaseio.com/user/${firebase_user.uid}/songs.json`,
         type: "POST",
         data: JSON.stringify(param),
         success: function () {
@@ -172,17 +213,16 @@ function removeUserToken() {
     //if it is lost no one can use it and user must reauthenticate.
     //'PATCH' is used as the ajax parameter which means to update
     let key_id = Object.keys(user_json.spotify_token)[0];
-    alert(`https://signupform-96aeb.firebaseio.com/users/${firebase_user.uid}/spotify_token/${key_id}.json`)
     let patch = {'valid' : false, 'token' : ''}
     $.ajax({
-        url: `https://signupform-96aeb.firebaseio.com/users/${firebase_user.uid}/spotify_token/${key_id}.json`,
+        url: `https://signupform-96aeb.firebaseio.com/user/${firebase_user.uid}/spotify_token/${key_id}.json`,
         type: "PATCH",
         data: JSON.stringify(patch),
         success: function () {
-        alert("success");
+            console.log("successfuly removed user token")
         },
         error: function(error) {
-        alert("error: "+error);
+            console.log("token remove failed: "+error.message);
         }
     });
 };
@@ -204,14 +244,13 @@ function RenderAccountLikes(user_json){
 };
 
 function createPlaylistHTML() {
-    if(user_json.songs ==undefined){return}
+    if(user_json.songs ==undefined){return ''}
     let song_count = 0;
     let songsHTML = Object.keys(user_json.songs).map(key =>{
     let song = user_json.songs[key];
-    console.log(song.duration)
-    let song_length = moment(song.duration / 100, "ss").format("mm:ss")
+    let song_length = moment.duration(song.duration, "seconds").format("mm:ss");
     song_count ++;
-    return `<tr "value="${song.song_uri}" id="sound-${song_count}">
+    return `<tr value="${song.song_uri}" id="sound-${song_count}">
                 <td class="album" value="${song_length}">
                     <i class="fa fa-play-circle fa-3x hidden" aria-hidden="true"></i>
                     <div class=album-holder><img src="${song.song_cover}"></div>
@@ -221,7 +260,7 @@ function createPlaylistHTML() {
                     <h5 class="song-name">${song.Song}</h5>
                 </td>
                 <td>
-                    <div class="time-holder">
+                    <div class="time-holder" value="${song.duration}">
                     ${song_length}
                     </div>
                 </td>
@@ -254,6 +293,7 @@ function addCurrentSongEvents(){
         $('tr').find('i').removeClass('active fa-pause-circle').addClass('hidden fa-play-circle');
         $(this).addClass('active');
         $(play_icon).removeClass('fa-play-circle hidden').addClass('fa-pause-circle active');
+
     });
 };
 
@@ -278,12 +318,14 @@ function playSong(song_length, start=0) {
     // it takes the length of the song in seconds, and once a second will call
     // a function to update width of the red bar inside progress bar
     // moment is library for parsing timestamps...
+    clearInterval(interval);
+    alert(song_length);
     start = moment(start, "ss").format("mm:ss")
     let end = moment(start, "ss").add(song_length, 'seconds').format("mm:ss")
     $('.end-time').text(end);
     var time = 1;
 
-    var interval = setInterval(function() {
+    interval = setInterval(function() {
     if (time <= song_length) {
         time++;
         start = moment(start, "mm:ss").add(1, 'seconds').format("mm:ss");
@@ -361,32 +403,35 @@ function StoreAPIToken() {
         })
     }
     if (hashMap.access_token) {
-        AddSpotifyToken(hashMap.access_token)
-        getSpotifyUserProfile()
-        SpotifyGetLikes();
-        
+        console.log("token retreived from url")
+        token = hashMap.access_token;
+        AddSpotifyToken()
     }
 }
 
-function AddSpotifyToken(token) {
+function AddSpotifyToken() {
+    console.log("deleting old token")
     $.ajax({
-        url: `https://signupform-96aeb.firebaseio.com/users/${firebase_user.uid}/spotify_token.json`,
+        url: `https://signupform-96aeb.firebaseio.com/user/${firebase_user.uid}/spotify_token.json`,
         type: "DELETE",
         success: function () {
-            console.log("token retrieved from URL!!");
+            console.log("Deleted old token!!");
         },
         error: function(error) {
             console.log(error)
             alert("error: "+error);
             }
     })
-    .then(addNewToken(token))
+    .then(() => {return addNewToken()})
 }
 
-function addNewToken(token){
+function addNewToken(){
+    console.log("adding new token")
+    console.log(token)
+    console.log("finished printing token")
     var params = {'token' : token, 'created' : new Date().getTime() / 1000, 'valid' : true,};
     $.ajax({
-        url: `https://signupform-96aeb.firebaseio.com/users/${firebase_user.uid}/spotify_token.json`,
+        url: `https://signupform-96aeb.firebaseio.com/user/${firebase_user.uid}/spotify_token.json`,
         type: "POST",
         data: JSON.stringify(params),
         success: function () {
@@ -397,22 +442,20 @@ function addNewToken(token){
             alert("error: "+error.message);
             }
         })
+    return token
 }
 
-
-
-
-function PressPlay(my_device, token, player){
+function PressPlay(my_device, token, player, song, song_length){
     ///work in progress function to play a track
-    alert(1)
     $.ajax({
         url: "https://api.spotify.com/v1/me/player/play?device_id=" + my_device,
         type: "PUT",
-        data: '{"uris": ["spotify:track:5h0Jgt873QtgL6nJRBGfT6"]}',
+        data: `{"uris": ["${song}"]}`,
         beforeSend: function(xhr){xhr.setRequestHeader('Authorization', 'Bearer ' + token );},
         success: function(data) {
-            alert(2); 
+            console.log("start playing")
             console.log(data)
+            playSong(song_length);
         },
         error: function (xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
@@ -430,7 +473,6 @@ function PressPlay(my_device, token, player){
               current_track,
               next_tracks: [next_track]
             } = state.track_window;
-          
             console.log('Currently Playing', current_track);
             console.log('Playing Next', next_track);
           })
@@ -456,7 +498,7 @@ function setupSpotify(){
     })
 
 // if the token is set, then we are probably logged in
-    if (token == null) {
+    if (token == undefined) {
         // so change the login button text
         $('.login').text('Refresh Spotify Login');
         $('.spot-welcome').text(`Login and Start Listening!`);
@@ -492,7 +534,7 @@ function searchSpotify(e){
                         artist_count ++;
                         if (artist_count == 1){
                             main_artist = artist.name;
-                    }
+                    }   
                     else if (artist_count==2) {
                         return artist.name
                     } 
@@ -506,7 +548,7 @@ function searchSpotify(e){
                         artistsString = `${main_artist} feat(${featured_artists})`
                     }
                     return `
-                    <tr "value="${track.uri}" id="sp-search-${song_count}">
+                    <tr value="${track.uri}" id="sp-search-${song_count}">
                         <td class="album" value="${track.duration_ms}">
                             <div class=album-holder><img src="${track.album.images[0].url}"></div>
                             </td>
@@ -516,7 +558,7 @@ function searchSpotify(e){
                         </td>
                         <td>
                         <div class="time-holder">
-                        <h5 class="song-length"><button class="btn btn-primary play-song" type="button"><i class="fas fa-plus-circle"></i></button></h5>
+                        <h5 class="song-length"><button class="btn btn-primary play-song" type="button">add</button></h5>
                         </div>
                         </td>
                     </tr>
@@ -582,14 +624,14 @@ function SpotifyLogout() {
 
 function SpotifyGetLikes() {
     //ajax request to get all user spotify likes whenever a user is logged in.
+    console.log("getting likes")
     $.ajax(`    https://api.spotify.com/v1/me/tracks?&limit=50`, {
         headers: {
             'Authorization': `Bearer ${token}` // this is where we use the access_token
         },
         error: function (xhr, ajaxOptions, thrownError) {
-            console.log(xhr);
-            console.log(thrownError);
-            console.log(ajaxOptions);
+            console.log(thrownError + xhr)
+            console.log('getting likes failed');
           },
     }).then((data) => { // when the search request is finished // log the data to the console//console.log(data);
         //console.log(data);
@@ -629,7 +671,7 @@ function SpotifyGetLikes() {
                             </td>
                             <td>
                             <div class="time-holder">
-                            <h5 class="song-length"><button class="btn btn-primary play-song" type="button"><i class="fas fa-plus-circle"></i></button></h5>
+                            <h5 class="song-length"><button class="btn btn-primary play-song" type="button">add</button></h5>
                             </div>
                             </td>
                         </tr>`}).join('')
@@ -649,7 +691,7 @@ function SpotifyGetLikes() {
         }
     })
     .then((html) => {
-         //I used a table to display user's songs therefore this section wraps 
+        //I used a table to display user's songs therefore this section wraps 
         //the table body in a div and makes it scrollable.
         //I understand that the idea was to have buttons instead of scrolling,
         //I have functions to accomplish this as well we can change it next time we 

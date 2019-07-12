@@ -16,7 +16,7 @@
 }
 
 .progress {
-    width: 10%;
+    width: 1%;
     background: rgba(113, 32, 67);
     height: 100%;
     border-radius: 25px;
@@ -224,7 +224,7 @@ tr.active img {
     margin: auto;
 }
 
-.logo-top, .search-form {
+.logo-top {
     padding-left: 20%;
 }
 
@@ -308,7 +308,7 @@ tr.active img {
 
 
 .section3 {
-    padding-top: 0%;
+    padding-top: 3%;
     border-radius: 15px;
     background: rgba(214, 69, 65, 0.05);
 }
@@ -321,7 +321,7 @@ tr.active img {
 
 .section3 #logo {
     color: white;
-    font-size: 1.4vw;
+    font-size: 2.6vw;
     letter-spacing: 4px;
     font-family: 'Monoton', cursive;
     height: 300px;
@@ -378,6 +378,46 @@ Modal CSS
 /*
 End Modal CSS
 */
+
+
+#searchname {
+    color: white;
+    background: black;
+    border-radius: 20px;
+    width: 65%;
+    height: 5vh;
+    padding: 3%;
+    margin-left: 17%;
+    border: 0px solid transparent;
+}
+
+.search-form .btn {
+    border-radius: 0px;
+    margin: 0%;
+    padding: 0;
+    height: 100%;
+}
+
+.search-form .search-hold {
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    border-radius: 20px;
+    
+}
+
+.fa-search {
+    margin-left: 5%;
+    padding-left: 5%;
+    background: transparent;
+    padding-bottom: 3px;
+    font-size: 1.5em;
+}
+
+.fa {
+	color: 	#6a6668 !important;
+}
+
 
 body {
     background: black;
