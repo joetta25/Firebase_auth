@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-app.js"></script>
+
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-firestore.js"></script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+
+<!-- Key File -->
+<script type="text/javascript" src="../keys.js"></script>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="../font-awesome/css/font-awesome.min.css">
+
+<!-- BootStrap -->
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- JQuery UI -->
+<script   src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"   integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk="   crossorigin="anonymous"></script>
+
+<!-- ANTONY STYLE/JS -->
+<link rel="stylesheet" href="../animation.css" type="text/css" >
+
+
+<!-- Moment.js -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment-duration-format/2.3.2/moment-duration-format.js"></script>
+
+<!-- Google Font -->
+<link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet' type='text/css'>
+
+
+</head>
+<body>
+ <nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="#">
+      <span style="margin-top: 10px;"><img
+          src="https://image.spreadshirtmedia.com/image-server/v1/mp/designs/1017840951,width=178,height=178,version=1550330846/lofi-hip-hop-tumblr-pink-logo.png"></img></span><span
+        id="logo">Sound Good Music</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <ul class="navbar-nav ml-auto">
+    <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Antony Tsygankov
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="#">logout</a>
+            </div>
+        </li>
+        </ul>
+  </div>
+</nav>
+<div class="row">
+                    <div class= "music-container-fluid">
+                        
+                    </div>
+                </div>
+<div class="music-player row">
+<div class="col-lg-1"></div>
+    <div class="col-lg-2">
+        <i class="fa fa-step-backward pl pl-prev"></i>
+        <i class="fa fa-play pl-btn pl"></i>
+        <i class="fa fa-step-forward pl pl-next"></i>
+    </div>
+    <div class="col-lg-1"><h6 class="start-time" style="text-align: right;"></h6></div>
+    <div class="col-lg-4">
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div></div>
+    <div class="col-lg-1"><h6 class="end-time" style="text-align: left;"></h6></div>
+    <div class="col-lg-3 current-playing">
+        <div class="row">
+            <div class="col-lg-4"><img src="https://i.scdn.co/image/9f92bdb0bee512878c1a007cd81a32c943ddf9ee"></div>
+            <div class="col-lg-8">
+                <h3>Joji</h3>
+                <h1>World Star Money (interlude)</h1>
+            </div>
+    </div>
+</div>
+</div>
+<div class="container-fluid top-section">
+    <div class="row">
+        <div class="col-lg-4 section1">
+            <div>
+            <div class="logo-top"><img src="../img/spotify_logo.png"></div>
+            <nav class="nav nav-pills nav-fill spotify-nav">
+                <a class="nav-item nav-link active" id="account" href="#">Account</a>
+                <a class="nav-item nav-link" id="likes" href="#">Likes</a>
+                <a class="nav-item nav-link" id="search" href="#">Search</a>
+            </nav>
+            <br>
+            <div class="search-bar spot-item" id="search-tab">
+            <form class="search-form" >
+                <div class="search-hold"><input class="searchname" id="searchname" type="textbox" name="search" placeholder="Search Artist or Song Name">
+                <span><div style="margin-left: 10px;"><i class="fa fa-search fa-4x" type="submit" name="search" style="color:rgb(113, 32, 67);"></i></span></div>
+                </div>
+                </form>
+                <div class="spotify-container"></div>
+            </div>
+            <div class="account-section spot-item" id="account-tab">
+                <div class="buttons">
+                <h1 class="spot-welcome"></h1>
+                <button class="btn btn-primary login">Authentice</button>
+                <button class="btn btn-primary logout">Log Out</button>
+                </div>
+            </div>
+            <div class="likes-section spot-item" id="likes-tab">
+                <div class="spotify-likes"></div>
+            </div>
+        
+            </div>
+        </div>
+        <div class="col-lg-4 section2">
+        <div class="logo-top"><img src="../img/youtube_logo.png"></div>
+            <nav class="nav nav-pills nav-fill youtube-nav">
+                <a class="nav-item nav-link active" id="account" href="#">Account</a>
+                <a class="nav-item nav-link" id="likes" href="#">Likes</a>
+                <a class="nav-item nav-link" id="search" href="#">Search</a>
+            </nav>
+            <br>
+             <div>
+        <div class="">
+            <div class="account-section tube-item" id="yt-account-tab">
+                <div class="buttons">
+                <h1 class="tube-welcome"></h1>
+                <button class="btn red" id="authorize-button">Log In</button>
+                <button class="btn red" id="signout-button">Log Out</button>
+                </div>
+            </div>
+            <div class="search-bar tube-item" id="yt-search-tab">
+                <form id="yt-search-form">
+                    <div class="search-hold"><input class="searchname" id="search-input" type="text" name="search" placeholder="Search Artist or Song Name">
+                    <span><div style="margin-left: 10px;"><i class="fa fa-search fa-4x" type="submit" name="search" style="color:rgb(113, 32, 67);"></i></span></div>
+                    </div>
+                    </form>
+                    <div id="search-data" class="col"></div>
+                    <div class="youtube-container">
+                    <table class="table" id="spotify-table">
+                        <thead>
+                        <tr>
+                        </tr>
+                        </thead>
+                        <tbody class="yt-searched">
+                        </tbody>
+                        </table>
+                        <div class="row" id="video-buttons-container">
+                    <div class="col-lg-12">
+                        <button id="prev" class="btn hide" style="display: none";>Previous</button>
+                        <button id="next" class="btn hide"  style="display: none">Next</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="likes-section tube-item" id="yt-likes-tab">
+                <button id="get-liked-videos" onclick="getLikedVideos()" class="btn blue">Liked Videos</button>
+                <div class="youtube-likes"></div>
+                
+            </div>
+            <div id="content">
+
+                <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+                <div id="player" style="display: none;"></div>
+
+                <div class="row" id="video-container"></div>
+            </div>
+        </div>
+    </div>
+        
+        
+        </div>
+        <div class="col-lg-4 section3">
+        <div class="logo-top"><span id="logo">Sound Good</span></div>
+            <nav class="nav nav-pills nav-fill youtube-nav">
+                <a class="nav-item nav-link active" id="likes" href="#">Likes</a>
+            </nav>
+            <div class="sound-good-container"></div>
+        </div>
+        
+        
+        </div> 
+    </div>
+</div>
+</div>
+
+
+<div class="modal fade" id="noauth" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="navbar-brand">
+        <img src="https://image.spreadshirtmedia.com/image-server/v1/mp/designs/1017840951,width=178,height=178,version=1550330846/lofi-hip-hop-tumblr-pink-logo.png"></img></span><span id="logo">Sound Good Music</span>
+        <div>
+        <div class="info-message">
+        <h1>You're Not Logged In!</h1>
+        <div class="row">
+        <div class="col-lg-6"><button id="home" class="btn btn-primary">Home</button></div>
+        <div class="col-lg-6"><button id="login" class="btn btn-primary">Login</button></div>
+        </div>
+        <div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="../animation2.js"></script>
+<!--Spotify SDK -->
+<script src="https://sdk.scdn.co/spotify-player.js"></script>
+<script type="text/javascript">
+    window.onSpotifyWebPlaybackSDKReady = () => {
+        const player = new Spotify.Player({
+          name: 'Web Playback SDK Quick Start Player',
+          getOAuthToken: cb => { cb(token); }
+        });
+      
+    // Error handling
+    player.addListener('initialization_error', ({ message }) => { console.error(message); });
+    player.addListener('authentication_error', ({ message }) => { console.error(message); });
+    player.addListener('account_error', ({ message }) => { console.error(message); });
+    player.addListener('playback_error', ({ message }) => { console.error(message); });
+      
+    // Playback status updates
+    player.addListener('player_state_changed', state => { console.log(state); });
+      
+    // Ready
+    player.addListener('ready', ({ device_id }) => {
+        my_device = device_id;
+        console.log('Ready with Device ID', device_id);
+    });
+      
+    // Not Ready
+    player.addListener('not_ready', ({ device_id }) => {
+        console.log('Device ID has gone offline', device_id);
+    });
+      
+    // Connect to the player!
+    player.connect().then(success => {
+        if (success) {
+            $(document).on('click', '#soundgood-likes tr', function(){
+                let track_id = $(this).closest('tr')[0].id;
+                current_id = track_id
+                let track_uri = $(`#${track_id}`).attr('value')
+                let track_length = $(`#${track_id} .time-holder`).attr('value');
+                let artist = $(`#${track_id} .artist-name`).text()
+                let song_cover = $(`#${track_id} img`).attr('src'); 
+                let song_name = $(`#${track_id} .song-name`).text()
+                 $('.current-playing').html(`
+                        <div class="row">
+                            <div class="col-lg-4"><img src="${song_cover}"></div>
+                            <div class="col-lg-8">
+                                <h3>${artist}</h3>
+                                <h1>${song_name}</h1>
+                            </div>
+                        </div>`)
+                PressPlay(my_device, token, player, track_uri, track_length)
+
+            })
+    console.log('WINNNER!!! The Web Playback SDK successfully connected to Spotify!');
+    } else {console.log("fail")}
+    })
+
+
+
+    }
+</script>
+
+
+<!-- Youtube -->
+<script type="text/javascript" src="../youtube.js"></script>
+<script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()" onreadystatechange="if (this.readyState === 'complete') this.onload()"></script>
+
+</body>
+
+
+</html>
