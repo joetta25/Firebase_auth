@@ -37,15 +37,6 @@
 <!-- Google Font -->
 <link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet' type='text/css'>
 
-
-
-<link rel="stylesheet" href="clone.css">
-
-<script src="clone-original.js"></script>
-<script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()" onreadystatechange="if (this.readyState === 'complete') this.onload()"></script>
-
-
-
 </head>
 <body>
  <nav class="navbar navbar-expand-lg">
@@ -137,36 +128,61 @@
                 <a class="nav-item nav-link" id="search" href="#">Search</a>
             </nav>
             <br>
-        <div class="container">
-            <button class="btn red" id="authorize-button">Log In</button>
-            <button class="btn red" id="signout-button">Log Out</button>
-            
-            <div id="content">
-                <div class="row">
-                    <div class="col s6">
-                        <form id="search-form">
-                            <div class="input-field col s6">
-                                <input type="text" id="search-input" placeholder="Enter artist or song">
-                                <input type="submit" value="Search" class="btn grey">
-                                <button id="get-liked-videos" onclick="getLikedVideos()" class="btn blue">Liked Videos</button>
-                            </div>
-                        </form>
-                    </div>
-                    <div id="search-data" class="col s6"></div>
-                </div>
-
-                <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
-                <div id="player"></div>
-
-                <div class="row" id="video-container"></div>
-                <div class="row" id="video-buttons-container">
-                    <div class="col-12">
-                        <button id="prev" class="btn hide">Previous</button>
-                        <button id="next" class="btn hide">Next</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+<table class="table">
+  <thead>
+    <tr>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="album">
+      <i class="fa fa-play-circle fa-3x hidden" aria-hidden="true"></i>
+        <div class=album-holder><img src="https://i.scdn.co/image/00f8150fd37e09dadec28914a481cedf6247f1d3"></div>
+        </td>
+      <td>
+      <p class="artist-name">Drake</p>
+      <h5 class="song-name">Song by Drake</h5>
+      </td>
+      <td>
+      <div class="time-holder">
+      <h5 class="song-length">3:35</h5>
+      </div>
+      </td>
+    </tr>
+    <tr>
+      <td class="album">
+        <i class="fa fa-play-circle fa-3x hidden" aria-hidden="true"></i>
+        <div class=album-holder><img src="https://i.scdn.co/image/00f8150fd37e09dadec28914a481cedf6247f1d3"></div>
+        </td>
+      <td>
+      <p class="artist-name">Drake</p>
+      <h5 class="song-name">Song by Drake</h5>
+      </td>
+      <td>
+      <div class="time-holder">
+      <h5 class="song-length">3:35</h5>
+      </div>
+      </td>
+      
+    </tr>
+    <tr>
+      <td class="album">
+        <i class="fa fa-play-circle fa-3x hidden" aria-hidden="true"></i>
+        <div class=album-holder><img src="https://i.scdn.co/image/00f8150fd37e09dadec28914a481cedf6247f1d3"></div>
+        </td>
+      <td>
+      <p class="artist-name">Drake</p>
+      <h5 class="song-name">Song by Drake</h5>
+      </td>
+      <td>
+      <div class="time-holder">
+      <h5 class="song-length">3:35</h5>
+      </div>
+      </td>
+      
+    </tr>
+  </tbody>
+</table>
         
         
         </div>
