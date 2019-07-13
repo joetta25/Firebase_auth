@@ -37,6 +37,15 @@
 <!-- Google Font -->
 <link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet' type='text/css'>
 
+
+
+<link rel="stylesheet" href="clone.css">
+
+<script src="clone-original.js"></script>
+<script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()" onreadystatechange="if (this.readyState === 'complete') this.onload()"></script>
+
+
+
 </head>
 <body>
  <nav class="navbar navbar-expand-lg">
@@ -67,12 +76,19 @@
                     </div>
                 </div>
 <div class="music-player row">
-    <div class="col-lg-1">
-        <i class="fa fa-step-backward pl"></i>
+<div class="col-lg-1"></div>
+    <div class="col-lg-2">
+        <i class="fa fa-step-backward pl pl-prev"></i>
         <i class="fa fa-play pl-btn pl"></i>
-        <i class="fa fa-step-forward pl"></i>
+        <i class="fa fa-step-forward pl pl-next"></i>
     </div>
-    <div class="col-lg-2 current-playing">
+    <div class="col-lg-1"><h6 class="start-time" style="text-align: right;"></h6></div>
+    <div class="col-lg-4">
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div></div>
+    <div class="col-lg-1"><h6 class="end-time" style="text-align: left;"></h6></div>
+    <div class="col-lg-3 current-playing">
         <div class="row">
             <div class="col-lg-4"><img src="https://i.scdn.co/image/9f92bdb0bee512878c1a007cd81a32c943ddf9ee"></div>
             <div class="col-lg-8">
@@ -81,13 +97,6 @@
             </div>
     </div>
 </div>
-    <div class="col-lg-1"><h6 class="start-time" style="text-align: right;"></h6></div>
-    <div class="col-lg-4">
-        <div class="progress-bar">
-            <div class="progress"></div>
-        </div></div>
-    <div class="col-lg-1"><h6 class="end-time" style="text-align: left;"></h6></div>
-    <div class="col-lg-3"></div>
 </div>
 <div class="container-fluid top-section">
     <div class="row">
@@ -128,61 +137,36 @@
                 <a class="nav-item nav-link" id="search" href="#">Search</a>
             </nav>
             <br>
-<table class="table">
-  <thead>
-    <tr>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td class="album">
-      <i class="fa fa-play-circle fa-3x hidden" aria-hidden="true"></i>
-        <div class=album-holder><img src="https://i.scdn.co/image/00f8150fd37e09dadec28914a481cedf6247f1d3"></div>
-        </td>
-      <td>
-      <p class="artist-name">Drake</p>
-      <h5 class="song-name">Song by Drake</h5>
-      </td>
-      <td>
-      <div class="time-holder">
-      <h5 class="song-length">3:35</h5>
-      </div>
-      </td>
-    </tr>
-    <tr>
-      <td class="album">
-        <i class="fa fa-play-circle fa-3x hidden" aria-hidden="true"></i>
-        <div class=album-holder><img src="https://i.scdn.co/image/00f8150fd37e09dadec28914a481cedf6247f1d3"></div>
-        </td>
-      <td>
-      <p class="artist-name">Drake</p>
-      <h5 class="song-name">Song by Drake</h5>
-      </td>
-      <td>
-      <div class="time-holder">
-      <h5 class="song-length">3:35</h5>
-      </div>
-      </td>
-      
-    </tr>
-    <tr>
-      <td class="album">
-        <i class="fa fa-play-circle fa-3x hidden" aria-hidden="true"></i>
-        <div class=album-holder><img src="https://i.scdn.co/image/00f8150fd37e09dadec28914a481cedf6247f1d3"></div>
-        </td>
-      <td>
-      <p class="artist-name">Drake</p>
-      <h5 class="song-name">Song by Drake</h5>
-      </td>
-      <td>
-      <div class="time-holder">
-      <h5 class="song-length">3:35</h5>
-      </div>
-      </td>
-      
-    </tr>
-  </tbody>
-</table>
+        <div class="container">
+            <button class="btn red" id="authorize-button">Log In</button>
+            <button class="btn red" id="signout-button">Log Out</button>
+            
+            <div id="content">
+                <div class="row">
+                    <div class="col s6">
+                        <form id="search-form">
+                            <div class="input-field col s6">
+                                <input type="text" id="search-input" placeholder="Enter artist or song">
+                                <input type="submit" value="Search" class="btn grey">
+                                <button id="get-liked-videos" onclick="getLikedVideos()" class="btn blue">Liked Videos</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="search-data" class="col s6"></div>
+                </div>
+
+                <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+                <div id="player"></div>
+
+                <div class="row" id="video-container"></div>
+                <div class="row" id="video-buttons-container">
+                    <div class="col-12">
+                        <button id="prev" class="btn hide">Previous</button>
+                        <button id="next" class="btn hide">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         
         
         </div>
@@ -224,7 +208,6 @@
 <!--Spotify SDK -->
 <script src="https://sdk.scdn.co/spotify-player.js"></script>
 <script type="text/javascript">
-    var my_device = '';
     window.onSpotifyWebPlaybackSDKReady = () => {
         const player = new Spotify.Player({
           name: 'Web Playback SDK Quick Start Player',
@@ -256,6 +239,7 @@
         if (success) {
             $(document).on('click', '#soundgood-likes tr', function(){
                 let track_id = $(this).closest('tr')[0].id;
+                current_id = track_id
                 let track_uri = $(`#${track_id}`).attr('value')
                 let track_length = $(`#${track_id} .time-holder`).attr('value');
                 let artist = $(`#${track_id} .artist-name`).text()
@@ -269,8 +253,6 @@
                                 <h1>${song_name}</h1>
                             </div>
                         </div>`)
-                console.log(track_uri);
-                console.log(track_length);
                 PressPlay(my_device, token, player, track_uri, track_length)
 
             })

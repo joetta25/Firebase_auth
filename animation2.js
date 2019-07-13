@@ -22,7 +22,7 @@ $(document).ready(function() {
         let artist = $(`#${track_id} .artist-name`).text()
         let song_cover = $(`#${track_id} img`).attr('src'); 
         let song_name = $(`#${track_id} .song-name`).text()
-        alert(length_sec)
+        console.log(length_sec)
         AddSong(artist, song_name, song_cover, track_uri, length_sec)
         let songhtml = `<tr value="${track_uri}" id="${track_id}">
                 <td class="album" value="${duration}">
@@ -51,6 +51,11 @@ var firebase_user = null;
 var user_json = null;
 var token = undefined;
 var interval = undefined;
+var song_seconds = 0;
+var current_seconds = 0;
+var current_id = undefined;
+var music_player = undefined;
+var my_device = undefined;
 //END Global Variables
 
 
@@ -103,7 +108,7 @@ function checkAuth() {
                 firebase_user = user;
             }
             else {
-                alert('creating user');
+                console.log('creating user');
                 const email ='antony.tsygankov@gmail.com';
                 const pswd ='football1924';
                 return firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(function(){
@@ -160,7 +165,7 @@ function verifySpotifyToken() {
                 url: `https://signupform-96aeb.firebaseio.com/user/${firebase_user.uid}/spotify_token/${token_unique}.json`,
                 type: "DELETE",
                 success: function () {
-                    alert("old token deleted!!");
+                    console.log("old token deleted!!");
                 },
             })
             return null
@@ -202,7 +207,7 @@ function AddSong(artist, song_name, song_cover, song_uri, duration){
         console.log("song added successfully");
         },
         error: function(error) {
-        alert("error: "+error);
+            console.log("error: "+error);
         }
     });
 
@@ -299,34 +304,68 @@ function addCurrentSongEvents(){
 
 function jqueryevent() {
     //this function is currently useless will be used when animation is implemented
+    $('.pl-next').click(function() {
+        current_seconds = song_seconds;
+        current_id = `sound-${parseInt(current_id.substring(6)) + 1}`
+    });
+    $('.pl-prev').click(function() {
+        current_seconds = song_seconds;
+        current_id = `sound-${parseInt(current_id.substring(6)) - 1}`
+    });
     $('.pl-btn').click(function() {
+        if($(this).hasClass('fa-pause')){
+            music_player.pause().then(() => {
+                console.log('Paused!');
+                clearInterval(interval)
+              });
+        }
+        else if ($(this).hasClass('fa-play')){
+            music_player.resume().then(() => {
+                console.log('Resumed!');
+                playSong();
+              });
+        }
        $(this).toggleClass('fa-play');
        $(this).toggleClass('fa-pause');
 });
 }
 
-function playSong(song_length, start=0) {
+function playSong() {
     //function that makes the fake player work
     // it takes the length of the song in seconds, and once a second will call
     // a function to update width of the red bar inside progress bar
     // moment is library for parsing timestamps...
     clearInterval(interval);
-    alert(song_length);
-    start = moment(start, "ss").format("mm:ss")
-    let end = moment(start, "ss").add(song_length, 'seconds').format("mm:ss")
+    console.log(song_seconds);
+    console.log(current_seconds);
+    let end = moment(0, "ss").add(song_seconds, 'seconds').format("mm:ss")
     $('.end-time').text(end);
-    var time = 1;
 
     interval = setInterval(function() {
-    if (time <= song_length) {
-        time++;
-        start = moment(start, "mm:ss").add(1, 'seconds').format("mm:ss");
-        let width = (time / song_length) * 100;
+    if (current_seconds <= song_seconds) {
+        current_seconds ++;
+        let start = moment(0, "ss").add(current_seconds, 'seconds').format("mm:ss")
+        let width = (current_seconds / song_seconds) * 100;
         $('.progress').width(`${width}%`);
         $('.start-time').text(start);
     }
-    else { 
+    else if (current_seconds == song_seconds || current_seconds > song_seconds ) {
         clearInterval(interval);
+        let track_uri = $(`#${current_id}`).attr('value')
+        let track_length = $(`#${current_id} .time-holder`).attr('value');
+        let artist = $(`#${current_id} .artist-name`).text()
+        let song_cover = $(`#${current_id} img`).attr('src'); 
+        let song_name = $(`#${current_id} .song-name`).text()
+        $('.current-playing').html(`
+        <div class="row">
+            <div class="col-lg-4"><img src="${song_cover}"></div>
+            <div class="col-lg-8">
+                <h3>${artist}</h3>
+                <h1>${song_name}</h1>
+            </div>
+        </div>`)
+        PressPlay(my_device, token, music_player, track_uri, track_length)
+
     }
     }, 1000);
 };
@@ -337,10 +376,10 @@ function jqueryAddRedirect() {
     //is not autenticated they can go home or to the login form
     $('.modal .btn').click(function() {
         if($(this).attr('id') =='home') {
-            alert(1)
+            console.log(1)
             //window.location.replace("http://stackoverflow.com");
         } else {
-            alert(2)
+            console.log(2)
             //window.location.replace("http://google.com");
         }
     })
@@ -351,7 +390,8 @@ function setupSpotifyNav() {
     //every column should have a couple of sections for example your likes, search,
     //and account management. Therefore this function is used to add event listeners,
     // as well added an event listener for logging out.
-
+    $('.spot-item').hide();
+    $(`#account-tab`).show();
     $('.spotify-nav .nav-item').click(function(){
         $('.section1 .nav-item').removeClass('active');
         $(this).addClass('active');
@@ -410,7 +450,7 @@ function AddSpotifyToken() {
         },
         error: function(error) {
             console.log(error)
-            alert("error: "+error);
+            console.log("error: "+error);
             }
     })
     .then(() => {return addNewToken()})
@@ -430,7 +470,7 @@ function addNewToken(){
             },
         error: function(error) {
             console.log(error)
-            alert("error: "+error.message);
+            console.log("error: "+error.message);
             }
         })
     return token
@@ -438,7 +478,27 @@ function addNewToken(){
 
 function PressPlay(my_device, token, player, song, song_length){
     ///work in progress function to play a track
-    player.addListener('player_state_changed', state => { console.log(state); console.log("music my good sir"); playSong(song_length);});
+    song_seconds = song_length;
+    music_player = player;
+    current_seconds = 0;
+    $('.pl-btn').removeClass('fa-play');
+    $('.pl-btn').addClass('fa-pause');
+    player.addListener('player_state_changed', state => { 
+        console.log(state); 
+        console.log("music my good sir"); 
+        if (state.paused){
+            clearInterval(interval);
+            current_seconds = moment.duration(state.position/1000, "seconds").format("ss");
+        }
+        else if (song_seconds == 0){
+            song_seconds = moment.duration(state.duration/1000, "seconds").format("ss");
+        }
+        else {
+            playSong();
+
+        }
+
+        });
     $.ajax({
         url: "https://api.spotify.com/v1/me/player/play?device_id=" + my_device,
         type: "PUT",
@@ -449,9 +509,9 @@ function PressPlay(my_device, token, player, song, song_length){
             console.log(data)
         },
         error: function (xhr, ajaxOptions, thrownError) {
-            alert(xhr.status);
-            alert(thrownError);
-            alert(ajaxOptions);
+            console.log(xhr.status);
+            console.log(thrownError);
+            console.log(ajaxOptions);
           }
     })
 

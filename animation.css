@@ -7,7 +7,7 @@
 }
 
 .progress-bar {
-    margin-top: 5% !important;
+    margin-top: 8% !important;
     margin: auto;
     width: 100%;
     height: 0.25em;
@@ -23,28 +23,43 @@
 }
 
 .music-player {
-    background: RGBA(0,0,0, .1);
+    background: RGBA(255,255,255, .05);
     height: 7%;
     margin: auto;
     padding: 1%;
     margin-left: 5vw;
     margin-right: 5vw;
-    border: 1px solid white;
+    margin-bottom: 2%;
+    border: 5px solid rgba(113, 32, 67, 0.4);
+    border-radius: 20px;
 }
 
 .music-player h6 {
-    margin-top: 20%;
+    margin-top: 28%;
+    font-size: 0.9vw;
 }
 
 .top-section {
     height: 77vh;
     margin: auto;
-    padding-left: 5%;
-    padding-right: 5%;
+    margin-left: 5%;
+    margin-right: 5%;
+    width: 90%;
+    border-radius: 20px;
+    background: RGBA(255,255,255, .05);
+    
+
 }
 
 .top-section .col-lg-4 {
+    border: 2px solid rgba(113, 32, 67, 0.4);
+    border-right: 0px solid transparent;
     height: 77vh;
+    box-shadow: 5px 5px 8px 3px rgba(113, 32, 67, 0.4);
+}
+
+.top-section .col-lg-4:nth-child(3){
+    border-right: 5px solid  rgba(113, 32, 67, 0.4);
 }
 
 
@@ -59,8 +74,8 @@
 
 .navbar {
     height: 10vh;
-    border-bottom: 1px solid white;
-    background: black;
+    background: RGBA(0,0,0, 0.5);
+    background: linear-gradient(11deg, rgba(0,0,0,0.835171568627451) 40%, rgba(255,87,160,0.3797093837535014) 90%) !important;
     }
     
 .navbar-nav {
@@ -117,14 +132,17 @@ tbody {
 .table p {
     letter-spacing: 2px;
     font-weight: 500;
-    color: grey;
-    font-size: 1.4em;
+    color: grey !important;
+    font-size: 0.8vw;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 .table h5 {
     color: white;
     letter-spacing: 2px;
     font-weight: 300;
-    font-weight: 2.2em;
+    font-size: 0.9vw !important;
+    text-overflow: clip;
 }
 
 .table .time-holder{
@@ -155,6 +173,12 @@ td {
     cursor: pointer;
     margin: 0px;
     padding: 0px;
+}
+
+.pl {
+    font-size: 2.5em !important;
+    margin-left: 5px !important;
+    margin-right: 5px !important;
 }
 
 .fa {
@@ -220,7 +244,7 @@ tr.active img {
 
 .logo-top img {
     width: 15vw;
-    height: 8vh;
+    height: 4vw;
     margin: auto;
 }
 
@@ -264,10 +288,10 @@ tr.active img {
 }
 
 
+
 .section1 {
     padding-top: 2%;
     border-radius: 15px;
-    background: RGBA(255,255,255, 0.05);
 }
 
 .spotify-nav {
@@ -291,7 +315,6 @@ tr.active img {
 .section2 {
     padding-top: 2%;
     border-radius: 15px;
-    background: rgba(214, 69, 65, 0.05);
 }
 
 .youtube-nav {
@@ -310,7 +333,6 @@ tr.active img {
 .section3 {
     padding-top: 3%;
     border-radius: 15px;
-    background: rgba(214, 69, 65, 0.05);
 }
 
 .section3 .sound-good {
@@ -321,10 +343,14 @@ tr.active img {
 
 .section3 #logo {
     color: white;
-    font-size: 2.6vw;
+    font-size: 2.5vw;
     letter-spacing: 4px;
     font-family: 'Monoton', cursive;
     height: 300px;
+    }
+
+.section3 .nav-pills {
+    margin-bottom: 2%;
     }
 
 
@@ -429,21 +455,30 @@ End Modal CSS
 .current-playing{
     margin: 0;
     padding: 0;
+    background: RGBA(255,255,255, 0.1);
+    border-radius: 30px;
 }
 .current-playing img{
     height: 100%;
     width: 100%;
+    max-height: 4vw;
+    max-width: 4vw;
+    border-radius: 30px;
 }
 .current-playing h1 {
-    font-size: 1.0rem;
+    font-size: 1.5rem;
     font-weight: 300;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
 }
 .current-playing h3 {
-    font-size: 0.8rem;
+    color: grey !important;
+    padding-top: 5%;
+    font-size: 1.3rem;
     font-weight: 300;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
 } 
+
+
 
 body {
     background: black;
