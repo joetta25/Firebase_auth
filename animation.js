@@ -7,6 +7,7 @@ $(document).ready(function() {
     //Jquery INIT
     addCurrentSongEvents();
     setupSpotifyNav();
+    setupYoutubeNav()
     jqueryevent();
     jqueryAddRedirect();
     playSong(200);
@@ -333,6 +334,8 @@ function changeSpotifyTab(id) {
     $(`#${id}-tab`).show();
     //alert(id);
 }
+
+
 
 //-----------------------------------
 //End UI/Jquery Section

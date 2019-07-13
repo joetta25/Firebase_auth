@@ -40,7 +40,7 @@
 }
 
 .top-section {
-    height: 77vh;
+    height: 85%;
     margin: auto;
     margin-left: 5%;
     margin-right: 5%;
@@ -54,7 +54,7 @@
 .top-section .col-lg-4 {
     border: 2px solid rgba(113, 32, 67, 0.4);
     border-right: 0px solid transparent;
-    height: 77vh;
+    height: 90vh !important;
     box-shadow: 5px 5px 8px 3px rgba(113, 32, 67, 0.4);
 }
 
@@ -234,12 +234,17 @@ tr.active img {
 
 .scrollable {
     height: auto;
-    max-height: 50vh; /* or any value */
+    max-height: 60vh; /* or any value */
     overflow-y: auto;
     scrollbar-color: RGBA(255,255,255,0.2) RGBA(0,0,0,1);
     scrollbar-width: thin;
     width: 100%;
 }
+
+#content, #authorize-button, #signout-button {
+    display: none
+}
+
 
 
 .logo-top img {
@@ -305,7 +310,7 @@ tr.active img {
 } 
 
 
-.spot-welcome {
+.spot-welcome, .tube-welcome {
     letter-spacing: 2px;
     font-weight: 200;
     text-align: center;
@@ -478,6 +483,45 @@ End Modal CSS
     letter-spacing: 3px;
 } 
 
+
+/*youtube
+*/
+#search-input {
+    color: white;
+    background: black;
+    border-radius: 20px;
+    width: 65%;
+    height: 5vh;
+    padding: 3%;
+    margin-left: 17%;
+    border: 0px solid transparent;
+}
+
+#yt-search-form .btn {
+    border-radius: 0px;
+    margin: 0%;
+    padding: 0;
+    height: 100%;
+}
+
+#yt-search-form .search-hold {
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    border-radius: 20px;
+    
+}
+
+.fa-search {
+    margin-left: 5%;
+    padding-left: 5%;
+    background: transparent;
+    padding-bottom: 3px;
+    font-size: 1.5em;
+}
+
+/*youtube
+*/
 
 
 body {

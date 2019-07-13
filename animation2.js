@@ -7,6 +7,7 @@ $(document).ready(function() {
     $('.end-time').text('00:00');
     addCurrentSongEvents();
     setupSpotifyNav();
+    setupYoutubeNav()
     jqueryevent();
     jqueryAddRedirect();
     //END Jquery INIT
@@ -404,6 +405,27 @@ function setupSpotifyNav() {
 function changeSpotifyTab(id) {
     $('.spot-item').hide();
     $(`#${id}-tab`).show();
+    //alert(id);
+}
+
+
+function setupYoutubeNav() {
+    //every column should have a couple of sections for example your likes, search,
+    //and account management. Therefore this function is used to add event listeners,
+    // as well added an event listener for logging out.
+    $('.tube-item').hide();
+    $('#yt-account-tab').show();
+    $('.section2 .nav-item').click(function(){
+        $('.section2 .nav-item').removeClass('active');
+        $(this).addClass('active');
+        changeYoutubeTab(this.id);
+    })
+};
+
+
+function changeYoutubeTab(id) {
+    $('.tube-item').hide();
+    $(`#yt-${id}-tab`).show();
     //alert(id);
 }
 

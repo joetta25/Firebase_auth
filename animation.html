@@ -37,6 +37,7 @@
 <!-- Google Font -->
 <link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet' type='text/css'>
 
+
 </head>
 <body>
  <nav class="navbar navbar-expand-lg">
@@ -119,7 +120,8 @@
                 <div class="spotify-likes"></div>
             </div>
         
-        </div></div>
+            </div>
+        </div>
         <div class="col-lg-4 section2">
         <div class="logo-top"><img src="../img/youtube_logo.png"></div>
             <nav class="nav nav-pills nav-fill youtube-nav">
@@ -128,61 +130,53 @@
                 <a class="nav-item nav-link" id="search" href="#">Search</a>
             </nav>
             <br>
-<table class="table">
-  <thead>
-    <tr>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td class="album">
-      <i class="fa fa-play-circle fa-3x hidden" aria-hidden="true"></i>
-        <div class=album-holder><img src="https://i.scdn.co/image/00f8150fd37e09dadec28914a481cedf6247f1d3"></div>
-        </td>
-      <td>
-      <p class="artist-name">Drake</p>
-      <h5 class="song-name">Song by Drake</h5>
-      </td>
-      <td>
-      <div class="time-holder">
-      <h5 class="song-length">3:35</h5>
-      </div>
-      </td>
-    </tr>
-    <tr>
-      <td class="album">
-        <i class="fa fa-play-circle fa-3x hidden" aria-hidden="true"></i>
-        <div class=album-holder><img src="https://i.scdn.co/image/00f8150fd37e09dadec28914a481cedf6247f1d3"></div>
-        </td>
-      <td>
-      <p class="artist-name">Drake</p>
-      <h5 class="song-name">Song by Drake</h5>
-      </td>
-      <td>
-      <div class="time-holder">
-      <h5 class="song-length">3:35</h5>
-      </div>
-      </td>
-      
-    </tr>
-    <tr>
-      <td class="album">
-        <i class="fa fa-play-circle fa-3x hidden" aria-hidden="true"></i>
-        <div class=album-holder><img src="https://i.scdn.co/image/00f8150fd37e09dadec28914a481cedf6247f1d3"></div>
-        </td>
-      <td>
-      <p class="artist-name">Drake</p>
-      <h5 class="song-name">Song by Drake</h5>
-      </td>
-      <td>
-      <div class="time-holder">
-      <h5 class="song-length">3:35</h5>
-      </div>
-      </td>
-      
-    </tr>
-  </tbody>
-</table>
+             <div>
+        <div class="">
+            <div class="account-section tube-item" id="yt-account-tab">
+                <div class="buttons">
+                <h1 class="tube-welcome"></h1>
+                <button class="btn red" id="authorize-button">Log In</button>
+                <button class="btn red" id="signout-button">Log Out</button>
+                </div>
+            </div>
+            <div class="search-bar tube-item" id="yt-search-tab">
+                <form id="yt-search-form">
+                    <div class="search-hold"><input class="searchname" id="search-input" type="text" name="search" placeholder="Search Artist or Song Name">
+                    <span><div style="margin-left: 10px;"><i class="fa fa-search fa-4x" type="submit" name="search" style="color:rgb(113, 32, 67);"></i></span></div>
+                    </div>
+                    </form>
+                    <div id="search-data" class="col"></div>
+                    <div class="youtube-container">
+                    <table class="table" id="spotify-table">
+                        <thead>
+                        <tr>
+                        </tr>
+                        </thead>
+                        <tbody class="yt-searched">
+                        </tbody>
+                        </table>
+                        <div class="row" id="video-buttons-container">
+                    <div class="col-lg-12">
+                        <button id="prev" class="btn hide">Previous</button>
+                        <button id="next" class="btn hide">Next</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="likes-section tube-item" id="yt-likes-tab">
+                <button id="get-liked-videos" onclick="getLikedVideos()" class="btn blue">Liked Videos</button>
+                <div class="youtube-likes"></div>
+                
+            </div>
+            <div id="content">
+
+                <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+                <div id="player" style="display: none;"></div>
+
+                <div class="row" id="video-container"></div>
+            </div>
+        </div>
+    </div>
         
         
         </div>
@@ -282,6 +276,11 @@
 </script>
 
 
+<!-- Youtube -->
+<script type="text/javascript" src="../youtube.js"></script>
+<script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()" onreadystatechange="if (this.readyState === 'complete') this.onload()"></script>
+
 </body>
+
 
 </html>
