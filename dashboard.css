@@ -1,5 +1,5 @@
-* {
-  color: white;
+body {
+  color: rgb(255, 255, 255);
 }
 input {
   color: black;
@@ -7,7 +7,6 @@ input {
 .section-1 {
   border: 1px solid coral;
   line-height: 1.65;
-  padding: 20px 50px;
 }
 
 
@@ -78,7 +77,49 @@ form{
 .SP{
   text-align: center;
   font-size: 20px;
+  padding-bottom: 20px;
 }
+
+.navigation {
+  text-align: center;
+  padding: 40px;
+}
+.navigation , previous {
+  padding-left: 20px;
+}
+.scrollable {
+  height: auto; 
+  max-height: 50vh; /* or any value this is the way it creates a scrollbar */
+  overflow-y: auto; /* let it overflow if it needs */
+  scrollbar-color: black RGBA(0,0,0,1); /* make changes to scrollbar design */
+  scrollbar-width: thin; /*make changes to scrollbar design */
+  
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background:#030303; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(93, 1, 89); 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(46, 1, 44); 
+}
+
+
+
+
+
 
 
 

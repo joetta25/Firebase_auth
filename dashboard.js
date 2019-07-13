@@ -1,4 +1,40 @@
 //Initialize Firebase
+$(document).on('click', '.add-spot-song',function(){ // once the page load then do this 
+  let track_id = $(this).closest('.spot-song')[0].id; // this = to the action that happens once button is push , once the button is pushed then get the information thats inside of the spot id
+  let track = $(`#${track_id}`).html() // this action or data will be on the html page
+  let track_uri = $(`#${track_id}`).attr('value') // get the data that is inside of the value attribute 
+  let duration = $(track).attr('value')
+  let artist = $(`#${track_id} .artist-name`).text() // this is grabbing the data that is in artist-name class 
+  let song_cover = $(`#${track_id} img`).attr('src'); // this is grabbing all the data thats in the image element 
+  let song_name = $(`#${track_id} .song`).text() // this is grabbing all the data thats in the song class 
+  let songhtml = `<tr "value="${track_uri}" id="${track_id}">
+                <td class="album" value="${duration}">
+                    <i class="fa fa-play-circle fa-3x hidden" aria-hidden="true"></i>
+                    <div class=album-holder><img src="${song_cover}"></div>
+                </td>
+                <td>
+                    <p class="artist-name">${artist}</p>
+                    <h5 class="song-name">${song_name}</h5>
+                </td>
+                <td>
+                    <div class="time-holder">
+                    ${duration}
+                    </div>
+                </td>
+        </tr>`
+        $('.userSongs').append(songhtml);
+        
+
+
+})
+function saveUserPlaylist(uri) {
+  var song = spotifyTracks.tracks.items.find(function(currentSong){
+    return currentSong.uri == uri;
+  })
+  console.log(song);
+} 
+
+
 firebase.initializeApp(firebaseConfig);
 
 document.getElementById("logOutBtn").addEventListener("click", e => {
@@ -88,25 +124,46 @@ $(".search-form").on("submit", function(e) {
   }
 })
 function renderSpotifyResults(data) { // when the search request is finished // log the data to the console//console.log(data);
+  window.spotifyTracks = data;
   let html = '';
   next_url = data.tracks.next;
   prev_url = data.tracks.previous;
+  var track_count = 0;
   if (data.tracks.items.length > 0) {
       var songsHTML = data.tracks.items.map(track => {
-        var artistsString = track.artists.map(artist => {
-          return artist.name;
-        }).join(', ');    
+        track_count ++;
+        let artist_count = 0;
+          let main_artist = '';
+          var featured_artists = track.artists.map(artist => {
+              artist_count ++;
+              if (artist_count == 1){
+                  main_artist = artist.name;
+          }   
+          else if (artist_count==2) {
+              return artist.name
+          } 
+          else if (artist_count==3) {
+              return `, ${artist.name.substring(0,6)}...`
+          };
+
+          }).join('');
+          let artistsString = `${main_artist}`;
+          if (artist_count > 1){ 
+              artistsString = `${main_artist} feat(${featured_artists})`
+          }   
         return `
+        <div class = "spot-song search-bar spot item" id = "spot-${track_count}"> 
           <div class = "album">
             <img  class = "mb-1" width = "50" src = ${track.album.images[0].url} value= "${track.album.external_urls.spotify}"/>
-            <h3 class = "d-inline-block">${artistsString}</h3>
+            <h3 class = "d-inline-block artist-name">${artistsString}</h3>
           </div>
           <div class = "song d-flex justify-content-between border-top border-bottom py-3">
             <b>${track.name}</b>
-            <button type="button" data-spotify="${track.uri}" class="btn btn-primary">add</button>
+            <button class="btn btn-primary add-spot-song" type="button" $(document).on('click', '.play-song', function(){>add</button>
           </div>
+        </div>
                 `
-      })
+      })// spot equals to the first spot-song in the music container 
       html = songsHTML.join('');
     } else {
       html = '<div>No results</div>'
@@ -121,8 +178,46 @@ $('.next').click((e) => {
         'Authorization': `Bearer ${token}` // this is where we use the access_token
       }
     })
-    .then(renderSpotifyResults)
+    .then(renderSpotifyResults)// this will call the rest of the data once the next request is complete 
   });
+$('.previous').click((e)=> { // creating the event listener 
+  e.preventDefault();// stops the page from refreshing
+  $.ajax(prev_url,{
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  }) 
+  .then(renderSpotifyResults) // this will call the rest of the data once the next request is complete 
+})
+
+// tabs function ---------------------------------------
+$(document).ready(function(){
+  setupSpotifyNav();
+})
+function setupSpotifyNav() {
+  console.log(0);
+  // this will deactivate and activate the tabs once clicked and also have the log out method 
+  $('.spotify-nav .nav-item') . click(function(){ // this is creating a event listener fo the container and each tab
+    console.log(1);
+  $('.spotify-container .nav-item').removeClass('active') // everythings is unselected  once the tab is clicked 
+  $(this).addClass('active'); // this refers to nav-item ( account , search , likes), if one of these are clicked switch to active 
+  changeSpotifyTab(this.id); // and then change to the spotify tabs (account , search, likes)
+  console.log(2);
+  })
+  $('.logout').click(function(){SpotifyLogout()})
+};
+
+function changeSpotifyTab(id) {
+  console.log(id);
+  $('.spot-item').hide();
+  $(`#${id}-tab`).show();
+}
+
+
+
+
+
+
 // Youtube
 // Use localhost port 8888
 // const ytApiKey = "AIzaSyDHaIMUkv2DdX8RqP0rmf8QIhcCg_5KU08"; API is over quota limit

@@ -56,48 +56,60 @@
       </div>
     </nav>
 
+  <div class="container-fluid section-1">
+    <div class="row">
+        <!-- ---------------------------------------SPOTIFY SECTION---------------------------------------- -->
+        <div class="col-lg-4 container-tabs spotify-container" style="background:rgba(128, 128, 128, 0.274);">
+          <!---------------------- TABS--------------------------------------------- -->
 
+          <div class="Title-SP">
+            <h3>Spotify Playlist</h2>
+            </div>  
+          <nav class="nav nav-pills nav-fill spotify-nav">
+            <a class="nav-item nav-link active" id="account" href="#">Account</a>
+            <a class="nav-item nav-link" id="likes" href="#">Likes</a>
+            <a class="nav-item nav-link" id="search" href="#">Search</a>
+          </nav>
+          <br>
+          <div class="search-bar spot-item" id="search-tab">
 
-
-
-
-
-
-    <div class="container-fluid section-1">
-      <div class="row">
-        <div class="col-lg-4" style="background:rgba(128, 128, 128, 0.274);">
-          <div class="SP">
-          Spotify Playlist
+            <form class="search-form">
+                <input
+                  class="searchname"
+                  id="searchname"
+                  type="textbox"
+                  name="search"
+                  placeholder="Search artist or song name"
+                />
+                <input
+                  class="search btn btn-primary"
+                  type="submit"
+                  name="search"
+                  value="Search"
+                />
+              </form>
+              <div class="music-container-fluid scrollable"></div>
+              <div class="navigation">
+                  <button class="previous btn btn-primary">Previous</button>
+                  <button class="next btn btn-primary">Next</button>
+                </div>
+            </div>
+          <!-- Tab panes -->
+          <div class="account-section spot-item" id="account-tab">
+            <div class="buttons">
+              <h1 class="spot-welcome"></h1>
+              <button class="login btn btn-primary">Login to Spotify</button>
+            </div>  
+            </div>
+            <div class="likes-section spot-item" id="likes-tab">
+              <div class="spotify-likes"></div>
+            </div>
         </div>
-          <form class="search-form">
-            <input
-              class="searchname"
-              id="searchname"
-              type="textbox"
-              name="search"
-              placeholder="Search artist or song name"
-            />
-            <input
-              class="search btn btn-primary"
-              type="submit"
-              name="search"
-              value="Search"
-            />
-          </form>
-
-          <div class="result-show"></div>
-          <div class="container-1">
-            <button class="login btn btn-primary">Login to Spotify</button>
-          </div>
-          <div class="music-container-fluid">
-            
-          </div>
-          <div class="navigation">
-            <button class="previous btn btn-primary">Previous</button>
-            <button class="next btn btn-primary">Next</button>
-        </div>
-        </div>
+          
+          <div class="music-container-fluid scrollable"></div>
         
+   
+        <!------------------------------------- YOUTUBE SECTION -------------------------------------------------------------------- -->
         <div class="col-lg-4">Youtube Playlist
             <div class="container">
                 <button class="btn red" id="authorize-button">Log In</button>
@@ -131,9 +143,11 @@
 
             </div>
         </div>
-        <div class="col-lg-4">Favorite Songs</div>
-      </div>
+          <div class="col-lg-4 userSongs">Favorite Songs 
+  
+          </div>
     </div>
+   </div>
 
 
     <!--Fisebase script/ must be in this order-->
