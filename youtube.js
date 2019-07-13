@@ -12,7 +12,7 @@ const content = document.getElementById('content');
 const searchForm = document.getElementById('yt-search-form');
 const searchInput = document.getElementById('search-input');
 const videoContainer = document.getElementById('video-container');
-
+const redirect_url = 'http://127.0.0.1:8899';
 // Form submit 
 $('#yt-search-form').on('submit', function(e) {
     e.preventDefault();
@@ -29,13 +29,14 @@ function initClient() {
     gapi.client.init({
         discoveryDocs: ytDISCOVERY_DOCS,
         clientId: ytCLIENT_ID,
-        scope: ytSCOPES
+        scope: ytSCOPES,
+        redirect_url
     }).then(() => {
         gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
         updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
         authorizeButton.onclick = handleAuthClick;
         signoutButton.onclick = handleSignoutClick;
-        });
+        },  function(data){console.log(data);});
 }
 
 // Hide and unhide elements based on login state
@@ -48,6 +49,7 @@ function updateSigninStatus(isSignedIn) {
         content.style.display = 'block';
         videoContainer.style.display = 'block';
     } else {
+        $('.tube-welcome').text("Welcome, Sign In and Start Streaming!")
         authorizeButton.style.display = 'block';
         signoutButton.style.display = 'none';
         content.style.display = 'none';
@@ -228,7 +230,7 @@ function makeSearchRequest(token) {
                 var vidTitle = item.snippet.title;  
                 var videoId = item.id.videoId;
                 var videoImg = item.snippet.thumbnails.default.url;  
-                
+    
                 // make API Video request in order to get duration
                 var detailsRequest = gapi.client.youtube.videos.list({
                     id: videoId,

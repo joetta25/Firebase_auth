@@ -256,7 +256,13 @@ function createPlaylistHTML() {
     let song = user_json.songs[key];
     let song_length = moment.duration(song.duration, "seconds").format("mm:ss");
     song_count ++;
-    return `<tr value="${song.song_uri}" id="sound-${song_count}">
+    if(song.youtube) {
+        var song_class = 'yt';
+    } else {
+        var song_class = 'sp';
+    }
+    console.log(song_class);
+    return `<tr class="${song_class} "value="${song.song_uri}" id="sound-${song_count}">
                 <td class="album" value="${song_length}">
                     <i class="fa fa-play-circle fa-3x hidden" aria-hidden="true"></i>
                     <div class=album-holder><img src="${song.song_cover}"></div>
@@ -494,8 +500,7 @@ function addNewToken(){
             console.log(error)
             console.log("error: "+error.message);
             }
-        })
-    return token
+        }).then(function(){return window.location = 'http://127.0.0.1:8899/animation.html'});
 }
 
 function PressPlay(my_device, token, player, song, song_length){

@@ -242,7 +242,7 @@ tr.active img {
 }
 
 #content, #authorize-button, #signout-button {
-    display: none
+    
 }
 
 
@@ -462,6 +462,7 @@ End Modal CSS
     padding: 0;
     background: RGBA(255,255,255, 0.1);
     border-radius: 30px;
+    max-height: 10%;
 }
 .current-playing img{
     height: 100%;
