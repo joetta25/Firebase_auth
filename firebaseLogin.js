@@ -1,18 +1,18 @@
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-//Get Elements 
+//Get Elements
 var emailText = document.getElementById("email");
 var passwordText = document.getElementById("password");
 var loginForm = document.getElementById("mainForm");
 
-// 
+//
 if (loginForm) {
   // We add an eventlistener to the logInForm and listen for a submit event
   loginForm.addEventListener("submit", e => {
     e.preventDefault();
-    
-    // this will get the values of email and passowrd 
+
+    // this will get the values of email and passowrd
     const email = emailText.value;
     const password = passwordText.value;
 
@@ -21,7 +21,6 @@ if (loginForm) {
       .auth()
       .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
       .then(function() {
-       
         return firebase.auth().signInWithEmailAndPassword(email, password);
       });
 
@@ -29,9 +28,9 @@ if (loginForm) {
       // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
-      
-      // if the user entered the wrong email or password this msg will displayed in the form 
-      // user enter the wrong email or password 
+
+      // if the user entered the wrong email or password this msg will displayed in the form
+      // user enter the wrong email or password
       //
       document.getElementById("alert").style.display = "block";
 
@@ -40,17 +39,14 @@ if (loginForm) {
   });
 }
 
-
-
-
 // this method will monitor authentication state
 firebase.auth().onAuthStateChanged(function(user) {
-  // if the user is signed in, it will... 
+  // if the user is signed in, it will...
   if (user) {
     console.log(user);
 
     // redirect user to this location
-    window.location = "dashboard.html";
+    window.location = "animation.html";
 
     // User is signed in.
     var displayName = user.displayName;

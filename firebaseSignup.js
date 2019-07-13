@@ -1,7 +1,6 @@
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-
 //Get Element so we can add an eventlistener
 let submitForm = document.getElementById("signUpForm");
 
@@ -17,7 +16,7 @@ submitForm.addEventListener("submit", e => {
   let password = document.getElementById("pass").value;
   let phoneNumber = document.getElementById("phone").value;
 
-  // this function will create an user using email and password and it will also log them in, which will return a promise which allows you to resolve the user's data
+  // this function will create an user using email and password and it will also log them in, which will return a promise and  allows you to resolve the user's data
   firebase
     .auth()
     .createUserWithEmailAndPassword(email, password)
@@ -30,7 +29,7 @@ submitForm.addEventListener("submit", e => {
       console.log(errorCode);
     })
     .then(function() {
-      document.location.href = "dashboard.html";
+      document.location.href = "animation.html";
     });
 
   //function will be call when the form gets submitted
