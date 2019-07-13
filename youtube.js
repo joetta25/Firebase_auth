@@ -127,39 +127,31 @@ $(document).on('click', '.yt-album', function(){
 // It may be easier to re-copy the function codes from the animation.js file again.
 
 $(document).on('click', '.add-button', function(){
-    let videoid = $(this).closest('tr')[0].id;
-    let track_id = $(this).closest('tr')[0].id;
-    let track = $(`#${track_id}`).html();
-    let track_uri = $(`#${track_id}`).attr('value')
-    console.log(track)
-    console.log(track_id)
-    console.log(track_uri)
-    let length_sec = $(track).attr('value') / 1000
-    let duration = moment.duration(length_sec, "seconds").format("mm:ss");
+    let track_id = $(this).closest('tr')[0].id; //right //also song_uri
+    let duration = $(`#${track_id} .time-holder`).attr('value')
+    let length_sec = moment(duration, "mm:ss").format("ss");
     let artist = $(`#${track_id} .artist-name`).text()
     let song_cover = $(`#${track_id} img`).attr('src'); 
     let song_name = $(`#${track_id} .song-name`).text()
-    alert(id)
-    AddSong(vidChannelTitle, vidTitle, videoImg, videoId, videoDuration, youtube)
+    AddSong(artist, song_name, song_cover, track_id, length_sec, true)
     
     var $videoContainer = $('#video-container')
-    $videoContainer.append(`
-    <tr class="vidTable" value="#trackuri" id="${videoId}">
+    var song = `
+    <tr class="vidTable yt" value="#trackuri" id="${track_id}">
         <td class="album yt-album" value="#">
             <i class="fa fa-play-circle fa-3x hidden" aria-hidden="true"></i>
-            <div class=album-holder><img src="${videoImg}"></div>
+            <div class=album-holder><img src="${song_cover}"></div>
         </td>
         <td>
-            <p class="artist-name">${vidChannelTitle}</p>
-            <h5 class="song-name">${vidTitle}</h5>
+            <p class="artist-name">${artist}</p>
+            <h5 class="song-name">${song_name}</h5>
         </td>
         <td>
-            <div class="time-holder">${videoDuration}</div>                       
-            <button class="add-button btn btn-primary yt-add-song">Add</button>
+            <div class="time-holder" value="${length_sec}">${duration}</div>                       
             
         </td>
-    </tr>`);
-	$('#soundgood-likes tbody').append(songhtml);
+    </tr>`
+	$('#soundgood-likes tbody').append(song);
 })
 
 
@@ -182,7 +174,7 @@ function AddSong(vidChannelTitle, vidTitle, videoImg, videoId, videoDuration, yo
         'youtube' : youtube
         }
     $.ajax({
-        url: `https://signupform-96aeb.firebaseio.com/users/-LjJ9BIcAZmrpBIdx-ec/songs.json`,
+        url: `https://signupform-96aeb.firebaseio.com/user/${firebase_user.uid}/songs.json`,
         type: "POST",
         data: JSON.stringify(param),
         success: function () {

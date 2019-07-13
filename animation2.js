@@ -25,7 +25,7 @@ $(document).ready(function() {
         let song_name = $(`#${track_id} .song-name`).text()
         console.log(length_sec)
         AddSong(artist, song_name, song_cover, track_uri, length_sec)
-        let songhtml = `<tr value="${track_uri}" id="${track_id}">
+        let songhtml = `<tr class="sp" value="${track_uri}" id="${track_id}">
                 <td class="album" value="${duration}">
                     <i class="fa fa-play-circle fa-3x hidden" aria-hidden="true"></i>
                     <div class=album-holder><img src="${song_cover}"></div>
@@ -107,6 +107,7 @@ function checkAuth() {
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
                 firebase_user = user;
+                window.location = "http://127.0.0.1:8899/animation.html";
             }
             else {
                 console.log('creating user');
