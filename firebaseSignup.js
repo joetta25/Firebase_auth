@@ -29,7 +29,7 @@ submitForm.addEventListener("submit", e => {
       console.log(errorCode);
     })
     .then(function() {
-      document.location.href = "animation.html";
+      document.location.href = "http://159.203.185.216:8899/animation.html";
     });
 
   //function will be call when the form gets submitted

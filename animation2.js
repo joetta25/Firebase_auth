@@ -10,6 +10,12 @@ $(document).ready(function() {
     setupYoutubeNav()
     jqueryevent();
     jqueryAddRedirect();
+    document.getElementById("logOutBtn").addEventListener("click", e => {
+        firebase.auth().signOut();
+        logoutUser()
+      });
+    
+      // this will monitor the user's state
     //END Jquery INIT
     $(document).on('click', '.play-song', function(){
         let track_id = $(this).closest('tr')[0].id;
@@ -45,6 +51,24 @@ $(document).ready(function() {
     })
 
 });
+
+function logoutUser() {
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        // User is signed in.
+        var displayName = user.displayName;
+        var email = user.email;
+        var emailVerified = user.emailVerified;
+        var photoURL = user.photoURL;
+        var isAnonymous = user.isAnonymous;
+        var uid = user.uid;
+        var providerData = user.providerData;
+      } else {
+        console.log("Not logged in");
+        window.location = "home.html";
+      }
+    });
+}
 
 
 //Global Variables
@@ -107,10 +131,6 @@ function checkAuth() {
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
                 firebase_user = user;
-<<<<<<< HEAD
-                window.location = "http://127.0.0.1:8899/animation.html";
-=======
->>>>>>> antony
             }
             else {
                 console.log('creating user');
@@ -260,7 +280,13 @@ function createPlaylistHTML() {
     let song = user_json.songs[key];
     let song_length = moment.duration(song.duration, "seconds").format("mm:ss");
     song_count ++;
-    return `<tr value="${song.song_uri}" id="sound-${song_count}">
+    if(song.youtube) {
+        var song_class = 'yt';
+    } else {
+        var song_class = 'sp';
+    }
+    console.log(song_class);
+    return `<tr class="${song_class} "value="${song.song_uri}" id="sound-${song_count}">
                 <td class="album" value="${song_length}">
                     <i class="fa fa-play-circle fa-3x hidden" aria-hidden="true"></i>
                     <div class=album-holder><img src="${song.song_cover}"></div>
@@ -498,8 +524,7 @@ function addNewToken(){
             console.log(error)
             console.log("error: "+error.message);
             }
-        })
-    return token
+        }).then(function(){return window.location = 'http://159.203.185.216:8899/animation.html'});
 }
 
 function PressPlay(my_device, token, player, song, song_length){
@@ -550,7 +575,7 @@ function setupSpotify(){
     // as well an event listener is created to search spotify
     var client_id = '42c128e85c9c4eddad1930a129937c94';
     var response_type = 'token';
-    var redirect_uri = 'http://127.0.0.1:8899/animation.html';
+    var redirect_uri = 'http://159.203.185.216:8899/animation.html';
     var scope = [
         'user-read-playback-state', 'streaming', 'user-read-private', 'user-read-currently-playing', 'user-modify-playback-state', 'user-read-birthdate', 'user-read-email', 'user-library-read',].join(' ');
 

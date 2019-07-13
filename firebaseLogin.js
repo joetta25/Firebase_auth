@@ -46,7 +46,7 @@ firebase.auth().onAuthStateChanged(function(user) {
     console.log(user);
 
     // redirect user to this location
-    window.location = "animation.html";
+    window.location = "http://159.203.185.216:8899/animation.html";
 
     // User is signed in.
     var displayName = user.displayName;
