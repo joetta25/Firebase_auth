@@ -107,7 +107,10 @@ function checkAuth() {
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
                 firebase_user = user;
+<<<<<<< HEAD
                 window.location = "http://127.0.0.1:8899/animation.html";
+=======
+>>>>>>> antony
             }
             else {
                 console.log('creating user');
