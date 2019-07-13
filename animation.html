@@ -247,7 +247,7 @@
     // Connect to the player!
     player.connect().then(success => {
         if (success) {
-            $(document).on('click', '#soundgood-likes tr', function(){
+            $(document).on('click', '#soundgood-likes .sp', function(){
                 let track_id = $(this).closest('tr')[0].id;
                 current_id = track_id
                 let track_uri = $(`#${track_id}`).attr('value')
