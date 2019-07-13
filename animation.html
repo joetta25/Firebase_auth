@@ -67,12 +67,20 @@
                     </div>
                 </div>
 <div class="music-player row">
-    <div class="col-lg-3">
-        <i class="fa fa-step-backward"></i>
-        <i class="fa fa-play"></i>
-        <i class="fa fa-step-forward"></i>
-        
+    <div class="col-lg-1">
+        <i class="fa fa-step-backward pl"></i>
+        <i class="fa fa-play pl-btn pl"></i>
+        <i class="fa fa-step-forward pl"></i>
     </div>
+    <div class="col-lg-2 current-playing">
+        <div class="row">
+            <div class="col-lg-4"><img src="https://i.scdn.co/image/9f92bdb0bee512878c1a007cd81a32c943ddf9ee"></div>
+            <div class="col-lg-8">
+                <h3>Joji</h3>
+                <h1>World Star Money (interlude)</h1>
+            </div>
+    </div>
+</div>
     <div class="col-lg-1"><h6 class="start-time" style="text-align: right;"></h6></div>
     <div class="col-lg-4">
         <div class="progress-bar">
@@ -250,9 +258,18 @@
                 let track_id = $(this).closest('tr')[0].id;
                 let track_uri = $(`#${track_id}`).attr('value')
                 let track_length = $(`#${track_id} .time-holder`).attr('value');
-                let ttt = $(`#${track_id} .time-holder`).text();
+                let artist = $(`#${track_id} .artist-name`).text()
+                let song_cover = $(`#${track_id} img`).attr('src'); 
+                let song_name = $(`#${track_id} .song-name`).text()
+                 $('.current-playing').html(`
+                        <div class="row">
+                            <div class="col-lg-4"><img src="${song_cover}"></div>
+                            <div class="col-lg-8">
+                                <h3>${artist}</h3>
+                                <h1>${song_name}</h1>
+                            </div>
+                        </div>`)
                 console.log(track_uri);
-                console.log(ttt);
                 console.log(track_length);
                 PressPlay(my_device, token, player, track_uri, track_length)
 

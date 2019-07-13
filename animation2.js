@@ -299,19 +299,11 @@ function addCurrentSongEvents(){
 
 function jqueryevent() {
     //this function is currently useless will be used when animation is implemented
-    $('.hide-open').click(function() {
-        if ($('.bottom-section').hasClass('hidden')) {
-            $('.top-section').height('40vh');
-            $('.bottom-section').height('40vh');
-            $('.bottom-section').removeClass('hidden');
-        }
-        else {
-            $('.top-section').height('80vh');
-            $('.bottom-section').height('3vh');
-            $('.bottom-section').addClass('hidden');
-        }
-    })
-};
+    $('.pl-btn').click(function() {
+       $(this).toggleClass('fa-play');
+       $(this).toggleClass('fa-pause');
+});
+}
 
 function playSong(song_length, start=0) {
     //function that makes the fake player work
@@ -359,8 +351,7 @@ function setupSpotifyNav() {
     //every column should have a couple of sections for example your likes, search,
     //and account management. Therefore this function is used to add event listeners,
     // as well added an event listener for logging out.
-    $('.spot-item').hide();
-    $('#account-tab').show();
+
     $('.spotify-nav .nav-item').click(function(){
         $('.section1 .nav-item').removeClass('active');
         $(this).addClass('active');
@@ -447,6 +438,7 @@ function addNewToken(){
 
 function PressPlay(my_device, token, player, song, song_length){
     ///work in progress function to play a track
+    player.addListener('player_state_changed', state => { console.log(state); console.log("music my good sir"); playSong(song_length);});
     $.ajax({
         url: "https://api.spotify.com/v1/me/player/play?device_id=" + my_device,
         type: "PUT",
@@ -455,28 +447,13 @@ function PressPlay(my_device, token, player, song, song_length){
         success: function(data) {
             console.log("start playing")
             console.log(data)
-            playSong(song_length);
         },
         error: function (xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
             alert(thrownError);
             alert(ajaxOptions);
           }
-    }).then(
-        player.getCurrentState().then(state => {
-            if (!state) {
-              console.error('User is not playing music through the Web Playback SDK');
-              return;
-            }
-          
-            let {
-              current_track,
-              next_tracks: [next_track]
-            } = state.track_window;
-            console.log('Currently Playing', current_track);
-            console.log('Playing Next', next_track);
-          })
-    )
+    })
 
 };
 

@@ -24,7 +24,7 @@
 
 .music-player {
     background: RGBA(0,0,0, .1);
-    height: 10vh;
+    height: 7%;
     margin: auto;
     padding: 1%;
     margin-left: 5vw;
@@ -415,9 +415,35 @@ End Modal CSS
 }
 
 .fa {
-	color: 	#6a6668 !important;
+    color: 	#6a6668 !important;
+    cursor: pointer;
 }
 
+.pl:active, .pl-success:focus {
+    transform: scale(1.05);
+    color: white !important;
+    box-shadow: 1px 1px 1px 1px RGBA(255,255,255, 0.1);
+
+}
+
+.current-playing{
+    margin: 0;
+    padding: 0;
+}
+.current-playing img{
+    height: 100%;
+    width: 100%;
+}
+.current-playing h1 {
+    font-size: 1.0rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+}
+.current-playing h3 {
+    font-size: 0.8rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+} 
 
 body {
     background: black;
