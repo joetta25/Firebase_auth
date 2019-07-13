@@ -1,147 +1,20 @@
-//Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-
-document.getElementById("logOutBtn").addEventListener("click", e => {
-  firebase.auth().signOut();
-});
-
-firebase.auth().onAuthStateChanged(function(user) {
-  if (user) {
-    // User is signed in.
-    var displayName = user.displayName;
-    var email = user.email;
-    var emailVerified = user.emailVerified;
-    var photoURL = user.photoURL;
-    var isAnonymous = user.isAnonymous;
-    var uid = user.uid;
-    var providerData = user.providerData;
-  } else {
-    console.log("Not logged in");
-    window.location = "home.html";
-  }
-});
-
-//Spotify
-// Set up app config
-var page_count = 0;
-var next_url = '';
-var prev_url = '';
-var client_id = "57a5ae8651d746c3b9b1fcb24561af24";
-var response_type = "token";
-var redirect_uri = "http://127.0.0.1:5501/dashboard.html";
-var scope = [""].join(" ");
-
-
-// get auth code from url hash
-var hash = window.location.hash.substr(1).split("&");
-var hashMap = [];
-// break the hash into pieces to get the access_token
-if (hash.length) {
-  hash.forEach(chunk => {
-    const chunkSplit = chunk.split("=");
-    hashMap[chunkSplit[0]] = chunkSplit[1];
-  });
-}
-
-// if the hash has an access_token, then put it in localStorage
-if (hashMap.access_token) {
-  window.localStorage.setItem("token", hashMap.access_token);
-  window.location = window.location.origin + window.location.pathname;
-}
-
-// add event listener for login
-$(".login").on("click", function(e) {
-  //build spotify auth url
-  var url = `https://accounts.spotify.com/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&scope=${scope}&response_type=${response_type}`;
-
-  // send the user to the spotify login page
-  window.location = url;
-});
-
-// get the token from localStorage (if it exitst)
-var token = window.localStorage.getItem("token");
-
-// if the token is set, then we are probably logged in
-if (token !== null) {
-  // so change the login button text
-  $(".login").text("Refresh Spotify Login");
-}
-
-
-// when the form is submitted
-
-$(".search-form").on("submit", function(e) {
-
-  e.preventDefault();
-  // get the search value from the search field
-  var value = $('#searchname').val();
-  // if the value is not empty
-  if (value != '') {
-      // get the search request from spotify
-    $.ajax(`https://api.spotify.com/v1/search?q=${value}&type=track&limit=5`,{
-      headers: {
-              'Authorization': `Bearer ${token}` // this is where we use the access_token
-          }
-        
-      })
-      .then(renderSpotifyResults)
-  }
-})
-function renderSpotifyResults(data) { // when the search request is finished // log the data to the console//console.log(data);
-  let html = '';
-  next_url = data.tracks.next;
-  prev_url = data.tracks.previous;
-  if (data.tracks.items.length > 0) {
-      var songsHTML = data.tracks.items.map(track => {
-        var artistsString = track.artists.map(artist => {
-          return artist.name;
-        }).join(', ');    
-        return `
-          <div class = "album">
-            <img  class = "mb-1" width = "50" src = ${track.album.images[0].url} value= "${track.album.external_urls.spotify}"/>
-            <h3 class = "d-inline-block">${artistsString}</h3>
-          </div>
-          <div class = "song d-flex justify-content-between border-top border-bottom py-3">
-            <b>${track.name}</b>
-            <button type="button" data-spotify="${track.uri}" class="btn btn-primary">add</button>
-          </div>
-                `
-      })
-      html = songsHTML.join('');
-    } else {
-      html = '<div>No results</div>'
-    }
-    document.getElementsByClassName('music-container-fluid')[0].innerHTML = html;
-}
-
-$('.next').click((e) => {
-    e.preventDefault();
-    $.ajax(next_url, {
-      headers: {
-        'Authorization': `Bearer ${token}` // this is where we use the access_token
-      }
-    })
-    .then(renderSpotifyResults)
-  });
-// Youtube
 // Use localhost port 8888
-// const ytApiKey = "AIzaSyDHaIMUkv2DdX8RqP0rmf8QIhcCg_5KU08"; API is over quota limit
-const ytApiKey = "AIzaSyCw7Gw6BDPrcRiqjfTMfDckh_11BKWl7HM"
-const ytCLIENT_ID = "976539214773-2gpmtmkm9phb43cir7mdgfjfl4cus9vr.apps.googleusercontent.com";
+const ytApiKey = "AIzaSyDHaIMUkv2DdX8RqP0rmf8QIhcCg_5KU08"
+// const ytApiKey = "AIzaSyCw7Gw6BDPrcRiqjfTMfDckh_11BKWl7HM"
+// const ytCLIENT_ID = "976539214773-2gpmtmkm9phb43cir7mdgfjfl4cus9vr.apps.googleusercontent.com";
+const ytCLIENT_ID = "254484771306-7r6u8p6efbpqcjru9diqqnq4naoval1o.apps.googleusercontent.com";
 const ytDISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest'];
 const ytSCOPES = 'https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/youtube.force-ssl';
 
 const authorizeButton = document.getElementById('authorize-button');
 const signoutButton = document.getElementById('signout-button');
 const content = document.getElementById('content');
-const searchForm = document.getElementById('search-form');
+const searchForm = document.getElementById('yt-search-form');
 const searchInput = document.getElementById('search-input');
 const videoContainer = document.getElementById('video-container');
-const searchTerm = document.querySelector('search-input');
-
 
 // Form submit 
-searchForm.addEventListener('submit', e => {
+$('#yt-search-form').on('submit', function(e) {
     e.preventDefault();
     makeSearchRequest();
 });
@@ -168,6 +41,8 @@ function initClient() {
 // Hide and unhide elements based on login state
 function updateSigninStatus(isSignedIn) {
     if (isSignedIn) {
+        console.log(isSignedIn)
+        $('.tube-welcome').text("Welcome, You're Logged In!")
         authorizeButton.style.display = 'none';
         signoutButton.style.display = 'block';
         content.style.display = 'block';
@@ -205,10 +80,10 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 // This function creates an <iframe> (and YouTube player)
 // after the API code downloads.
-var player;
+var ytplayer;
 function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player', {
-    height: '45',
+    ytplayer = new YT.Player('player', {
+    height: '40',
     width: '400',
     videoId: '',
     events: {
@@ -233,12 +108,88 @@ function onPlayerStateChange(event) {
 }
 
 // This function will play the specified clicked song in the player
-function playVideoToPlayer(e){
-    console.log(e.parentNode.id);
-    console.log(e);
-    player.loadVideoById(e.parentNode.id)
-    
+function playVideoToPlayer(id){
+    ytplayer.loadVideoById(id)
+
 };
+
+
+// This function adds the eventlistener to the play button
+$(document).on('click', '.yt-album', function(){
+    let videoid = $(this).closest('tr')[0].id;
+    alert(videoid);
+    playVideoToPlayer(videoid);
+});
+
+
+///////////// line #126 through line #187 is what I am having issues with
+
+// It may be easier to re-copy the function codes from the animation.js file again.
+
+$(document).on('click', '.add-button', function(){
+    let track_id = $(this).closest('tr')[0].id; //right //also song_uri
+    let duration = $(`#${track_id} .time-holder`).attr('value')
+    let length_sec = moment(duration, "mm:ss").format("ss");
+    let artist = $(`#${track_id} .artist-name`).text()
+    let song_cover = $(`#${track_id} img`).attr('src'); 
+    let song_name = $(`#${track_id} .song-name`).text()
+    AddSong(artist, song_name, song_cover, track_id, length_sec, true)
+    
+    var $videoContainer = $('#video-container')
+    var song = `
+    <tr class="vidTable yt" value="#trackuri" id="${track_id}">
+        <td class="album yt-album" value="#">
+            <i class="fa fa-play-circle fa-3x hidden" aria-hidden="true"></i>
+            <div class=album-holder><img src="${song_cover}"></div>
+        </td>
+        <td>
+            <p class="artist-name">${artist}</p>
+            <h5 class="song-name">${song_name}</h5>
+        </td>
+        <td>
+            <div class="time-holder" value="${length_sec}">${duration}</div>                       
+            
+        </td>
+    </tr>`
+	$('#soundgood-likes tbody').append(song);
+})
+
+
+function AddSong(vidChannelTitle, vidTitle, videoImg, videoId, videoDuration, youtube){
+    // currently a mock function to demonstrate how songs will be added.
+    //param is everything we need to display and play the song...
+    //ajax is used to post it into the database under a users songs.
+    console.log(vidChannelTitle)
+    console.log(vidTitle)
+    console.log(videoImg)
+    console.log(videoId)
+    console.log(videoDuration)
+    console.log(youtube)
+    var param = {
+        'Artist' : vidChannelTitle, 
+        'Song' : vidTitle,
+        'song_cover' : videoImg,
+        'song_uri' : videoId,
+        'duration' : videoDuration,
+        'youtube' : youtube
+        }
+    $.ajax({
+        url: `https://signupform-96aeb.firebaseio.com/user/${firebase_user.uid}/songs.json`,
+        type: "POST",
+        data: JSON.stringify(param),
+        success: function () {
+        console.log("song added successfully");
+        },
+        error: function(error) {
+        alert("error: "+error);
+        }
+    });
+
+}
+
+///////////// line #126 through line #187 is what I am having issues with
+
+
 
 // This function will make the api requests and render the searched results 
 function makeSearchRequest(token) {
@@ -249,12 +200,12 @@ function makeSearchRequest(token) {
         q: q,
         part: 'snippet', 
         type: 'video',
-        maxResults: 5,
+        maxResults: 25,
         pageToken: token 
     })
 
     searchRequest.execute(function(response)  {   
-            $('#video-container').empty()
+            $('.yt-searched').empty()
             var srchItems = response.result.items; 
             
             // Global variables for pagination
@@ -273,7 +224,7 @@ function makeSearchRequest(token) {
             $("#next").toggleClass("hide", !window.nextPageToken)
             
             $.each(srchItems, function(index, item) {
-                
+                var vidChannelTitle = item.snippet.channelTitle; // artist name
                 var vidTitle = item.snippet.title;  
                 var videoId = item.id.videoId;
                 var videoImg = item.snippet.thumbnails.default.url;  
@@ -319,61 +270,28 @@ function makeSearchRequest(token) {
                 }
                 
                 // HTML render
-                // let ytHTML = `
-                // <tr "value="#trackuri" id="${videoId}">
-                //     <td class="album" value="">
-                //         <i class="fa fa-play-circle fa-3x hidden" aria-hidden="true"></i>
-                //         <div class=album-holder><img src="${videoImg}"></div>
-                //     </td>
-                //     <td>
-                //         <p class="artist-name">Artist Name Here</p>
-                //         <h5 class="song-name">${vidTitle}</h5>
-                //     </td>
-                //     <td>
-                //         <div class="time-holder">${videoDuration}</div>
-                //         <div class="play-add-container>
-                //             <button id="play-button" onclick="playVideoToPlayer(this)">Play</button>
-                //             <button onclick="#">Add</button>
-                //         </div>
-                //     </td>
-                // </tr>`;
-
-                // $videoContainer.append(ytHTML);
-
-                // $videoContainer.append(`
-                // <tr "value="#trackuri" id="${videoId}">
-                //     <td class="album" value="">
-                //         <i class="fa fa-play-circle fa-3x hidden" aria-hidden="true"></i>
-                //         <div class=album-holder><img src="${videoImg}"></div>
-                //     </td>
-                //     <td>
-                //         <p class="artist-name">Artist Name Here</p>
-                //         <h5 class="song-name">${vidTitle}</h5>
-                //     </td>
-                //     <td>
-                //         <div class="time-holder">${videoDuration}</div>
-                //         <div class="play-add-container>
-                //             <button id="play-button" onclick="playVideoToPlayer(this)">Play</button>
-                //             <button onclick="#">Add</button>
-                //         </div>
-                //     </td>
-                // </tr>`);
-
-                $videoContainer.append(`
-                <div class="yt-container" id="${videoId}">
-                    <img src="${videoImg}"/>
-                    ${vidTitle}
-                    ${videoDuration}
-                    <button id="play-button" onclick="playVideoToPlayer(this)">Play</button>
-                    <button onclick="#">Add</button>
-                </div>`);    
-
+                $('.yt-searched').append(`
+                    <tr class="vidTable" value="#trackuri" id="${videoId}">
+                        <td class="album" value="#">
+                            <i class="fa fa-play-circle fa-3x hidden" aria-hidden="true"></i>
+                            <div class=album-holder><img src="${videoImg}"></div>
+                        </td>
+                        <td>
+                            <p class="artist-name">${vidChannelTitle}</p>
+                            <h5 class="song-name">${vidTitle}</h5>
+                        </td>
+                        <td>
+                            <div class="time-holder" value="${videoDuration}"><button class="add-button btn btn-primary yt-add-song">Add</button></div>                       
+                            
+                        </td>
+                    </tr>`); 
                 })
             })
+            $('.yt-searched').wrap('<div class="scrollable"></div>')
     })
-
 }
 
+// function to get liked videos
 function getLikedVideos() {
     $('#video-container').empty()
     var searchRequest =  gapi.client.youtube.videos.list({
@@ -382,27 +300,12 @@ function getLikedVideos() {
 
     });
 
-    searchRequest.execute(function(response)  {   
+    searchRequest.execute(function(response)  {
             $('#video-container').empty()
             var srchItems = response.result.items; 
-            
-            // Global variables for pagination
-            // window.nextPageToken = response.nextPageToken;
-            // window.prevPageToken = response.prevPageToken;
-            
             var $videoContainer = $('#video-container')
-            
-            // if(token) {
-            //     $videoContainer.html("");
-            // }
-
-            // toggleClass accepts 2 arguments (1st is required, 2nd one is optional)
-            // if you specify a 2nd argument, the class would be added or removed depending on the boolean
-            // $("#prev").toggleClass("hide", !window.prevPageToken)
-            // $("#next").toggleClass("hide", !window.nextPageToken)
-            
             $.each(srchItems, function(index, item) {
-                
+                var vidChannelTitle = item.snippet.channelTitle;
                 var vidTitle = item.snippet.title;  
                 var videoId = item.id;
                 var videoImg = item.snippet.thumbnails.default.url;  
@@ -447,17 +350,25 @@ function getLikedVideos() {
                     return H  + M + ':' + S ;
                 }
                     // HTML render for Liked videos
-                $videoContainer.append(`
-                <div class="yt-container" id="${videoId}">
-                    <img src="${videoImg}"/>
-                    ${vidTitle}
-                    ${videoDuration}
-                    <button id="play-button" onclick="playVideoToPlayer(this)">Play</button>
-                    <button onclick="#">Add</button>
-                </div>`);    
-
+                    $videoContainer.append(`
+                    <tr class="vidTable" value="#trackuri" id="${videoId}">
+                        <td class="album" value="#">
+                            <i class="fa fa-play-circle fa-3x hidden" aria-hidden="true"></i>
+                            <div class=album-holder><img src="${videoImg}"></div>
+                        </td>
+                        <td>
+                            <p class="artist-name">${vidChannelTitle}</p>
+                            <h5 class="song-name">${vidTitle}</h5>
+                        </td>
+                        <td>
+                            <div class="time-holder">${videoDuration}</div>                       
+                            <button class="add-button btn btn-primary yt-add-song">Add</button>
+                            
+                        </td>
+                    </tr>`); 
                 })
             })
+            //$($videoContainer).wrap('<div class="scrollable"></div>')
     })
 }
 

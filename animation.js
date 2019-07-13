@@ -29,6 +29,7 @@ $(document).ready(function() {
   //Jquery INIT
   addCurrentSongEvents();
   setupSpotifyNav();
+  setupYoutubeNav();
   jqueryevent();
   jqueryAddRedirect();
   playSong(200);
@@ -70,8 +71,10 @@ var token = undefined;
 
 /*
 ---------------------------------------------------------
+
 This Section is used for everything related to firebase.
 that includes authentication, getting user profile.
+
 ---------------------------------------------------------
 */
 
@@ -95,7 +98,7 @@ function checkAuth() {
         .auth()
         .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
         .then(function() {
-          signInWithEmailAndPassword(email, pswd);
+          firebase.auth().signInWithEmailAndPassword(email, pswd);
         });
       promise.catch(function(error) {
         // Handle Errors here.
@@ -247,7 +250,7 @@ function createPlaylistHTML() {
       let song = user_json.songs[key];
       let song_length = moment(song.duration / 100, "ss").format("mm:ss");
       song_count++;
-      return `<tr "value="${song.song_uri}" id="${song_count}">
+      return `<tr "value="${song.song_uri}" id="sound-${song_count}">
                 <td class="album" value="${song_length}">
                     <i class="fa fa-play-circle fa-3x hidden" aria-hidden="true"></i>
                     <div class=album-holder><img src="${song.song_cover}"></div>
@@ -272,8 +275,10 @@ function createPlaylistHTML() {
 
 /*
 ---------------------------------------------------------
+
 This Section is used for everything related to Jquery events and basic
 UI components. Does not include rendering of HTML from spotify or youtube
+
 ---------------------------------------------------------
 */
 
@@ -376,9 +381,11 @@ function changeSpotifyTab(id) {
 
 /*
 ---------------------------------------------------------
+
 This Section is dedicated for working with the spotify API
 it does include rendering, logging in, getting account information,
 as well as user profile and playing tracks.
+
 ---------------------------------------------------------
 */
 function StoreAPIToken() {
@@ -563,7 +570,7 @@ function searchSpotify(e) {
                         </td>
                         <td>
                         <div class="time-holder">
-                        <h5 class="song-length"><button class="btn btn-primary play-song" type="button">add</button></h5>
+                        <h5 class="song-length"><button class="btn btn-primary play-song" type="button"><i class="fas fa-plus-circle"></i></button></h5>
                         </div>
                         </td>
                     </tr>
@@ -684,7 +691,7 @@ function SpotifyGetLikes() {
                             </td>
                             <td>
                             <div class="time-holder">
-                            <h5 class="song-length"><button class="btn btn-primary play-song" type="button">add</button></h5>
+                            <h5 class="song-length"><button class="btn btn-primary play-song" type="button"><i class="fas fa-plus-circle"></i></button></h5>
                             </div>
                             </td>
                         </tr>`;
