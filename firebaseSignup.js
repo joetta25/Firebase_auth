@@ -25,7 +25,7 @@ submitForm.addEventListener("submit", e => {
       console.log(errorCode);
     })
     .then(function() {
-      document.location.href = "dashboard.html";
+      document.location.href = "animation.html";
     });
 
   //call the function when the form gets submitted

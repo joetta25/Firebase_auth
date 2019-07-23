@@ -1,3 +1,8 @@
+
+
+
+
+
 //Initialize Firebase
 $(document).on('click', '.add-spot-song',function(){ // once the page load then do this 
   let track_id = $(this).closest('.spot-song')[0].id; // this = to the action that happens once button is push , once the button is pushed then get the information thats inside of the spot id
