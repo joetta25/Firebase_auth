@@ -15,7 +15,8 @@ if (loginForm) {
     // this will get the values of email and passowrd
     const email = emailText.value;
     const password = passwordText.value;
-
+    alert(email)
+    alert(password)
     // this function will signIn an existing user and return a promise where you can resolve that user
     const promise = firebase
       .auth()
@@ -46,7 +47,7 @@ firebase.auth().onAuthStateChanged(function(user) {
     console.log(user);
 
     // redirect user to this location
-    window.location = "http://159.203.185.216:8899/animation.html";
+    window.location = "animation.html";
 
     // User is signed in.
     var displayName = user.displayName;

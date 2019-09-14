@@ -82,7 +82,7 @@ var current_id = undefined;
 var music_player = undefined;
 var my_device = undefined;
 //END Global Variables
-
+ //! THIS IS WHERE THE PROBLEM BEGINS ------>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 function FireBasePromises(){
     return new Promise((resolve, reject) => {
@@ -135,7 +135,7 @@ function checkAuth() {
             else {
                 console.log('creating user');
                 const email ='antony.tsygankov@gmail.com';
-                const pswd ='football1924';
+                const pswd ='apples123';
                 return firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(function(){
                     firebase.auth().signInWithEmailAndPassword(email, pswd)
                 }).then(() => {
@@ -169,14 +169,16 @@ function getFirebaseUserProfile(user){
     const URL = `https://signupform-96aeb.firebaseio.com/user/${user.uid}.json`;
     console.log(user.uid)
     return $.ajax(URL).then(result => {
-        return user_json = result;
+        console.log('fb:', result);
+        user_json = result;
+        return result;
     });
 }
 
 
 function verifySpotifyToken() {
     console.log("verifying spotify token")
-    if (user_json.spotify_token){
+    if (user_json && user_json.spotify_token){
         let token_unique = Object.keys(user_json.spotify_token)[0];
         let token_dict = user_json.spotify_token[Object.keys(user_json.spotify_token)[0]]
         let token_age = new Date().getTime() / 1000 - token_dict.created
@@ -203,11 +205,11 @@ function CreateBoofDBUser() {
     //currently it creates a new section to not mess with the signup form
     //by removing the 's' at the end of users it will plop the data in the same json array
     
-    let username = "A3JmyocW0XY9KSYY27AVwyi5e2B3"
+    let username = "Zjskkotr9XQ1G4XrlqIayr6P3cN2"
     firebase.database().ref('user/' + username).set({
-        username: 'antony',
-        email: 'antony.tsygankov@gmail.com',
-        password: 'apples123',
+        username: 'joetta',
+        email: 'joetta.chasidy@gmail.com',
+        password: '12345678',
         phonenumber: '12345678'
       });
 }
@@ -573,16 +575,25 @@ function setupSpotify(){
     //token is scraped from the url and sent to firebase.
     //if no token exists a button is created to reauthenticate in case the user is experiencing issues.
     // as well an event listener is created to search spotify
-    var client_id = '42c128e85c9c4eddad1930a129937c94';
+    var client_id = '57a5ae8651d746c3b9b1fcb24561af24';
     var response_type = 'token';
-    var redirect_uri = 'http://159.203.185.216:8899/animation.html';
+    var redirect_uri = 'http://127.0.0.1:5501/animation.html';
     var scope = [
-        'user-read-playback-state', 'streaming', 'user-read-private', 'user-read-currently-playing', 'user-modify-playback-state', 'user-read-birthdate', 'user-read-email', 'user-library-read',].join(' ');
+        // 'user-read-playback-state',
+        // 'streaming',
+        // 'user-read-private',
+        // 'user-read-currently-playing',
+        // 'user-modify-playback-state',
+        // 'user-read-birthdate',
+        // 'user-read-email',
+        // 'user-library-read',
+    ].join(' ');
 
     $('.login').on('click', function(e) {
         var url = `https://accounts.spotify.com/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&scope=${scope}&response_type=${response_type}`;
         // send the user to the spotify login page
         window.location = url;
+        alert(url)
     })
 
 // if the token is set, then we are probably logged in

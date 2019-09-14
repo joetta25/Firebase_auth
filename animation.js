@@ -465,9 +465,9 @@ function setupSpotify() {
   //token is scraped from the url and sent to firebase.
   //if no token exists a button is created to reauthenticate in case the user is experiencing issues.
   // as well an event listener is created to search spotify
-  var client_id = "42c128e85c9c4eddad1930a129937c94";
-  var response_type = "token";
-  var redirect_uri = "http://127.0.0.1:8899/animation.html";
+  var client_id = '57a5ae8651d746c3b9b1fcb24561af24';
+  var response_type = 'token';
+  var redirect_uri = 'http://127.0.0.1:5501/animation.html';
   var scope = [
     "user-read-playback-state",
     "streaming",
