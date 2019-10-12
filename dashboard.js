@@ -2,23 +2,23 @@
 firebase.initializeApp(firebaseConfig);
 
 document.getElementById("logOutBtn").addEventListener("click", e => {
-  firebase.auth().signOut();
+    firebase.auth().signOut();
 });
 
-firebase.auth().onAuthStateChanged(function(user) {
-  if (user) {
-    // User is signed in.
-    var displayName = user.displayName;
-    var email = user.email;
-    var emailVerified = user.emailVerified;
-    var photoURL = user.photoURL;
-    var isAnonymous = user.isAnonymous;
-    var uid = user.uid;
-    var providerData = user.providerData;
-  } else {
-    console.log("Not logged in");
-    window.location = "home.html";
-  }
+firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+        // User is signed in.
+        var displayName = user.displayName;
+        var email = user.email;
+        var emailVerified = user.emailVerified;
+        var photoURL = user.photoURL;
+        var isAnonymous = user.isAnonymous;
+        var uid = user.uid;
+        var providerData = user.providerData;
+    } else {
+        console.log("Not logged in");
+        window.location = "home.html";
+    }
 });
 
 //Spotify
@@ -37,25 +37,25 @@ var hash = window.location.hash.substr(1).split("&");
 var hashMap = [];
 // break the hash into pieces to get the access_token
 if (hash.length) {
-  hash.forEach(chunk => {
-    const chunkSplit = chunk.split("=");
-    hashMap[chunkSplit[0]] = chunkSplit[1];
-  });
+    hash.forEach(chunk => {
+        const chunkSplit = chunk.split("=");
+        hashMap[chunkSplit[0]] = chunkSplit[1];
+    });
 }
 
 // if the hash has an access_token, then put it in localStorage
 if (hashMap.access_token) {
-  window.localStorage.setItem("token", hashMap.access_token);
-  window.location = window.location.origin + window.location.pathname;
+    window.localStorage.setItem("token", hashMap.access_token);
+    window.location = window.location.origin + window.location.pathname;
 }
 
 // add event listener for login
-$(".login").on("click", function(e) {
-  //build spotify auth url
-  var url = `https://accounts.spotify.com/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&scope=${scope}&response_type=${response_type}`;
+$(".login").on("click", function (e) {
+    //build spotify auth url
+    var url = `https://accounts.spotify.com/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&scope=${scope}&response_type=${response_type}`;
 
-  // send the user to the spotify login page
-  window.location = url;
+    // send the user to the spotify login page
+    window.location = url;
 });
 
 // get the token from localStorage (if it exitst)
@@ -63,40 +63,42 @@ var token = window.localStorage.getItem("token");
 
 // if the token is set, then we are probably logged in
 if (token !== null) {
-  // so change the login button text
-  $(".login").text("Refresh Spotify Login");
+    // so change the login button text
+    $(".login").text("Refresh Spotify Login");
 }
 
 
 // when the form is submitted
 
-$(".search-form").on("submit", function(e) {
+$(".search-form").on("submit", function (e) {
 
-  e.preventDefault();
-  // get the search value from the search field
-  var value = $('#searchname').val();
-  // if the value is not empty
-  if (value != '') {
-      // get the search request from spotify
-    $.ajax(`https://api.spotify.com/v1/search?q=${value}&type=track&limit=5`,{
-      headers: {
-              'Authorization': `Bearer ${token}` // this is where we use the access_token
-          }
-        
-      })
-      .then(renderSpotifyResults)
-  }
+    e.preventDefault();
+    // get the search value from the search field
+    var value = $('#searchname').val();
+    // if the value is not empty
+    if (value != '') {
+        // get the search request from spotify
+        $.ajax(`https://api.spotify.com/v1/search?q=${value}&type=track&limit=5`, {
+            headers: {
+                'Authorization': `Bearer ${token}` // this is where we use the access_token
+            }
+
+        })
+            .then(renderSpotifyResults)
+    }
 })
 function renderSpotifyResults(data) { // when the search request is finished // log the data to the console//console.log(data);
-  let html = '';
-  next_url = data.tracks.next;
-  prev_url = data.tracks.previous;
-  if (data.tracks.items.length > 0) {
-      var songsHTML = data.tracks.items.map(track => {
-        var artistsString = track.artists.map(artist => {
-          return artist.name;
-        }).join(', ');    
-        return `
+    let html = '';
+    next_url = data.tracks.next;
+    prev_url = data.tracks.previous;
+    if (data.tracks.items.length > 0) {
+        var songsHTML = data.tracks.items.map(track => {
+            console.log(track)
+            var artistsString = track.artists.map(artist => {
+
+                return artist.name;
+            }).join(', ');
+            return `
           <div class = "album">
             <img  class = "mb-1" width = "50" src = ${track.album.images[0].url} value= "${track.album.external_urls.spotify}"/>
             <h3 class = "d-inline-block">${artistsString}</h3>
@@ -106,10 +108,10 @@ function renderSpotifyResults(data) { // when the search request is finished // 
             <button type="button" data-spotify="${track.uri}" class="btn btn-primary">add</button>
           </div>
                 `
-      })
-      html = songsHTML.join('');
+        })
+        html = songsHTML.join('');
     } else {
-      html = '<div>No results</div>'
+        html = '<div>No results</div>'
     }
     document.getElementsByClassName('music-container-fluid')[0].innerHTML = html;
 }
@@ -117,12 +119,12 @@ function renderSpotifyResults(data) { // when the search request is finished // 
 $('.next').click((e) => {
     e.preventDefault();
     $.ajax(next_url, {
-      headers: {
-        'Authorization': `Bearer ${token}` // this is where we use the access_token
-      }
+        headers: {
+            'Authorization': `Bearer ${token}` // this is where we use the access_token
+        }
     })
-    .then(renderSpotifyResults)
-  });
+        .then(renderSpotifyResults)
+});
 // Youtube
 // Use localhost port 8888
 // const ytApiKey = "AIzaSyDHaIMUkv2DdX8RqP0rmf8QIhcCg_5KU08"; API is over quota limit
@@ -162,7 +164,7 @@ function initClient() {
         updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
         authorizeButton.onclick = handleAuthClick;
         signoutButton.onclick = handleSignoutClick;
-        });
+    });
 }
 
 // Hide and unhide elements based on login state
@@ -190,8 +192,8 @@ function handleSignoutClick() {
 }
 
 function searchList() {
-    gapi.client.setApiKey(ytApiKey); 
-    gapi.client.load('youtube', 'v3', function() {
+    gapi.client.setApiKey(ytApiKey);
+    gapi.client.load('youtube', 'v3', function () {
         makeSearchRequest();
     });
 }
@@ -208,13 +210,13 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 var player;
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
-    height: '45',
-    width: '400',
-    videoId: '',
-    events: {
-        'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange
-    }
+        height: '45',
+        width: '400',
+        videoId: '',
+        events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+        }
     });
 }
 
@@ -233,71 +235,71 @@ function onPlayerStateChange(event) {
 }
 
 // This function will play the specified clicked song in the player
-function playVideoToPlayer(e){
+function playVideoToPlayer(e) {
     console.log(e.parentNode.id);
     console.log(e);
     player.loadVideoById(e.parentNode.id)
-    
+
 };
 
 // This function will make the api requests and render the searched results 
 function makeSearchRequest(token) {
     var q = $('#search-input').val().toLowerCase();
-    
+
     // make API Search request using google library 
     var searchRequest = gapi.client.youtube.search.list({
         q: q,
-        part: 'snippet', 
+        part: 'snippet',
         type: 'video',
         maxResults: 5,
-        pageToken: token 
+        pageToken: token
     })
 
-    searchRequest.execute(function(response)  {   
-            $('#video-container').empty()
-            var srchItems = response.result.items; 
-            
-            // Global variables for pagination
-            window.nextPageToken = response.nextPageToken;
-            window.prevPageToken = response.prevPageToken;
-            
-            var $videoContainer = $('#video-container')
-            
-            if(token) {
-                $videoContainer.html("");
-            }
+    searchRequest.execute(function (response) {
+        $('#video-container').empty()
+        var srchItems = response.result.items;
 
-            // toggleClass accepts 2 arguments (1st is required, 2nd one is optional)
-            // if you specify a 2nd argument, the class would be added or removed depending on the boolean
-            $("#prev").toggleClass("hide", !window.prevPageToken)
-            $("#next").toggleClass("hide", !window.nextPageToken)
-            
-            $.each(srchItems, function(index, item) {
-                
-                var vidTitle = item.snippet.title;  
-                var videoId = item.id.videoId;
-                var videoImg = item.snippet.thumbnails.default.url;  
-                
-                // make API Video request in order to get duration
-                var detailsRequest = gapi.client.youtube.videos.list({
-                    id: videoId,
-                    part: 'contentDetails', 
-                    type: 'video',
-                    maxResults: 5
-                })
+        // Global variables for pagination
+        window.nextPageToken = response.nextPageToken;
+        window.prevPageToken = response.prevPageToken;
 
-                detailsRequest.execute(function(details) {
-                    console.log(details);
-                    var videoDuration = ISO8601toDuration(details.items[0].contentDetails.duration);
+        var $videoContainer = $('#video-container')
+
+        if (token) {
+            $videoContainer.html("");
+        }
+
+        // toggleClass accepts 2 arguments (1st is required, 2nd one is optional)
+        // if you specify a 2nd argument, the class would be added or removed depending on the boolean
+        $("#prev").toggleClass("hide", !window.prevPageToken)
+        $("#next").toggleClass("hide", !window.nextPageToken)
+
+        $.each(srchItems, function (index, item) {
+
+            var vidTitle = item.snippet.title;
+            var videoId = item.id.videoId;
+            var videoImg = item.snippet.thumbnails.default.url;
+
+            // make API Video request in order to get duration
+            var detailsRequest = gapi.client.youtube.videos.list({
+                id: videoId,
+                part: 'contentDetails',
+                type: 'video',
+                maxResults: 5
+            })
+
+            detailsRequest.execute(function (details) {
+                console.log(details);
+                var videoDuration = ISO8601toDuration(details.items[0].contentDetails.duration);
 
                 // Check index of returned YT ISO8601 time format and trim
-                function formatTimeUnit(input, unit){
+                function formatTimeUnit(input, unit) {
                     var index = input.indexOf(unit);
                     var output = "00"
                     if (index < 0) {
                         return output; // unit isn't in the input
                     }
-                    if (isNaN(input.charAt(index-2))) {
+                    if (isNaN(input.charAt(index - 2))) {
                         return '0' + input.charAt(index - 1);
                     } else {
                         return input.charAt(index - 2) + input.charAt(index - 1);
@@ -305,7 +307,7 @@ function makeSearchRequest(token) {
                 }
 
                 // Convert ISO8601 format to time HH:MM:SS
-                function ISO8601toDuration(input){
+                function ISO8601toDuration(input) {
                     var H = formatTimeUnit(input, 'H');
                     var M = formatTimeUnit(input, 'M');
                     var S = formatTimeUnit(input, 'S');
@@ -314,10 +316,10 @@ function makeSearchRequest(token) {
                     } else {
                         H += ":"
                     }
-                
-                    return H  + M + ':' + S ;
+
+                    return H + M + ':' + S;
                 }
-                
+
                 // HTML render
                 // let ytHTML = `
                 // <tr "value="#trackuri" id="${videoId}">
@@ -366,67 +368,67 @@ function makeSearchRequest(token) {
                     ${videoDuration}
                     <button id="play-button" onclick="playVideoToPlayer(this)">Play</button>
                     <button onclick="#">Add</button>
-                </div>`);    
+                </div>`);
 
-                })
             })
+        })
     })
 
 }
 
 function getLikedVideos() {
     $('#video-container').empty()
-    var searchRequest =  gapi.client.youtube.videos.list({
+    var searchRequest = gapi.client.youtube.videos.list({
         "part": "snippet",
         "myRating": "like",
 
     });
 
-    searchRequest.execute(function(response)  {   
-            $('#video-container').empty()
-            var srchItems = response.result.items; 
-            
-            // Global variables for pagination
-            // window.nextPageToken = response.nextPageToken;
-            // window.prevPageToken = response.prevPageToken;
-            
-            var $videoContainer = $('#video-container')
-            
-            // if(token) {
-            //     $videoContainer.html("");
-            // }
+    searchRequest.execute(function (response) {
+        $('#video-container').empty()
+        var srchItems = response.result.items;
 
-            // toggleClass accepts 2 arguments (1st is required, 2nd one is optional)
-            // if you specify a 2nd argument, the class would be added or removed depending on the boolean
-            // $("#prev").toggleClass("hide", !window.prevPageToken)
-            // $("#next").toggleClass("hide", !window.nextPageToken)
-            
-            $.each(srchItems, function(index, item) {
-                
-                var vidTitle = item.snippet.title;  
-                var videoId = item.id;
-                var videoImg = item.snippet.thumbnails.default.url;  
+        // Global variables for pagination
+        // window.nextPageToken = response.nextPageToken;
+        // window.prevPageToken = response.prevPageToken;
 
-                // make API Video request in order to get duration
-                var detailsRequest = gapi.client.youtube.videos.list({
-                    id: videoId,
-                    part: 'contentDetails', 
-                    type: 'video',
-                    maxResults: 5
-                })
+        var $videoContainer = $('#video-container')
 
-                detailsRequest.execute(function(details) {
-                    console.log(details);
-                    var videoDuration = ISO8601toDuration(details.items[0].contentDetails.duration);
+        // if(token) {
+        //     $videoContainer.html("");
+        // }
+
+        // toggleClass accepts 2 arguments (1st is required, 2nd one is optional)
+        // if you specify a 2nd argument, the class would be added or removed depending on the boolean
+        // $("#prev").toggleClass("hide", !window.prevPageToken)
+        // $("#next").toggleClass("hide", !window.nextPageToken)
+
+        $.each(srchItems, function (index, item) {
+
+            var vidTitle = item.snippet.title;
+            var videoId = item.id;
+            var videoImg = item.snippet.thumbnails.default.url;
+
+            // make API Video request in order to get duration
+            var detailsRequest = gapi.client.youtube.videos.list({
+                id: videoId,
+                part: 'contentDetails',
+                type: 'video',
+                maxResults: 5
+            })
+
+            detailsRequest.execute(function (details) {
+                console.log(details);
+                var videoDuration = ISO8601toDuration(details.items[0].contentDetails.duration);
 
                 // Check index of returned YT ISO8601 time format and trim
-                function formatTimeUnit(input, unit){
+                function formatTimeUnit(input, unit) {
                     var index = input.indexOf(unit);
                     var output = "00"
                     if (index < 0) {
                         return output; // unit isn't in the input
                     }
-                    if (isNaN(input.charAt(index-2))) {
+                    if (isNaN(input.charAt(index - 2))) {
                         return '0' + input.charAt(index - 1);
                     } else {
                         return input.charAt(index - 2) + input.charAt(index - 1);
@@ -434,7 +436,7 @@ function getLikedVideos() {
                 }
 
                 // Convert ISO8601 format to time HH:MM:SS
-                function ISO8601toDuration(input){
+                function ISO8601toDuration(input) {
                     var H = formatTimeUnit(input, 'H');
                     var M = formatTimeUnit(input, 'M');
                     var S = formatTimeUnit(input, 'S');
@@ -443,10 +445,10 @@ function getLikedVideos() {
                     } else {
                         H += ":"
                     }
-                
-                    return H  + M + ':' + S ;
+
+                    return H + M + ':' + S;
                 }
-                    // HTML render for Liked videos
+                // HTML render for Liked videos
                 $videoContainer.append(`
                 <div class="yt-container" id="${videoId}">
                     <img src="${videoImg}"/>
@@ -454,19 +456,19 @@ function getLikedVideos() {
                     ${videoDuration}
                     <button id="play-button" onclick="playVideoToPlayer(this)">Play</button>
                     <button onclick="#">Add</button>
-                </div>`);    
+                </div>`);
 
-                })
             })
+        })
     })
 }
 
 // Pagination button functions 
-function getNext () {
+function getNext() {
     makeSearchRequest(window.nextPageToken);
 }
 
-function getPrev () {
+function getPrev() {
     makeSearchRequest(window.prevPageToken);
 }
 
