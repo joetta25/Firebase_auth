@@ -368,28 +368,35 @@ function playSong() {
     // it takes the length of the song in seconds, and once a second will call
     // a function to update width of the red bar inside progress bar
     // moment is library for parsing timestamps...
-    clearInterval(interval);
-    console.log(song_seconds);
-    console.log(current_seconds);
-    let end = moment(0, "ss").add(song_seconds, 'seconds').format("mm:ss")
-    $('.end-time').text(end);
+    $.ajax('https://api.spotify.com/v1/me/player/currently-playing', {
+        headers: {
+            'Authorization': `Bearer ${token}` // this is where we use the access_token
+        },
 
-    interval = setInterval(function () {
-        if (current_seconds <= song_seconds) {
-            current_seconds++;
-            let start = moment(0, "ss").add(current_seconds, 'seconds').format("mm:ss")
-            let width = (current_seconds / song_seconds) * 100;
-            $('.progress').width(`${width}%`);
-            $('.start-time').text(start);
-        }
-        else if (current_seconds == song_seconds || current_seconds > song_seconds) {
-            clearInterval(interval);
-            let track_uri = $(`#${current_id}`).attr('value')
-            let track_length = $(`#${current_id} .time-holder`).attr('value');
-            let artist = $(`#${current_id} .artist-name`).text()
-            let song_cover = $(`#${current_id} img`).attr('src');
-            let song_name = $(`#${current_id} .song-name`).text()
-            $('.current-playing').html(`
+    }).then((data => {
+        console.log(data, 'look here')
+        clearInterval(interval);
+        console.log(data.duration_ms);
+        console.log(data.progress_ms);
+        let end = moment(0, "ss").add(data.duration_ms, 'seconds').format("mm:ss")
+        $('.end-time').text(end);
+
+        interval = setInterval(function () {
+            if (data.progress_ms <= data.duration_ms) {
+                data.progress_ms++;
+                let start = moment(0, "ss").add(data.progress_ms, 'seconds').format("mm:ss")
+                let width = (data.progress_ms / data.duration_ms) * 100;
+                $('.progress').width(`${width}%`);
+                $('.start-time').text(start);
+            }
+            else if (data.progress_ms == data.duration_ms || data.progress_ms > data.duration_ms) {
+                clearInterval(interval);
+                let track_uri = $(`#${current_id}`).attr('value')
+                let track_length = $(`#${current_id} .time-holder`).attr('value');
+                let artist = $(`#${current_id} .artist-name`).text()
+                let song_cover = $(`#${current_id} img`).attr('src');
+                let song_name = $(`#${current_id} .song-name`).text()
+                $('.current-playing').html(`
         <div class="row">
             <div class="col-lg-4"><img src="${song_cover}"></div>
             <div class="col-lg-8">
@@ -397,11 +404,15 @@ function playSong() {
                 <h1>${song_name}</h1>
             </div>
         </div>`)
-            PressPlay(my_device, token, music_player, track_uri, track_length)
+                PressPlay(my_device, token, music_player, track_uri, track_length)
 
-        }
-    }, 1000);
-};
+            }
+        }, 1000);
+
+    }))
+
+}
+
 
 
 function jqueryAddRedirect() {

@@ -2,9 +2,9 @@
   "name": "firebase",
   "version": "1.0.0",
   "description": "firebase",
-  "main": "animation.js",
+  "main": "animation2.js",
   "scripts": {
-    "start": "node animation.js"
+    "start": "node animation2.js"
 },
   "repository": {
     "type": "git",
