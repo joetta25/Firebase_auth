@@ -43,3 +43,8 @@ node start
 * Joetta Hall - Spotify Playlist & Login (dashboard html & dashboard.js)
 * Juan Castillo - Login form & Firebase Auth
 * Antony Tsygankov - Creating the Custom playlist 
+
+# Currently Working on
+
+* Login
+* Playing the user current song
